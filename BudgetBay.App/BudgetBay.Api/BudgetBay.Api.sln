@@ -1,0 +1,24 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BudgetBay.Api", "BudgetBay.Api.csproj", "{AFBC0FF0-045E-7AB8-8CED-34051C842F23}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AFBC0FF0-045E-7AB8-8CED-34051C842F23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFBC0FF0-045E-7AB8-8CED-34051C842F23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFBC0FF0-045E-7AB8-8CED-34051C842F23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFBC0FF0-045E-7AB8-8CED-34051C842F23}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B6A9072B-29FF-4D30-BE98-EBAF10471F64}
+	EndGlobalSection
+EndGlobal

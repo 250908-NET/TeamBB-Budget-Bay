@@ -1,0 +1,6 @@
+@BudgetBay.Api_HostAddress = http://localhost:5192
+
+GET {{BudgetBay.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
