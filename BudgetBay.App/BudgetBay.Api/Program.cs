@@ -1,5 +1,9 @@
 using Serilog;
+using Microsoft.EntityFrameworkCore;
+using BudgetBay.Data;
+
 namespace BudgetBay;
+
 public class Program
 {
 
@@ -20,6 +24,12 @@ public class Program
         builder.Services.AddOpenApi();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+
+        var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+        builder.Services.AddDbContext<AppDbContext>(
+            options => options.UseSqlServer(connectionString)
+        );
 
 
         var app = builder.Build();
