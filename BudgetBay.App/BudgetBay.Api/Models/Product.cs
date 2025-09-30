@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.Diagnostics;
+
 
 namespace BudgetBay.Api.Models
 {
@@ -21,9 +21,10 @@ namespace BudgetBay.Api.Models
 
         [Column(TypeName = "decimal(10,2)")]
         public decimal CurrentPrice { get; set; }
-
+        [ForeignKey("sellerId")]
         public int SellerId { get; set; }
 
+        [ForeignKey("WinnerId")]
         public int WinnerId { get; set; }
 
     }
