@@ -1,3 +1,8 @@
+/*
+Name: IUserService.cs
+Purpose: Service layer interface for user-related operations.
+Child Class: UserService.cs
+*/
 using BudgetBay.Models;
 
 

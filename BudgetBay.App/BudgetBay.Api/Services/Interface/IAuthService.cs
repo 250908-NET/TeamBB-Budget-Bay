@@ -1,3 +1,8 @@
+/*
+Name: IAuthService.cs
+Purpose: Service layer interface for authentication-related operations.
+Child Class: AuthService.cs
+*/
 using BudgetBay.Models;
 
 

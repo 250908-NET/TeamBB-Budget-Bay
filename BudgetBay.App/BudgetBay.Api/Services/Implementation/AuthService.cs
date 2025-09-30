@@ -1,3 +1,8 @@
+/*
+Name: AuthService.cs
+Purpose: Service layer for authentication-related operations, interacting with the user repository.
+Parent Class: IAuthService.cs
+*/
 using BudgetBay.Models;
 
 
@@ -12,6 +17,6 @@ namespace BudgetBay.Services
             _logger = logger;
             _userRepository = userRepository;
         }
-        
+
     }
 }
