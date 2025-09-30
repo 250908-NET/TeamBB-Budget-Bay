@@ -1,4 +1,5 @@
 using BudgetBay.Models;
+using BudgetBay.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace BudgetBay.Repositories
