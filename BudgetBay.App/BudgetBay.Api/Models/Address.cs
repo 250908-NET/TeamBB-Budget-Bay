@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+
 namespace BudgetBay.Models
 {
     public class Address
@@ -6,18 +7,24 @@ namespace BudgetBay.Models
         [Key]
         public int Id { get; set; }
         [Required]
-        public int StreetNumber { get; set; }
+        public string StreetNumber { get; set; } 
         [Required]
         public string StreetName { get; set; }
+
         public string? AptNumber { get; set; }
+
         [Required]
         public string City { get; set; }
+
         [Required]
         public string State { get; set; }
+
         [Required]
         public string ZipCode { get; set; }
 
-        public Address(int streetNumber, string streetName, string city, string state, string zipCode, string? aptNumber = null)
+        public Address() { }
+
+        public Address(string streetNumber, string streetName, string city, string state, string zipCode, string? aptNumber = null)
         {
             StreetNumber = streetNumber;
             StreetName = streetName;

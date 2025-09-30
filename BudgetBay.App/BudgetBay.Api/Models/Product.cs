@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BudgetBay.Models
 {
@@ -7,13 +7,10 @@ namespace BudgetBay.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-
         public string Description { get; set; }
         public string ImageUrl { get; set; }
         public ProductCondition Condition { get; set; }
-
         public DateTime StartTime { get; set; }
-
         public DateTime EndTime { get; set; }
 
         [Column(TypeName = "decimal(10,2)")]
@@ -21,13 +18,13 @@ namespace BudgetBay.Models
 
         [Column(TypeName = "decimal(10,2)")]
         public decimal CurrentPrice { get; set; }
-        [ForeignKey("sellerId")]
-        public int? SellerId { get; set; }
-        public User seller { get; set; }
 
-        [ForeignKey("WinnerId")]
-        public int?  WinnerId { get; set; }
-        public User Winner { get; set; }
+        public int SellerId { get; set; }
+        public User Seller { get; set; } = null!;
 
+        public int? WinnerId { get; set; }
+        public User? Winner { get; set; }
+
+        public ICollection<Bid> Bids { get; set; } = new List<Bid>();
     }
 }
