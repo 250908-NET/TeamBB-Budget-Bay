@@ -1,5 +1,5 @@
 using BudgetBay.Models;
-namespace BudgetBay.Repos
+namespace BudgetBay.Repositories
 {
     public interface IUserRepository
     {

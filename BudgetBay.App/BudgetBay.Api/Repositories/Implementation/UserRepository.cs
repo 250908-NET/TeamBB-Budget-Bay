@@ -2,7 +2,7 @@ using BudgetBay.Models;
 using BudgetBay.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace BudgetBay.Repos
+namespace BudgetBay.Repositories
 {
     public class UserRepository : IUserRepository
     {
