@@ -10,7 +10,7 @@ namespace BudgetBay.Services
 {
     public interface IUserService
     {
-        Task<User> GetUserInfo(string username); // get user info from username
+        Task<User> GetUserInfo(int id); // get user info from id
         Task<User> CreateUser(User newUser); // create new user
         Task<User> UpdateUser(User updateUser); // update user info from Username, Email, and Password
 

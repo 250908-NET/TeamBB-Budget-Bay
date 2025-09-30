@@ -4,6 +4,7 @@ Purpose: Service layer for authentication-related operations, interacting with t
 Parent Class: IAuthService.cs
 */
 using BudgetBay.Models;
+using BudgetBay.Repositories;
 
 
 namespace BudgetBay.Services
@@ -17,6 +18,24 @@ namespace BudgetBay.Services
             _logger = logger;
             _userRepository = userRepository;
         }
+
+        public Task Login(string username, string password)
+        {
+            throw new NotImplementedException();
+        }
+        public Task Register(User user)
+        {
+            throw new NotImplementedException();
+        }
+        private string _HashPassword(string password)
+        {
+            throw new NotImplementedException();
+        }
+        private Task<bool> _CheckPassword(string password, string hashedPassword)
+        {
+            throw new NotImplementedException();
+        }
+
 
     }
 }

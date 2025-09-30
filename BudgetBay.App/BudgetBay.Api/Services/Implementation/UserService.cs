@@ -4,6 +4,7 @@ Purpose: Service layer for user-related operations, interacting with the user re
 Parent Class: IUserService.cs
 */
 using BudgetBay.Models;
+using BudgetBay.Repositories;
 
 namespace BudgetBay.Services
 {
