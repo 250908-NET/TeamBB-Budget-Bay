@@ -24,7 +24,7 @@ namespace BudgetBay.Repositories
 
         public async Task<Bid?> GetByIdAsync(int id)
         {
-            return await _context.Bids.FirstOrDefaultAsync(b => b.BidId == id);
+            return await _context.Bids.FirstOrDefaultAsync(b => b.Id == id);
         }
 
         public async Task AddAsync(Bid bid)

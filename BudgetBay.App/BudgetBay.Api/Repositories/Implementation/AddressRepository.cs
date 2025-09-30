@@ -33,7 +33,7 @@ namespace BudgetBay.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(Address address)
+        public async Task DeleteAsync(int id)
         {
             var address = await _context.Addresses.FindAsync(id);
             if (address != null)
