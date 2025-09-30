@@ -10,7 +10,7 @@ namespace BudgetBay.Models {
         public string Email { get; set; } = "";
         [Required]
         public string PasswordHash { get; set; } = "";
-        public Address Address { get; set; } = new();
+        public Address Address { get; set; } = null!;
 
         public User(string username, string email, string passwordHash)
         {
