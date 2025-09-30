@@ -7,9 +7,9 @@ namespace BudgetBay.Repositories
     public class BidRepository : IBidRepository
     {
 
-        private readonly BudgetBayDbContext _context;
+        private readonly AppDbContext _context;
 
-        public BidRepository(BudgetBayDbContext context)
+        public BidRepository(AppDbContext context)
         {
             _context = context;
         }

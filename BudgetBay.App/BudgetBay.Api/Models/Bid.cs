@@ -7,7 +7,7 @@ namespace BudgetBay.Models
     public class Bid 
     {
         [Key]
-        public int BidId { get; set; }
+        public int Id { get; set; }
 
         public decimal Amount { get; set; }
 
