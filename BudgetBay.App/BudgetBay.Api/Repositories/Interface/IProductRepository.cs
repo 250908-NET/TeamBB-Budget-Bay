@@ -1,6 +1,6 @@
-﻿using BudgetBay.Api.Models;
+﻿using BudgetBay.Models;
 
-namespace BudgetBay.Api.Repositories.Interface
+namespace BudgetBay.Repositories
 
 
 {

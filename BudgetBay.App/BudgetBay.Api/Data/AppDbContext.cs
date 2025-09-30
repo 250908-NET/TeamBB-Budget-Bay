@@ -1,4 +1,3 @@
-using BudgetBay.Api.Models;
 using BudgetBay.Models;
 using Microsoft.EntityFrameworkCore;
 

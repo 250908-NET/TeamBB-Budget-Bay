@@ -1,4 +1,4 @@
-﻿namespace BudgetBay.Api.Models
+﻿namespace BudgetBay.Models
 {
     public enum ProductCondition
     {

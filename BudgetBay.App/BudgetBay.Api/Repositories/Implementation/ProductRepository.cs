@@ -1,5 +1,4 @@
-﻿using BudgetBay.Api.Models;
-using BudgetBay.Api.Repositories.Interface;
+﻿using BudgetBay.Models;
 using BudgetBay.Data;
 using Microsoft.EntityFrameworkCore;
 

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
 
-namespace BudgetBay.Api.Models
+namespace BudgetBay.Models
 {
     public class Product
     {
@@ -22,10 +22,12 @@ namespace BudgetBay.Api.Models
         [Column(TypeName = "decimal(10,2)")]
         public decimal CurrentPrice { get; set; }
         [ForeignKey("sellerId")]
-        public int SellerId { get; set; }
+        public int? SellerId { get; set; }
+        public User seller { get; set; }
 
         [ForeignKey("WinnerId")]
-        public int WinnerId { get; set; }
+        public int?  WinnerId { get; set; }
+        public User Winner { get; set; }
 
     }
 }
