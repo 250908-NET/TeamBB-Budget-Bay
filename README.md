@@ -15,8 +15,8 @@ Budget Bay is an e-commerce web application designed for online auctions, enabli
 
 ## Entity Relationship Diagram (ERD)
 
-![alt text](/Team-BB---Budget-Bay/Images/Screenshot_30-9-2025_142643_.jpeg)
+![alt text](Images/Screenshot_30-9-2025_142643_.jpeg)
 
 ## Wireframe Diagram
 
-![alt text](/Team-BB---Budget-Bay/Images/image.png)
+![alt text](Images/image.png)
