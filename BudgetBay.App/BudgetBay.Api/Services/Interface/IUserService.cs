@@ -1,17 +1,19 @@
 using BudgetBay.Models;
-using BudgetBay.DTOs;
+
 
 namespace BudgetBay.Services
 {
     public interface IUserService
     {
-        Task<User> Login(LoginDto login);
-        Task<User> Register(RegisterDto register);
-        Task UpdateInfo(RegisterDto updateUser);
+        Task<User> GetUserInfo(string username); // get user info from username
+        Task<User> CreateUser(User newUser); // create new user
+        Task<User> UpdateUser(User updateUser); // update user info from Username, Email, and Password
 
-        Task UpdateAddress(AddressDto updateAddress);
+        Task<bool> UsernameExists(string username); // Check if username exists
 
-        Task<string> HashPassword(string password);
-        Task<bool> CheckPassword(string password, string hashedPassword);
+        Task<bool> EmailExists(string email); // Check if email exists
+        Task<Address> UpdateAddress(Address updateAddress); // Updates user's address information
+
+
     }
 }
