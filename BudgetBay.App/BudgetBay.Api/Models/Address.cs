@@ -15,7 +15,7 @@ namespace BudgetBay.Models
         [Required]
         public string State { get; set; }
         [Required]
-        public string zipCode { get; set; }
+        public string ZipCode { get; set; }
 
         public Address(int streetNumber, string streetName, string city, string state, string zipCode, string? aptNumber = null)
         {
