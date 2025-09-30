@@ -17,6 +17,6 @@ namespace BudgetBay.Models
         public Product Product { get; set; }
 
         public int BidderId { get; set; }
-        public Customer Bidder { get; set; }
+        public User Bidder { get; set; }
     }
 }
