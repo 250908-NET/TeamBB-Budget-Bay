@@ -16,13 +16,13 @@ namespace BudgetBay.Repositories
 
         public async Task<Address?> GetByIdAsync(int id)
         {
-            return await _context.Addresses.FirstOrDefaultAsync(adress => adress.Id == id);
+            return await _context.Addresses.FirstOrDefaultAsync(address => address.Id == id);
         }
 
         public async Task<Address> AddAsync(Address address)
         {
             _context.Addresses.Add(address);
-            await _contect.SaveChangesAsync();
+            await _context.SaveChangesAsync();
             return address;
         }
 
