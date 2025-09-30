@@ -79,5 +79,5 @@ Follow this process **before you create a new migration** to ensure your branch 
 7.  **Push Your Changes:** Push your rebased branch, including the new migration commit, to the remote repository.
 
     ```bash
-    git push --force-with-lease origin your-feature-branch
+    git push
     ```
