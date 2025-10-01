@@ -8,6 +8,7 @@ namespace BudgetBay.Repositories
         public Task DeleteAsync(int id);
         public Task<List<User>> GetAllAsync();
         public Task<User?> GetByIdAsync(int id);
+        public Task<User?> GetByEmailAsync(string email);
         public Task<bool> UsernameExistsAsync(string username);
         public Task<bool> EmailExistsAsync(string email);
         public Task SaveChangesAsync();
