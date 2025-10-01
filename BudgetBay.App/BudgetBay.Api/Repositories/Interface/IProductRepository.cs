@@ -8,8 +8,8 @@ namespace BudgetBay.Repositories
     {
         public Task<List<Product>> GetAllAsync();
         public Task<List<Product>> GetActiveProductsAsync();
-        public Task<Product> GetByIdAsync(int productId);
-        public Task<Product> SearchProductsAsync(string query);
+        public Task<Product?> GetByIdAsync(int productId);
+        public Task<Product?> SearchProductsAsync(string query);
         public Task<Product> CreateProductAsync(Product product);
         public Task<bool> DeleteProductByIdAsync(int productId);
         public Task<List<Product>> GetProductsBySellerId(int sellerId);
