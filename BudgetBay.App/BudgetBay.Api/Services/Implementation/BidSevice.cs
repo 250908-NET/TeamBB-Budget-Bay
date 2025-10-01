@@ -65,7 +65,9 @@ namespace BudgetBay.Services
             }
             else
             {
+                // update the product with the new highest bid
                 await _bidRepo.DeleteAsync(bid);
+                await _productRepo.UpdateProductAsync(bid.ProductId, (double)(await GetHighestBid(bid.ProductId) ?? 0)); // update the product with the new highest bid or 0 if there are no bids
             }
         } // cancel a bid
         public async Task<decimal?> GetHighestBid(int ProductId)
