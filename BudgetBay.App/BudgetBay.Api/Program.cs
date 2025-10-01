@@ -2,6 +2,7 @@ using Serilog;
 using Microsoft.EntityFrameworkCore;
 using BudgetBay.Data;
 
+
 namespace BudgetBay;
 
 public class Program
@@ -30,7 +31,6 @@ public class Program
         builder.Services.AddDbContext<AppDbContext>(
             options => options.UseSqlServer(connectionString)
         );
-
 
         var app = builder.Build();
 
