@@ -27,10 +27,11 @@ namespace BudgetBay.Repositories
             return address;
         }
 
-        public async Task UpdateAsync(Address address)
+        public async Task<Address?> UpdateAsync(Address address)
         {
-            _context.Addresses.Update(address);
+            var entityEntry = _context.Addresses.Update(address);
             await _context.SaveChangesAsync();
+            return entityEntry.Entity;
         }
 
         public async Task DeleteAsync(int id)
