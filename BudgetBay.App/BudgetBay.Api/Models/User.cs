@@ -18,8 +18,8 @@ namespace BudgetBay.Models
         [Required]
         public string PasswordHash { get; set; }
 
-        public int AddressId { get; set; }
-        public Address Address { get; set; } = null!;
+        public int? AddressId { get; set; }
+        public Address? Address { get; set; } = null!;
 
 
         [InverseProperty("Seller")]
