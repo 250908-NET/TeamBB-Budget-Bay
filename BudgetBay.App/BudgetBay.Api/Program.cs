@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
+using AutoMapper;
 
 namespace BudgetBay;
 
@@ -71,9 +72,13 @@ public class Program
         builder.Services.AddScoped<IProductRepository, ProductRepository>();
         builder.Services.AddScoped<IBidRepository, BidRepository>();
 
+
         // Services
         builder.Services.AddScoped<IAuthService, AuthService>();
         builder.Services.AddScoped<IUserService, UserService>();
+
+        //Auto Mapper
+        builder.Services.AddAutoMapper(typeof(Program));
 
         // --- JWT Authentication Configuration ---
         builder.Services.AddAuthentication(options =>
