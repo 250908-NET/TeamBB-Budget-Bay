@@ -7,6 +7,12 @@ using BudgetBay.Models;
 using BudgetBay.Repositories;
 using BudgetBay.DTOs;
 
+using BCrypt.Net;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
+using System.Security.Claims;
+
 
 namespace BudgetBay.Services
 {
@@ -60,16 +66,34 @@ namespace BudgetBay.Services
         }
         private string _HashPassword(string password)
         {
-            throw new NotImplementedException();
+            return BCrypt.Net.BCrypt.HashPassword(password);
         }
+
         private bool _CheckPassword(string password, string hashedPassword)
         {
-            throw new NotImplementedException();
+            return BCrypt.Net.BCrypt.Verify(password, hashedPassword);
         }
 
         private string _GenerateJwtToken(User user)
         {
-            return "";
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]!));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+            var claims = new[]
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            };
+
+            var token = new JwtSecurityToken(
+                issuer: _config["Jwt:Issuer"],
+                audience: _config["Jwt:Audience"],
+                claims: claims,
+                expires: DateTime.Now.AddMinutes(120),
+                signingCredentials: credentials);
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
 
