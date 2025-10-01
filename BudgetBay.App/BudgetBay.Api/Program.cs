@@ -1,6 +1,8 @@
 using Serilog;
 using Microsoft.EntityFrameworkCore;
 using BudgetBay.Data;
+using BudgetBay.Repositories;
+using BudgetBay.Services;
 
 namespace BudgetBay;
 
@@ -31,6 +33,18 @@ public class Program
             options => options.UseSqlServer(connectionString)
         );
 
+        // --- Dependency Injection Registration ---
+        // Repositories
+        builder.Services.AddScoped<IUserRepository, UserRepository>();
+        builder.Services.AddScoped<IAddressRepository, AddressRepository>();
+        builder.Services.AddScoped<IProductRepository, ProductRepository>();
+        builder.Services.AddScoped<IBidRepository, BidRepository>();
+
+        // Services
+        builder.Services.AddScoped<IAuthService, AuthService>();
+        builder.Services.AddScoped<IUserService, UserService>();
+
+        
 
         var app = builder.Build();
 
