@@ -4,14 +4,15 @@ Purpose: Service layer interface for authentication-related operations.
 Child Class: AuthService.cs
 */
 using BudgetBay.Models;
+using BudgetBay.DTOs;
 
 
 namespace BudgetBay.Services
 {
     public interface IAuthService
     {
-        public Task Login(string username, string password); // Handle's Login methods
-        public Task Register(User user); // Creates a new user
+        public Task<string?> Login(LoginUserDto loginUserDto); // Handle's Login methods
+        public Task<User?> Register(RegisterUserDto registerUserDto); // Creates a new user
 
     }
 }

@@ -45,6 +45,12 @@ namespace BudgetBay.Repositories
         {
             return await _context.Users.FirstOrDefaultAsync(user => user.Id == id);
         }
+        public async Task<User?> GetByEmailAsync(string email)
+        {
+            return await _context.Users
+                .Include(u => u.Address)
+                .FirstOrDefaultAsync(user => user.Email == email);
+        }
         public async Task<bool> UsernameExistsAsync(string username)
         {
             return await _context.Users.AnyAsync(u => u.Username == username);
