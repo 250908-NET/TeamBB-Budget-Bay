@@ -30,6 +30,7 @@ namespace BudgetBay.Services
         {
             _logger.LogInformation($"Creating new user with username: {newUser.Username}");
             return await _userRepo.AddAsync(newUser); // call user repo to add new user
+           
         }
         public async Task<User> UpdateUser(User updatedUser)
         {
@@ -39,12 +40,13 @@ namespace BudgetBay.Services
         public async Task<bool> UsernameExists(string username)
         {
             _logger.LogInformation($"Checking if username exists: {username}");
-            return await _userRepo.GetAllAsync().Any(u => u.Username == username); // Any will return true if there is a User in the data base with a similar username
+
+            return await _userRepo.UsernameExistsAsync(username); // Any will return true if there is a User in the data base with a similar username
         }
         public async Task<bool> EmailExists(string email)
         {
             _logger.LogInformation($"Checking if email exists: {email}");
-            return await _userRepo.GetAllAsync().Any(u => u.Email == email); // Any will return true if there is a User in the data base with a similar email
+            return await _userRepo.EmailExistsAsync(email); // Any will return true if there is a User in the data base with a similar email
         }
         public async Task<Address> UpdateAddress(Address updatedAddress)
         {
