@@ -24,29 +24,56 @@ namespace BudgetBay.Repositories
             return await _context.Products.FirstOrDefaultAsync(product => product.Id == id);
         }
 
+        public async Task<Product> UpdateProductAsync(int productId, double price)
+        {
+            _context.Products.Update(new Product { Id = productId, Bids = new List<Bid>(), CurrentPrice = (decimal)price });
+            await _context.SaveChangesAsync();
+            return await GetByIdAsync(productId);
+        }
 
-        public async Task<Product> AddAsync(Product product)
+        public async Task<bool> DeleteProductByIdAsync(int productId)
+        {
+            var product = await _context.Products.FindAsync(productId);
+            if (product == null)
+            {
+                return false;
+            }
+            _context.Products.Remove(product);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<List<Product>> GetActiveProductsAsync()
+        {
+            var currentTime = DateTime.UtcNow;
+            return await _context.Products
+                .Where(p => p.EndTime > currentTime)
+                .ToListAsync();
+        }
+
+        public Task<Product> SearchProductsAsync(string query)
+        {
+            return _context.Products.FirstOrDefaultAsync(p => p.Name.Contains(query) || p.Description.Contains(query));
+
+        }
+        public Task<Product> CreateProductAsync(Product product)
         {
             _context.Products.Add(product);
-            await _context.SaveChangesAsync();
-            return product;
+            _context.SaveChanges();
+            return Task.FromResult(product);
+
         }
 
-        public async Task<Product> UpdateAsync(Product product)
+        public Task<List<Product>> GetProductsBySellerId(int sellerId)
         {
-            _context.Products.Update(product);
-            await _context.SaveChangesAsync();
-            return product;
-        }
+            return _context.Products.Where(p => p.SellerId == sellerId).ToListAsync();
 
-        public async Task DeleteAsync(int id)
+
+
+        }
+        public Task<List<Product>> GetProductsByWinnerId(int winnerId)
         {
-            var product = await GetByIdAsync(id);
-            if (product != null)
-            {
-                _context.Products.Remove(product);
-                await _context.SaveChangesAsync();
-            }
+            return _context.Products.Where(p => p.WinnerId == winnerId).ToListAsync();
         }
 
     }
