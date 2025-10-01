@@ -29,7 +29,17 @@ namespace BudgetBay.Services
 
         public async Task<Bid> CreateBid(Bid newBid)
         {
-            return await _bidRepo.AddAsync(newBid); // call AddAsync method to add newBid to database
+            var isValidBid = await _CheckValidBid(newBid.ProductId, newBid.Amount); // check if the bid is valid
+            if (isValidBid == null || isValidBid == false) // check if the product id is valid
+            {
+                _logger.LogWarning($"Bid is not valid sending it back null");
+                return null;
+            }
+            else
+            {
+                _logger.LogInformation($"Bid is valid, adding to database");
+                return await _bidRepo.AddAsync(newBid); // call AddAsync method to add newBid to database
+            }
         } // create new bid
         public async Task CancelBid(int bidId)
         {
