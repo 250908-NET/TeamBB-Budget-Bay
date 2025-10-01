@@ -68,11 +68,6 @@ namespace BudgetBay.Repositories
         {
             return _context.Products.Where(p => p.SellerId == sellerId).ToListAsync();
         }
-        public async Task<Bid?> GetHighestBidAsync(int productId)
-        {
-            string query = "SELECT TOP 1 * FROM Bids WHERE ProductId = {0} ORDER BY Amount DESC";
-            return await _context.Bids.FromSqlRaw(query, productId).FirstOrDefaultAsync();
-        }
         public Task<List<Product>> GetProductsByWinnerId(int winnerId)
         {
             return _context.Products.Where(p => p.WinnerId == winnerId).ToListAsync();

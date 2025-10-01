@@ -7,7 +7,6 @@ namespace BudgetBay.Repositories
     public interface IProductRepository
     {
         public Task<List<Product>> GetAllAsync();
-        public Task<Bid?> GetHighestBidAsync(int productId);
         public Task<List<Product>> GetActiveProductsAsync();
         public Task<Product> GetByIdAsync(int productId);
         public Task<Product> SearchProductsAsync(string query);
