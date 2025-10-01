@@ -39,6 +39,12 @@ namespace BudgetBay.Repositories
             return product;
         }
 
+        public async Task<Bid?> GetHighestBidAsync(int productId)
+        {
+            string query = "SELECT TOP 1 * FROM Bids WHERE ProductId = {0} ORDER BY Amount DESC";
+            return await _context.Bids.FromSqlRaw(query, productId).FirstOrDefaultAsync();
+        }
+
         public async Task DeleteAsync(int id)
         {
             var product = await GetByIdAsync(id);

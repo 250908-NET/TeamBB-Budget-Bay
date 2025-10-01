@@ -13,7 +13,11 @@ namespace BudgetBay.Repositories
 
         public Task<Product> UpdateAsync(Product product);
 
+        public Task<Bid?> GetHighestBidAsync(int productId);
+
         public Task DeleteAsync(int id);
+
+
 
 
 
