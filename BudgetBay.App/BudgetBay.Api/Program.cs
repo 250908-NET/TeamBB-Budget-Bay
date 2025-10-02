@@ -78,6 +78,7 @@ public class Program
         // Services
         builder.Services.AddScoped<IAuthService, AuthService>();
         builder.Services.AddScoped<IUserService, UserService>();
+        builder.Services.AddScoped<IProductService, ProductService>();
 
         //Auto Mapper
         builder.Services.AddAutoMapper(typeof(Program));
@@ -102,7 +103,7 @@ public class Program
             };
         });
 
-
+        builder.Services.AddAuthorization();
         var app = builder.Build();
 
         if (app.Environment.IsDevelopment())
@@ -113,6 +114,7 @@ public class Program
         }
 
         app.UseHttpsRedirection();
+        app.UseAuthentication();
         app.UseAuthorization();
         app.MapControllers();
 

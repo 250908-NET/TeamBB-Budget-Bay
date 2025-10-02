@@ -30,9 +30,16 @@ namespace BudgetBay.Repositories
             var product = await _context.Products.FindAsync(productId);
             if (product == null)
             {
-                throw new KeyNotFoundException("Product not found");
+                throw new KeyNotFoundException($"Product with ID {productId} not found.");
             }
             product.CurrentPrice = (decimal)price;
+            await _context.SaveChangesAsync();
+            return product;
+        }
+
+        // Overloaded method to update the entire product
+        public async Task<Product> UpdateProductAsync(Product product)
+        {
             _context.Products.Update(product);
             await _context.SaveChangesAsync();
             return product;

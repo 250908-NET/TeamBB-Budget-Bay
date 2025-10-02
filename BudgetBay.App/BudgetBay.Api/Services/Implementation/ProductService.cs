@@ -1,19 +1,16 @@
+using AutoMapper;
+using BudgetBay.Api.DTOs;
 using BudgetBay.Models;
 using BudgetBay.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace BudgetBay.Services
 {
-    public class ProductService : IProductService
+    public class ProductService(ILogger<ProductService> logger, IProductRepository productRepository, IMapper mapper) : IProductService
     {
-        private readonly ILogger<ProductService> _logger;
-        private readonly IProductRepository _productRepository;
-
-        public ProductService(ILogger<ProductService> logger, IProductRepository productRepository)
-        {
-            _logger = logger;
-            _productRepository = productRepository;
-        }
+        private readonly ILogger<ProductService> _logger = logger;
+        private readonly IProductRepository _productRepository = productRepository;
+        private readonly IMapper _mapper = mapper;
 
         public Task<List<Product>> GetAllAsync()
         {
@@ -39,17 +36,16 @@ namespace BudgetBay.Services
             return _productRepository.SearchProductsAsync(query);
         }
 
-        public async Task<Product> CreateProductAsync(Product product)
+        public async Task<Product> CreateProductAsync(CreateProductDto productDto)
         {
-            _logger.LogInformation($"Creating product: {product.Name}");
-            if(product.StartingPrice < 0)
-            {
-                throw new ArgumentException("Starting price cannot be negative");
-            }
-            if(product.EndTime <= DateTime.UtcNow)
+            _logger.LogInformation($"Creating product: {productDto.Name}");
+
+            if(productDto.EndTime <= DateTime.UtcNow)
             {
                 throw new ArgumentException("End time must be in future");
             }
+
+            var product = _mapper.Map<Product>(productDto);
             return await _productRepository.CreateProductAsync(product);
         }
 
@@ -73,8 +69,28 @@ namespace BudgetBay.Services
 
         public Task<Product> UpdateProductAsync(int productId, double price)
         {
-            _logger.LogInformation($"Updating product ID: {productId} with new price: {price}");
+            _logger.LogInformation($"Updating product with ID: {productId} to new price: {price}");
             return _productRepository.UpdateProductAsync(productId, price);
+        }
+
+        public async Task<Product> UpdateProductAsync(int productId, UpdateProductDto productDto)
+        {
+            _logger.LogInformation($"Updating product with ID: {productId}");
+            var currentProduct = await _productRepository.GetByIdAsync(productId);
+
+            if (currentProduct == null)
+            {
+                throw new KeyNotFoundException($"Product with ID {productId} not found");
+            }
+
+            if (productDto.EndTime <= DateTime.UtcNow)
+            {
+                throw new ArgumentException("End time must be in future");
+            }
+
+            _mapper.Map(productDto, currentProduct);
+            return await _productRepository.UpdateProductAsync(currentProduct);
+
         }
     }
 }
