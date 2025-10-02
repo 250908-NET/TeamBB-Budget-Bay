@@ -67,9 +67,6 @@ namespace BudgetBay.Repositories
         public Task<List<Product>> GetProductsBySellerId(int sellerId)
         {
             return _context.Products.Where(p => p.SellerId == sellerId).ToListAsync();
-
-
-
         }
         public Task<List<Product>> GetProductsByWinnerId(int winnerId)
         {
