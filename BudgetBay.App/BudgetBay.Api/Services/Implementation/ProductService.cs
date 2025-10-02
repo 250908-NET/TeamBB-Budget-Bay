@@ -1,5 +1,6 @@
 using BudgetBay.Models;
 using BudgetBay.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace BudgetBay.Services
 {
@@ -14,21 +15,66 @@ namespace BudgetBay.Services
             _productRepository = productRepository;
         }
 
-        public Task<List<Product>> GetAllAsync() => _productRepository.GetAllAsync();
-        public Task<List<Product>> GetActiveProductsAsync() => _productRepository.GetActiveProductsAsync();
-        public Task<Product> GetByIdAsync(int productId) => _productRepository.GetByIdAsync(productId);
-        public Task<Product> SearchProductsAsync(string query)=> _productRepository.SearchProductsAsync(query);
+        public Task<List<Product>> GetAllAsync()
+        {
+            _logger.LogInformation("Fetching all products");
+            return _productRepository.GetAllAsync();
+        }
 
-        public Task<Product> CreateProductAsync(Product product) => _productRepository.CreateProductAsync(product);
-        //public Task<Product> UpdateProductAsync(UpdateProductDto updateProductDto);
+        public Task<List<Product>> GetActiveProductsAsync()
+        {
+            _logger.LogInformation("Fetching active products");
+            return _productRepository.GetActiveProductsAsync();
+        }
 
-        public Task<bool> DeleteProductByIdAsync(int producttId) => _productRepository.DeleteProductByIdAsync(producttId);
+        public Task<Product?> GetByIdAsync(int productId)
+        {
+            _logger.LogInformation($"Fetching product with ID: {productId}");
+            return _productRepository.GetByIdAsync(productId);
+        }
 
-        public Task<List<Product>> GetProductsBySellerId(int sellerId) => _productRepository.GetProductsBySellerId(sellerId);
+        public Task<List<Product>> SearchProductsAsync(string query)
+        {
+            _logger.LogInformation($"Searching products with query: {query}");
+            return _productRepository.SearchProductsAsync(query);
+        }
 
-        public Task<List<Product>> GetProductsByWinnerId(int winnerId) => _productRepository.GetProductsByWinnerId(winnerId);
+        public async Task<Product> CreateProductAsync(Product product)
+        {
+            _logger.LogInformation($"Creating product: {product.Name}");
+            if(product.StartingPrice < 0)
+            {
+                throw new ArgumentException("Starting price cannot be negative");
+            }
+            if(product.EndTime <= DateTime.UtcNow)
+            {
+                throw new ArgumentException("End time must be in future");
+            }
+            return await _productRepository.CreateProductAsync(product);
+        }
 
-        public Task<Product> UpdateProductAsync(int productId, double price) => _productRepository.UpdateProductAsync(productId, price);
+        public Task<bool> DeleteProductByIdAsync(int producttId)
+        {
+            _logger.LogInformation($"Deleting product with ID: {producttId}");
+            return _productRepository.DeleteProductByIdAsync(producttId);
+        }
+
+        public Task<List<Product>> GetProductsBySellerId(int sellerId)
+        {
+            _logger.LogInformation($"Fetching products for seller ID: {sellerId}");
+            return _productRepository.GetProductsBySellerId(sellerId);
+        }
+
+        public Task<List<Product>> GetProductsByWinnerId(int winnerId)
+        {
+            _logger.LogInformation($"Fetching products for winner ID: {winnerId}");
+            return _productRepository.GetProductsByWinnerId(winnerId);
+        }
+
+        public Task<Product> UpdateProductAsync(int productId, double price)
+        {
+            _logger.LogInformation($"Updating product ID: {productId} with new price: {price}");
+            return _productRepository.UpdateProductAsync(productId, price);
+        }
     }
-
 }
