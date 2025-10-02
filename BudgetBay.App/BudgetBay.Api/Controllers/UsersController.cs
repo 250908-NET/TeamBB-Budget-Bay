@@ -10,22 +10,22 @@ using BudgetBay.Repositories;
 namespace BudgetBay.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     //"/users"
     public class UsersController : ControllerBase
     {
 
         private readonly ILogger<UsersController> _logger;
         private readonly IUserService _userService;
-        private readonly IAddressService _addressService;
         private readonly IProductService _productService;
         private readonly IMapper _mapper;
 
-        public UsersController(ILogger<UsersController> logger, IMapper mapper, IUserService userService)
+        public UsersController(ILogger<UsersController> logger, IMapper mapper, IUserService userService, IProductService productService)
         {
             _logger = logger;
-            _userService = userService;
             _mapper = mapper;
+            _userService = userService;
+            _productService = productService;
         }
 
         [HttpGet("{id}", Name = "GetUserById")]
@@ -56,23 +56,48 @@ namespace BudgetBay.Controllers
             throw new NotImplementedException();
         }
 
-        [HttpPost("/{userId}/address", Name = "CreateUserAddress")]
-        public async Task<IActionResult> CreateUserAddress(int userId)
+        [HttpPost("{userId}/address", Name = "CreateUserAddress")]
+        public async Task<IActionResult> CreateUserAddress(int userId, [FromBody] AddressDto dto)
         {
-            throw new NotImplementedException();
+            var user = await _userService.GetUserInfo(userId);
+            if (user is null)
+            {
+                return NotFound();
+            }
 
+            if (user.AddressId.HasValue)
+            {
+                return Conflict("User already has an address. Use PUT to update it.");
+            }
+
+            var newAddress = _mapper.Map<Address>(dto);
+            newAddress = await _userService.CreateAddress(newAddress);
+
+            user.AddressId = newAddress.Id;
+            await _userService.UpdateUser(user);
+
+            return Ok(_mapper.Map<AddressDto>(newAddress));
+            // return CreatedAtRoute("GetUserAddress", new { userId }, _mapper.Map<AddressDto>(newAddress));
         }
 
-        [HttpPut("/{userId}/address", Name = "UpdateUserAddress")]
+        [HttpPut("{userId}/address", Name = "UpdateUserAddress")]
         public async Task<IActionResult> UpdateUserAddress(int userId, [FromBody] AddressDto dto)
         {
+            var user = await _userService.GetUserInfo(userId);
+            if (user is null || !user.AddressId.HasValue)
+            {
+                return NotFound();
+            }
 
+            var existingAddress = await _userService.GetUserAddressAsync(user.AddressId.Value);
+            _mapper.Map(dto, existingAddress);
 
-            throw new NotImplementedException();
-
+            var updatedAddress = await _userService.UpdateAddress(existingAddress!);
+            return Ok(_mapper.Map<AddressDto>(updatedAddress));
         }
 
-        [HttpPut("/{id}", Name = "UpdateUserById")]
+
+        [HttpPut("{id}", Name = "UpdateUserById")]
         public async Task<IActionResult> UpdateUserById(int id, [FromBody] UpdateUserDto dto)
         {
             _logger.LogInformation($"Updating user {id}");

@@ -58,5 +58,15 @@ namespace BudgetBay.Services
         {
             return await _userRepo.UserExistsAsync(id);
         }
+
+        public Task<Address> CreateAddress(Address address)
+        {
+            return _addressRepo.AddAsync(address);
+        }
+
+        public async Task<Address?> GetUserAddressAsync(int addressId)
+        {
+            return await _addressRepo.GetByIdAsync(addressId);
+        }
     }
 }

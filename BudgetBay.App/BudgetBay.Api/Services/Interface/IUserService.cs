@@ -17,6 +17,9 @@ namespace BudgetBay.Services
         public Task<bool> UsernameExists(string username); // Check if username exists
         public Task<bool> EmailExists(string email); // Check if email exists
         public Task<Address?> UpdateAddress(Address updateAddress); // Updates user's address information
+
+        public Task<Address> CreateAddress(Address address); //Create new address for user
+        public Task<Address?> GetUserAddressAsync(int addressId);
         public Task<bool> Exists(int id); //Check if user exists
     }
 }
