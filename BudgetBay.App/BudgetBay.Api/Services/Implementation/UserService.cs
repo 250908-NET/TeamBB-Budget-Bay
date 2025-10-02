@@ -53,5 +53,10 @@ namespace BudgetBay.Services
             _logger.LogInformation($"Updating address with ID: {updatedAddress.Id}");
             return await _addressRepo.UpdateAsync(updatedAddress); // Update the address to the repo
         }
+
+        public async Task<bool> Exists(int id)
+        {
+            return await _userRepo.UserExistsAsync(id);
+        }
     }
 }

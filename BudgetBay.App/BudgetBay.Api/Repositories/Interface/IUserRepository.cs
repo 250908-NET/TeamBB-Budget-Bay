@@ -11,6 +11,8 @@ namespace BudgetBay.Repositories
         public Task<User?> GetByEmailAsync(string email);
         public Task<bool> UsernameExistsAsync(string username);
         public Task<bool> EmailExistsAsync(string email);
+
+        public Task<bool> UserExistsAsync(int id);
         public Task SaveChangesAsync();
     }
 }
