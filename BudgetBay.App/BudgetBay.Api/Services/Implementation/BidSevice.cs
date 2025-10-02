@@ -72,13 +72,13 @@ namespace BudgetBay.Services
         } // cancel a bid
         public async Task<decimal?> GetHighestBid(int ProductId)
         {
-            var productBids = await _productRepo.GetByIdAsync(ProductId); // get product by id
-            if (productBids == null || !productBids.Bids.Any()) // check if Id is Valid or if there are any bids
+            var productBids = await _bidRepo.GetByProductIdAsync(ProductId); // get product by id
+            if (productBids == null || !productBids.Any()) // check if Id is Valid or if there are any bids
             {
                 _logger.LogWarning($"{(productBids == null ? "No Product found for the product ID:" : "No Bids Were found for the product ID:")} {ProductId}");
                 return null;
             }
-            return productBids.CurrentPrice;
+            return productBids.Max(b => b.Amount);
         } // get highest bid for a product
 
         public async Task<List<Bid>> GetBidsByProductId(int ProductId)
