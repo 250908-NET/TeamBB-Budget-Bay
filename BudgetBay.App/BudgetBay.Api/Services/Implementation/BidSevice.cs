@@ -34,28 +34,16 @@ namespace BudgetBay.Services
 
         public async Task<Bid> CreateBid(Bid newBid)
         {
-            var isValidBid = await _CheckValidBid(newBid.ProductId, newBid.Amount); // check if the bid is valid
-            var product = await _productRepo.GetByIdAsync(newBid.ProductId); // get the product by id
-
-            if (product.SellerId == newBid.BidderId) // check if the bidder is the seller
-            {
-                _logger.LogWarning($"Bidder with ID: {newBid.BidderId} is the seller of the product with ID: {newBid.ProductId}. Cannot place bid.");
-                return null;
-            }
-            else if (isValidBid == null || isValidBid == false) // check if the product id is valid
+            var isValidBid = await _CheckValidBid(newBid, newBid.Amount); // check if the bid is valid
+            if (isValidBid == false) // check if the product id is valid
             {
                 _logger.LogWarning($"Bid is not valid sending it back null");
                 return null;
             }
             else
             {
+                
                 _logger.LogInformation($"Bid is valid, adding to database");
-                var highestBid = await GetHighestBid(newBid.ProductId);
-                if (highestBid > newBid.Amount) // update the product with the new highest bid
-                {
-                    _logger.LogWarning($"Bid price {newBid.Amount} is not higher than the current highest bid for product ID: {newBid.ProductId}");
-                    return null;
-                }
                 await _productRepo.UpdateProductAsync(newBid.ProductId, (double)newBid.Amount); // update the product with the new highest bid
                 return await _bidRepo.AddAsync(newBid); // call AddAsync method to add newBid to database
             }
@@ -116,27 +104,34 @@ namespace BudgetBay.Services
             }
             return userBids.ToList(); // return all bids for the user
         } // get bid by user id
-        public async Task<bool?> _CheckValidBid(int ProductId, decimal price)
+        public async Task<bool?> _CheckValidBid(Bid newBid, decimal price)
         {
-            var productBids = await _bidRepo.GetByProductIdAsync(ProductId); // get product by id
-            var highestBid = productBids.Max(b => b.Amount);
-            _logger.LogInformation($"Checking if there are bids for the product ID: {ProductId}");
-            if (highestBid != null) // check if there are any bids
+            var productBids = await _bidRepo.GetByProductIdAsync(newBid.ProductId); // get product by id
+
+            _logger.LogInformation($"Checking if there are bids for the product ID: {newBid.ProductId}");
+            if (productBids != null && productBids.Any()) // check if there are any bids
             {
                 // there are bids, check if the new bid is higher than the highest bid
-                _logger.LogInformation($"Highest bid for product ID {ProductId} is {highestBid}");
+                var highestBid = productBids.Max(b => b.Amount);
+                _logger.LogInformation($"Highest bid for product ID {newBid.ProductId} is {highestBid}");
                 return price > highestBid;
             }
             else
             {
+                
                 // no bids, check if the new bid is higher than the starting price
-                var product = await _productRepo.GetByIdAsync(ProductId); // get product by id
+                var product = await _productRepo.GetByIdAsync(newBid.ProductId); // get product by id
                 if (product == null)
                 {
-                    _logger.LogWarning($"No Product found for the product ID: {ProductId}");
-                    return null;
+                    _logger.LogWarning($"No Product found for the product ID: {newBid.ProductId}");
+                    return false;
                 }
-                _logger.LogInformation($"No bids found for product ID {ProductId}. Checking against starting price {product.StartingPrice}");
+                if (product.SellerId == newBid.BidderId)
+                {
+                    _logger.LogWarning($"Bidder ID {newBid.BidderId} is the same as Seller ID {product.SellerId} for product ID {newBid.ProductId}. Bid is invalid.");
+                    return false; // bidder cannot be the seller
+                }
+                _logger.LogInformation($"No bids found for product ID {newBid.ProductId}. Checking against starting price {product.StartingPrice}");
                 return price > product.StartingPrice; // check if the new bid is higher than the starting price
             }
         } // check if bid is valid

@@ -19,6 +19,6 @@ namespace BudgetBay.Services
 
         public Task<List<Bid>> GetBidsByProductId(int ProductId); // get bid by product id
         public Task<List<Bid>> GetBidsByUserId(int UserId); // get bid by user id
-        public Task<bool?> _CheckValidBid(int ProductId, decimal price); // check if bid is valid
+        public Task<bool?> _CheckValidBid(Bid newBid, decimal price); // check if bid is valid
     }
 }
