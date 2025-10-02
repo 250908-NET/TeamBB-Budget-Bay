@@ -83,28 +83,28 @@ namespace BudgetBay.Services
 
         public async Task<List<Bid>> GetBidsByProductId(int ProductId)
         {
-            var productBids = await _productRepo.GetByIdAsync(ProductId); // get product by id
-            if (productBids == null || !productBids.Bids.Any()) // check if Id is Valid or if there are any bids
+            var productBids = await _bidRepo.GetByProductIdAsync(ProductId); // get product by id
+            if (productBids == null || !productBids.Any()) // check if Id is Valid or if there are any bids
             {
                 _logger.LogWarning($"{(productBids == null ? "No Product found for the product ID:" : "No Bids Were found for the product ID:")} {ProductId}");
                 return null;
             }
-            return productBids.Bids.ToList(); // return all bids for the product
+            return productBids.ToList(); // return all bids for the product
         } // get bid by product id
         public async Task<List<Bid>> GetBidsByUserId(int UserId)
         {
-            var userBids = await _userRepo.GetByIdAsync(UserId); // get user by id
-            if (userBids == null || !userBids.Bids.Any()) // check if Id is Valid or if there are any bids
+            var userBids = await _bidRepo.GetByUserIdAsync(UserId); // get user by id
+            if (userBids == null || !userBids.Any()) // check if Id is Valid or if there are any bids
             {
                 _logger.LogWarning($"{(userBids == null ? "No User found for the user ID:" : "No Bids Were found for the user ID:")} {UserId}");
                 return null;
             }
-            return userBids.Bids.ToList(); // return all bids for the user
+            return userBids.ToList(); // return all bids for the user
         } // get bid by user id
         public async Task<bool?> _CheckValidBid(int ProductId, decimal price)
         {
-            var productBids = await _productRepo.GetByIdAsync(ProductId); // get product by id
-            var highestBid = productBids?.CurrentPrice;
+            var productBids = await _bidRepo.GetByProductIdAsync(ProductId); // get product by id
+            var highestBid = productBids.Max(b => b.Amount);
             _logger.LogInformation($"Checking if there are bids for the product ID: {ProductId}");
             if (highestBid != null) // check if there are any bids
             {
@@ -122,7 +122,7 @@ namespace BudgetBay.Services
                     return null;
                 }
                 _logger.LogInformation($"No bids found for product ID {ProductId}. Checking against starting price {product.StartingPrice}");
-                return price > product.StartingPrice;
+                return price > product.StartingPrice; // check if the new bid is higher than the starting price
             }
         } // check if bid is valid
 
