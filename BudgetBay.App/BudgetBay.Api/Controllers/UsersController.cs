@@ -6,6 +6,7 @@ using BudgetBay.DTOs;
 using Serilog;
 using Microsoft.EntityFrameworkCore.Metadata;
 using System.Runtime.InteropServices;
+using BudgetBay.Repositories;
 namespace BudgetBay.Controllers
 {
     [ApiController]
@@ -16,6 +17,8 @@ namespace BudgetBay.Controllers
 
         private readonly ILogger<UsersController> _logger;
         private readonly IUserService _userService;
+        private readonly IAddressService _addressService;
+        private readonly IProductService _productService;
         private readonly IMapper _mapper;
 
         public UsersController(ILogger<UsersController> logger, IMapper mapper, IUserService userService)
@@ -61,8 +64,10 @@ namespace BudgetBay.Controllers
         }
 
         [HttpPut("/{userId}/address", Name = "UpdateUserAddress")]
-        public async Task<IActionResult> UpdateUserAddress(int userId)
+        public async Task<IActionResult> UpdateUserAddress(int userId, [FromBody] AddressDto dto)
         {
+
+
             throw new NotImplementedException();
 
         }

@@ -11,6 +11,8 @@ namespace BudgetBay.Data
 
             CreateMap<UpdateUserDto, User>().ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null));
 
+            CreateMap<AddressDto, Address>().ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null));
+
             CreateMap<Bid, BidDto>();
             
             CreateMap<Address, AddressDto>();
