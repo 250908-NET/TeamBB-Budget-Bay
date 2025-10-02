@@ -24,18 +24,39 @@ namespace BudgetBay.Repositories
 
         public async Task<Bid?> GetByIdAsync(int id)
         {
+            
             return await _context.Bids.FirstOrDefaultAsync(b => b.Id == id);
         }
 
-        public async Task AddAsync(Bid bid)
+        public async Task<Bid?> AddAsync(Bid bid)
         {
-            await _context.Bids.AddAsync(bid);
+            var entityEntry = await _context.Bids.AddAsync(bid);
+            await SaveChangesAsync();
+            return entityEntry.Entity;
+        }
+        public async Task<List<Bid>> GetByProductIdAsync(int productId)
+        {
+            return await _context.Bids
+                .Where(b => b.ProductId == productId)
+                .Include(b => b.Product)
+                .Include(b => b.Bidder)
+                .ToListAsync();
+        }
+
+        public async Task<List<Bid>> GetByUserIdAsync(int userId)
+        {
+            return await _context.Bids
+                .Where(b => b.BidderId == userId)
+                .Include(b => b.Product)
+                .Include(b => b.Bidder)
+                .ToListAsync();
         }
 
         public async Task DeleteAsync(Bid bid)
         {
             _context.Bids.Remove(bid);
             await Task.CompletedTask;
+            await SaveChangesAsync();
         }
 
         public async Task SaveChangesAsync()

@@ -1,5 +1,6 @@
 using BudgetBay.Models;
 using BudgetBay.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace BudgetBay.Services
 {
@@ -32,16 +33,24 @@ namespace BudgetBay.Services
             return _productRepository.GetByIdAsync(productId);
         }
 
-        public Task<Product?> SearchProductsAsync(string query)
+        public Task<List<Product>> SearchProductsAsync(string query)
         {
             _logger.LogInformation($"Searching products with query: {query}");
             return _productRepository.SearchProductsAsync(query);
         }
 
-        public Task<Product> CreateProductAsync(Product product)
+        public async Task<Product> CreateProductAsync(Product product)
         {
             _logger.LogInformation($"Creating product: {product.Name}");
-            return _productRepository.CreateProductAsync(product);
+            if(product.StartingPrice < 0)
+            {
+                throw new ArgumentException("Starting price cannot be negative");
+            }
+            if(product.EndTime <= DateTime.UtcNow)
+            {
+                throw new ArgumentException("End time must be in future");
+            }
+            return await _productRepository.CreateProductAsync(product);
         }
 
         public Task<bool> DeleteProductByIdAsync(int producttId)

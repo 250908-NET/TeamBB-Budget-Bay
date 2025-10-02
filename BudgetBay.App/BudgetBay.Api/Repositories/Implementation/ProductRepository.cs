@@ -1,6 +1,7 @@
-﻿using BudgetBay.Models;
-using BudgetBay.Data;
+﻿using BudgetBay.Data;
+using BudgetBay.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace BudgetBay.Repositories
 {
@@ -57,9 +58,11 @@ namespace BudgetBay.Repositories
                 .ToListAsync();
         }
 
-        public Task<Product?> SearchProductsAsync(string query)
+        public Task<List<Product>> SearchProductsAsync(string query)
         {
-            return _context.Products.FirstOrDefaultAsync(p => p.Name.Contains(query) || p.Description.Contains(query));
+            return _context.Products
+                .Where(p => p.Name.Contains(query) || p.Description.Contains(query))
+                .ToListAsync();
         }
 
         public async Task<Product> CreateProductAsync(Product product)

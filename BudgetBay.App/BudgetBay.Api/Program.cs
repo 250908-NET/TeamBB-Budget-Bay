@@ -9,6 +9,7 @@ using System.Text;
 using Microsoft.OpenApi.Models;
 using AutoMapper;
 
+
 namespace BudgetBay;
 
 public class Program
@@ -64,6 +65,7 @@ public class Program
         builder.Services.AddDbContext<AppDbContext>(
             options => options.UseSqlServer(connectionString)
         );
+
 
         // --- Dependency Injection Registration ---
         // Repositories
