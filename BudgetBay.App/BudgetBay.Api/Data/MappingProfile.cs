@@ -8,7 +8,11 @@ namespace BudgetBay.Data
         public MappingProfile()
         {
             CreateMap<User, UserDto>();
+
+            CreateMap<UpdateUserDto, User>().ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null));
+
             CreateMap<Bid, BidDto>();
+            
             CreateMap<Address, AddressDto>();
         }
     }

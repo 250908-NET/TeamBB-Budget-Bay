@@ -5,6 +5,7 @@ using BudgetBay.Models;
 using BudgetBay.DTOs;
 using Serilog;
 using Microsoft.EntityFrameworkCore.Metadata;
+using System.Runtime.InteropServices;
 namespace BudgetBay.Controllers
 {
     [ApiController]
@@ -67,15 +68,23 @@ namespace BudgetBay.Controllers
         }
 
         [HttpPut("/{id}", Name = "UpdateUserById")]
-        public async Task<IActionResult> UpdateUserById(int id, [FromBody] User user)
+        public async Task<IActionResult> UpdateUserById(int id, [FromBody] UpdateUserDto dto)
         {
             _logger.LogInformation($"Updating user {id}");
             if (!await _userService.Exists(id))
             {
-                return BadRequest();
+                return NotFound();
             }
-            var existingUser = _userService.GetUserInfo(id);
-            await _userService.UpdateUser(id, user);
+            var existingUser = await _userService.GetUserInfo(id);
+            if (existingUser is null)
+            {
+                return NotFound();
+            }
+            var updatedUser = _mapper.Map(dto, existingUser);
+
+            var result = await _userService.UpdateUser(updatedUser);
+
+            return result is not null ? Ok(_mapper.Map<UserDto>(result)) : NotFound();
             
         }
     }
