@@ -8,8 +8,8 @@ namespace BudgetBay.Services
 
         public Task<List<Product>> GetAllAsync();
         public Task<List<Product>> GetActiveProductsAsync();
-        public Task<Product> GetByIdAsync(int productId);
-        public Task<Product> SearchProductsAsync(string query);
+        public Task<Product?> GetByIdAsync(int productId);
+        public Task<Product?> SearchProductsAsync(string query);
 
         public Task<Product> CreateProductAsync(Product product);
    
@@ -20,7 +20,7 @@ namespace BudgetBay.Services
 
         public Task<List<Product>> GetProductsByWinnerId(int winnerId);
 
-        public Task<Product> UpdateProductAsync(int productId, double price);
+        public Task<Product?> UpdateProductAsync(int productId, double price);
 
     }
 }

@@ -21,7 +21,7 @@ namespace BudgetBay.Services
             _addressRepo = addressRepository;
         }
 
-        public async Task<User> GetUserInfo(int id)
+        public async Task<User?> GetUserInfo(int id)
         {
             _logger.LogInformation($"Getting user info for user with ID: {id}");
             return await _userRepo.GetByIdAsync(id); // call user repo to get user by id
@@ -32,7 +32,7 @@ namespace BudgetBay.Services
             return await _userRepo.AddAsync(newUser); // call user repo to add new user
            
         }
-        public async Task<User> UpdateUser(User updatedUser)
+        public async Task<User?> UpdateUser(User updatedUser)
         {
             _logger.LogInformation($"Updating user with ID: {updatedUser.Id}");
             return await _userRepo.UpdateAsync(updatedUser); // call user repo to update user
@@ -48,7 +48,7 @@ namespace BudgetBay.Services
             _logger.LogInformation($"Checking if email exists: {email}");
             return await _userRepo.EmailExistsAsync(email); // Any will return true if there is a User in the data base with a similar email
         }
-        public async Task<Address> UpdateAddress(Address updatedAddress)
+        public async Task<Address?> UpdateAddress(Address updatedAddress)
         {
             _logger.LogInformation($"Updating address with ID: {updatedAddress.Id}");
             return await _addressRepo.UpdateAsync(updatedAddress); // Update the address to the repo

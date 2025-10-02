@@ -7,20 +7,20 @@ namespace BudgetBay.Models
         [Key]
         public int Id { get; set; }
         [Required]
-        public string StreetNumber { get; set; } 
+        public string StreetNumber { get; set; }  = null!;
         [Required]
-        public string StreetName { get; set; }
+        public string StreetName { get; set; } = null!;
 
-        public string? AptNumber { get; set; }
-
-        [Required]
-        public string City { get; set; }
+        public string? AptNumber { get; set; } = null!;
 
         [Required]
-        public string State { get; set; }
+        public string City { get; set; } = null!;
 
         [Required]
-        public string ZipCode { get; set; }
+        public string State { get; set; } = null!;
+
+        [Required]
+        public string ZipCode { get; set; } = null!;
 
         public Address() { }
 

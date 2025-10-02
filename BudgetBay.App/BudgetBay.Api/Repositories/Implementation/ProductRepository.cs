@@ -24,7 +24,7 @@ namespace BudgetBay.Repositories
             return await _context.Products.FirstOrDefaultAsync(product => product.Id == id);
         }
 
-        public async Task<Product> UpdateProductAsync(int productId, double price)
+        public async Task<Product?> UpdateProductAsync(int productId, double price)
         {
             _context.Products.Update(new Product { Id = productId, Bids = new List<Bid>(), CurrentPrice = (decimal)price });
             await _context.SaveChangesAsync();
@@ -51,7 +51,7 @@ namespace BudgetBay.Repositories
                 .ToListAsync();
         }
 
-        public Task<Product> SearchProductsAsync(string query)
+        public Task<Product?> SearchProductsAsync(string query)
         {
             return _context.Products.FirstOrDefaultAsync(p => p.Name.Contains(query) || p.Description.Contains(query));
 

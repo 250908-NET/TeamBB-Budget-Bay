@@ -12,7 +12,7 @@ namespace BudgetBay.Repositories
         {
             _context = context;
         }
-        public async Task<User?> AddAsync(User user)
+        public async Task<User> AddAsync(User user)
         {
             var entityEntry = await _context.Users.AddAsync(user);
             await SaveChangesAsync();
