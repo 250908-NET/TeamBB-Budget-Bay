@@ -78,6 +78,7 @@ public class Program
         // Services
         builder.Services.AddScoped<IAuthService, AuthService>();
         builder.Services.AddScoped<IUserService, UserService>();
+        builder.Services.AddScoped<IBidService, BidService>();
 
         //Auto Mapper
         builder.Services.AddAutoMapper(typeof(Program));

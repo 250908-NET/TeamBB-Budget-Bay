@@ -26,6 +26,11 @@ namespace BudgetBay.Services
             _productRepo = productRepository;
             _userRepo = userRepository;
         }
+        public async Task<List<Bid>> GetAllBids()
+        {
+            _logger.LogInformation("Getting all bids from the database.");
+            return await _bidRepo.GetAllAsync(); // call bid repo to get all bids
+        } // get all bids
 
         public async Task<Bid> CreateBid(Bid newBid)
         {
@@ -55,19 +60,29 @@ namespace BudgetBay.Services
                 return await _bidRepo.AddAsync(newBid); // call AddAsync method to add newBid to database
             }
         } // create new bid
-        public async Task CancelBid(int bidId)
+        public async Task CancelBid(int productId, int userId)
         {
-            var bid = await _bidRepo.GetByIdAsync(bidId); // get bid by id
-            if (bid == null) // check if the Id is valid, console will get a warning if not
+            var bidProducts = await GetBidsByProductId(productId); // get bid by id
+            var bidUsers = await GetBidsByUserId(userId); // get bid by user id
+
+            List<Bid> bid = bidProducts.Intersect(bidUsers).ToList(); // get the bid that matches both product id and user id
+            if (bid == null || !bid.Any()) // check if the Id is valid, console will get a warning if not
             {
-                _logger.LogWarning($"No bid found with ID: {bidId}");
+                _logger.LogWarning($"no bids found for product ID {productId} and user ID {userId}");
                 return;
             }
             else
             {
                 // update the product with the new highest bid
-                await _bidRepo.DeleteAsync(bid);
-                await _productRepo.UpdateProductAsync(bid.ProductId, (double)(await GetHighestBid(bid.ProductId) ?? 0)); // update the product with the new highest bid or 0 if there are no bids
+                foreach (var b in bid)
+                {
+                    await _bidRepo.DeleteAsync(b);
+                    if (b.Amount >= (await GetHighestBid(b.ProductId)))
+                    {
+                        await _productRepo.UpdateProductAsync(b.ProductId, (double)(await GetHighestBid(b.ProductId) ?? 0)); // update the product with the new highest bid or 0 if there are no bids
+                    }
+                }
+                
             }
         } // cancel a bid
         public async Task<decimal?> GetHighestBid(int ProductId)
