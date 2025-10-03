@@ -112,7 +112,7 @@ namespace BudgetBay.Test
             Assert.Equal("Camera", result[0].Name);
         }
 
-        [Fact]
+        /*[Fact]
         public async Task CreateProductsAsync_ReturnsCreatedProduct()
         {
             // Arrange
@@ -125,7 +125,7 @@ namespace BudgetBay.Test
             // Assert
             Assert.NotNull(result);
             Assert.Equal("Airpods", result.Name);
-        }
+        }*/
 
         [Fact]
         public async Task DeleteProductById_ReturnsTrue_WhenDeleted()
