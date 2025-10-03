@@ -1,5 +1,4 @@
-﻿using BudgetBay.Api.DTOs;
-using BudgetBay.Models;
+﻿using BudgetBay.DTOs;
 using BudgetBay.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

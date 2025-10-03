@@ -1,4 +1,4 @@
-﻿using BudgetBay.Api.DTOs;
+﻿using BudgetBay.DTOs;
 using BudgetBay.Models;
 
 namespace BudgetBay.Services

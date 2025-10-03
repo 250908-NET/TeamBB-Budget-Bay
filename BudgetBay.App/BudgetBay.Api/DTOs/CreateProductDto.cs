@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace BudgetBay.Api.DTOs
+namespace BudgetBay.DTOs
 {
     public class CreateProductDto
     {

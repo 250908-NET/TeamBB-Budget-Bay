@@ -1,7 +1,7 @@
 ﻿using BudgetBay.Models;
 using System.ComponentModel.DataAnnotations;
 
-namespace BudgetBay.Api.DTOs
+namespace BudgetBay.DTOs
 {
     public class UpdateProductDto
     {

@@ -1,8 +1,8 @@
 using AutoMapper;
-using BudgetBay.Api.DTOs;
+using BudgetBay.DTOs;
 using BudgetBay.Models;
 using BudgetBay.Repositories;
-using Microsoft.EntityFrameworkCore;
+
 
 namespace BudgetBay.Services
 {
