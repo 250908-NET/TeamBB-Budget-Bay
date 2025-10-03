@@ -73,6 +73,30 @@ namespace BudgetBay.Services
                 
             }
         } // cancel a bid
+        public async Task<List<Bid>> AuctionsWonByUserId(int userId)
+        {
+            var userBids = await GetBidsByUserId(userId); // get user by id
+            List<Bid> wonBids = new List<Bid>();
+
+            if (userBids == null || !userBids.Any()) // check if Id is Valid or if there are any bids
+            {
+                _logger.LogWarning($"No Bids Were found for the user ID: {userId}");
+                return null;
+            }
+            else
+            {
+                foreach (var bid in userBids)
+                {
+                    var product = await _productRepo.GetByIdAsync(bid.ProductId); // get product by id
+                    if (product != null && product.WinnerId == userId) // check if the user is the winner of the auction
+                    {
+                        wonBids.Add(bid); // add the bid to the list of won bids
+                    }
+                }
+                return wonBids;
+            }
+            
+        } // get all auctions won by a user
         public async Task<decimal?> GetHighestBid(int ProductId)
         {
             var productBids = await _bidRepo.GetByProductIdAsync(ProductId); // get product by id

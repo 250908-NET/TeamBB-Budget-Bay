@@ -14,7 +14,9 @@ namespace BudgetBay.Services
     {
         public Task<List<Bid>> GetAllBids(); // get all bids
         public Task<Bid> CreateBid(Bid newBid); // create new bid
-        public Task CancelBid(int productId, int userId); // cancel a bid
+        public Task CancelBid(int productId, int userId); // cancel a bi
+         
+        public Task<List<Bid>> AuctionsWonByUserId(int userId); // get all auctions won by a user
         public Task<decimal?> GetHighestBid(int ProductId); // get highest bid for a product
 
         public Task<List<Bid>> GetBidsByProductId(int ProductId); // get bid by product id
