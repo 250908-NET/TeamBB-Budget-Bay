@@ -25,7 +25,8 @@ using Serilog;
 namespace BudgetBay.Controllers
 {
     [ApiController]
-    [Route("api/[Products]")]
+
+    [Route("api/Products")]
     // /api/products
     public class BidsController : ControllerBase
     {
@@ -43,7 +44,9 @@ namespace BudgetBay.Controllers
         // Metods
 
         // Get all bids from bids table
-        [HttpGet(Name = "GetAllBids")]
+
+        [HttpGet("/bids",Name = "GetAllBids")]
+
         public async Task<IActionResult> GetAllBids()
         {
             var bids = await _bidService.GetAllBids();
@@ -84,13 +87,18 @@ namespace BudgetBay.Controllers
 
         // Create bid for product
         [HttpPost("{productId}/bids", Name = "CreateBidForProduct")]
-        public async Task<IActionResult> CreateBidForProduct(int productId, [FromBody] Bid newBid)
+
+        public async Task<IActionResult> CreateBidForProduct(int productId, [FromBody] BidDto newBid)
         {
-            newBid.ProductId = productId;
+            var bid = _mapper.Map<Bid>(newBid);
 
-            var createBid = await _bidService.CreateBid(newBid);
+            bid.ProductId = productId;
 
-            return createBid is not null ? Created("/{createBid.Id}/bids", _mapper.Map<BidDto>(createBid)) : BadRequest("Bid could not be created. Please check the provided data and try again.");
+            var createdBid = await _bidService.CreateBid(bid);
+
+
+            return createdBid is not null ? Ok(_mapper.Map<BidDto>(createdBid)) : BadRequest("Bid could not be created. Please check the provided data and try again.");
+
         }
 
     }
