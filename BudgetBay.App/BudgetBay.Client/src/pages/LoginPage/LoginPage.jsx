@@ -1,7 +1,8 @@
 import { useState, useContext } from "react";
-import { useNavigate, Navigate } from "react-router-dom";
+import { useNavigate, Navigate, Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
-import './LoginPage.module.css';
+import styles from './LoginPage.module.css';
+// import logo from '../../assets/logo.svg'; 
 
 const LoginPage = () => {
     const [email, setEmail] = useState("");
@@ -23,41 +24,54 @@ const LoginPage = () => {
         } else {
             setError("Login failed. Please check your credentials.");
         }
-    }
+    };
 
     return (
-        <div className="login-container">
-            <h1>Login</h1>
-            <form onSubmit={handleLogin}>
-                <div className="form-group">
-                    <label htmlFor="email">Email</label>
-                    <input 
-                        id="email" 
-                        name="email" 
-                        type="email" 
-                        value={email} 
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                    />
+        <div className={styles.loginContainer}>
+            <div className={styles.leftPanel}></div>
+
+            <div className={styles.rightPanel}>
+                <div className={styles.loginContent}>
+                    {/* <img src={logo} alt="Budget Bay Logo" className={styles.logo} /> */}
+                    <h1>BUDGET BAY</h1>
+                    <p className={styles.subtitle}>Login to start bidding</p>
+                    
+                    <form className={styles.loginForm} onSubmit={handleLogin}>
+                        <div className={styles.formGroup}>
+                            <input 
+                                id="email" 
+                                type="email" 
+                                placeholder="Email"
+                                value={email} 
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
+                            />
+                        </div>
+                        <div className={styles.formGroup}>
+                            <input 
+                                id="password" 
+                                type="password" 
+                                placeholder="Password"
+                                value={password} 
+                                onChange={(e) => setPassword(e.target.value)}
+                                required
+                            />
+                        </div>
+                        
+                        {error && <p className={styles.errorMessage}>{error}</p>}
+                        
+                        <button type="submit" className={styles.loginButton} disabled={loading}>
+                            {loading ? 'Logging in...' : 'Login'}
+                        </button>
+                    </form>
+
+                    <p className={styles.signupLink}>
+                        Click Here to <Link to="/signup">Sign Up</Link>
+                    </p>
                 </div>
-                <div className="form-group">
-                    <label htmlFor="password">Password</label>
-                    <input 
-                        id="password" 
-                        name="password" 
-                        type="password" 
-                        value={password} 
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                </div>
-                {error && <p className="error-message">{error}</p>}
-                <button type="submit" disabled={loading}>
-                    {loading ? 'Logging in...' : 'Login'}
-                </button>
-            </form>
+            </div>
         </div>
     );
-}
+};
 
 export default LoginPage;

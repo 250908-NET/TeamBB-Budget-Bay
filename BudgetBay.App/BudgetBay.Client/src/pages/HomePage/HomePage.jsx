@@ -1,18 +1,18 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
-import './HomePage.module.css';
+import styles from './HomePage.module.css';
 
 const HomePage = () => {
     const { token, logout } = useContext(AuthContext);
 
     return (
-        <div className="homepage-container">
+        <div className={styles.homepageContainer}>
             {token ? (
                 <div>
                     <h1>Welcome Back!</h1>
                     <p>You are logged in.</p>
-                    <Link to="/dashboard" className="dashboard-link">
+                    <Link to="/dashboard" className={styles.dashboardLink}>
                         <button>Go to Dashboard</button>
                     </Link>
                     <button onClick={logout}>Logout</button>

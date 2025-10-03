@@ -1,8 +1,8 @@
-import './DashboardPage.module.css';
+import styles from './DashboardPage.module.css';
 
 const DashboardPage = () => {
     return (
-        <div className="dashboard-container">
+        <div className={styles.dashboardContainer}>
             <h1>Protected Dashboard</h1>
             <p>You can only see this page if you are logged in.</p>
         </div>
