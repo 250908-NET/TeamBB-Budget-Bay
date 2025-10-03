@@ -9,6 +9,7 @@ using System.Text;
 using Microsoft.OpenApi.Models;
 using AutoMapper;
 
+
 namespace BudgetBay;
 
 public class Program
@@ -65,6 +66,7 @@ public class Program
             options => options.UseSqlServer(connectionString)
         );
 
+
         // --- Dependency Injection Registration ---
         // Repositories
         builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -78,6 +80,7 @@ public class Program
         builder.Services.AddScoped<IProductService, ProductService>();
 
         builder.Services.AddScoped<IUserService, UserService>();
+        builder.Services.AddScoped<IProductService, ProductService>();
 
         //Auto Mapper
         builder.Services.AddAutoMapper(typeof(Program));
@@ -102,6 +105,15 @@ public class Program
             };
         });
 
+        builder.Services.AddAuthorization();
+        // --- Add CORS Policy ---
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("AllowSpecificOrigin",
+                builder => builder.WithOrigins("http://localhost:5173") // Your frontend URL
+                                .AllowAnyHeader()
+                                .AllowAnyMethod());
+        });
 
         var app = builder.Build();
 
@@ -112,7 +124,9 @@ public class Program
             app.UseSwaggerUI();
         }
 
+        app.UseCors("AllowSpecificOrigin");
         app.UseHttpsRedirection();
+        app.UseAuthentication();
         app.UseAuthorization();
         app.MapControllers();
 
