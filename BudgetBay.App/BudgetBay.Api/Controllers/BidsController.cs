@@ -25,6 +25,7 @@ using Serilog;
 namespace BudgetBay.Controllers
 {
     [ApiController]
+
     [Route("api/Products")]
     // /api/products
     public class BidsController : ControllerBase
@@ -43,7 +44,9 @@ namespace BudgetBay.Controllers
         // Metods
 
         // Get all bids from bids table
+
         [HttpGet("/bids",Name = "GetAllBids")]
+
         public async Task<IActionResult> GetAllBids()
         {
             var bids = await _bidService.GetAllBids();
@@ -84,6 +87,7 @@ namespace BudgetBay.Controllers
 
         // Create bid for product
         [HttpPost("{productId}/bids", Name = "CreateBidForProduct")]
+
         public async Task<IActionResult> CreateBidForProduct(int productId, [FromBody] BidDto newBid)
         {
             var bid = _mapper.Map<Bid>(newBid);
@@ -94,6 +98,7 @@ namespace BudgetBay.Controllers
 
 
             return createdBid is not null ? Ok(_mapper.Map<BidDto>(createdBid)) : BadRequest("Bid could not be created. Please check the provided data and try again.");
+
         }
 
     }
