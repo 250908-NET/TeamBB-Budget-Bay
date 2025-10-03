@@ -8,7 +8,7 @@ namespace BudgetBay.Data
         public MappingProfile()
         {
             CreateMap<User, UserDto>();
-            CreateMap<Bid, BidDto>();
+            CreateMap<Bid, BidDto>().ReverseMap();
             CreateMap<Address, AddressDto>();
             CreateMap<Product, CreateProductDto>().ReverseMap();
             CreateMap<Product, UpdateProductDto>().ReverseMap().ForAllMembers(opt => opt.Condition((src, dest, srcValue) => srcValue != null));

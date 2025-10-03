@@ -1,4 +1,8 @@
-namespace BudgetBay.DTOs 
+using BudgetBay.Models;
+using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
+
+namespace BudgetBay.DTOs
 {
 
     public class BidDto

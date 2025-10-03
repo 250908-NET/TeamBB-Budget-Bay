@@ -18,7 +18,7 @@ namespace BudgetBay.Models
         [Required]
         public string PasswordHash { get; set; }
 
-        public int? AddressId { get; set; }
+        public int? AddressId { get; set; } = null!;
         public Address? Address { get; set; } = null!;
 
 
