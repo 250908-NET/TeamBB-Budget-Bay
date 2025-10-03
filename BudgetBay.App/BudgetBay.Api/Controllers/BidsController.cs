@@ -84,15 +84,16 @@ namespace BudgetBay.Controllers
 
         // Create bid for product
         [HttpPost("{productId}/bids", Name = "CreateBidForProduct")]
-        public async Task<IActionResult> CreateBidForProduct([FromBody] BidDto newBid)
+        public async Task<IActionResult> CreateBidForProduct(int productId, [FromBody] BidDto newBid)
         {
             var bid = _mapper.Map<Bid>(newBid);
 
-            bid = await _bidService.CreateBid(bid);
+            bid.ProductId = productId;
 
-            _logger.LogInformation($"Bid created successfully: ");
+            var createdBid = await _bidService.CreateBid(bid);
 
-            return bid is not null ? Ok(newBid) : BadRequest("Bid could not be created. Please check the provided data and try again.");
+
+            return createdBid is not null ? Ok(_mapper.Map<BidDto>(createdBid)) : BadRequest("Bid could not be created. Please check the provided data and try again.");
         }
 
     }
