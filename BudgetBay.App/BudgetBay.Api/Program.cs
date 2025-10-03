@@ -78,8 +78,8 @@ public class Program
         // Services
         builder.Services.AddScoped<IAuthService, AuthService>();
         builder.Services.AddScoped<IUserService, UserService>();
+        builder.Services.AddScoped<IProductService, ProductService>();
         builder.Services.AddScoped<IBidService, BidService>();
-
         //Auto Mapper
         builder.Services.AddAutoMapper(typeof(Program));
 
@@ -103,6 +103,15 @@ public class Program
             };
         });
 
+        builder.Services.AddAuthorization();
+        // --- Add CORS Policy ---
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("AllowSpecificOrigin",
+                builder => builder.WithOrigins("http://localhost:5173") // Your frontend URL
+                                .AllowAnyHeader()
+                                .AllowAnyMethod());
+        });
 
         var app = builder.Build();
 
@@ -113,7 +122,9 @@ public class Program
             app.UseSwaggerUI();
         }
 
+        app.UseCors("AllowSpecificOrigin");
         app.UseHttpsRedirection();
+        app.UseAuthentication();
         app.UseAuthorization();
         app.MapControllers();
 
