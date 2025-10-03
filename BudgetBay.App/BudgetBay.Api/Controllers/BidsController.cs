@@ -90,7 +90,9 @@ namespace BudgetBay.Controllers
 
             bid = await _bidService.CreateBid(bid);
 
-            return bid is not null ? Created("/{bid.Id}/bids", bid) : BadRequest("Bid could not be created. Please check the provided data and try again.");
+            _logger.LogInformation($"Bid created successfully: ");
+
+            return bid is not null ? Ok(newBid) : BadRequest("Bid could not be created. Please check the provided data and try again.");
         }
 
     }
