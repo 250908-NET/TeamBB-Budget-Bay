@@ -25,7 +25,7 @@ namespace BudgetBay.Repositories
             return _context.Products.FirstOrDefaultAsync(product => product.Id == id);
         }
 
-        public async Task<Product> UpdateProductAsync(int productId, double price)
+        public async Task<Product?> UpdateProductAsync(int productId, double price)
         {
             var product = await _context.Products.FindAsync(productId);
             if (product == null)
@@ -38,7 +38,7 @@ namespace BudgetBay.Repositories
         }
 
         // Overloaded method to update the entire product
-        public async Task<Product> UpdateProductAsync(Product product)
+        public async Task<Product?> UpdateProductAsync(Product product)
         {
             _context.Products.Update(product);
             await _context.SaveChangesAsync();

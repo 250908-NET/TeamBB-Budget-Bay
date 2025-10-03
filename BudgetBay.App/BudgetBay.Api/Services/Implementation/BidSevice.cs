@@ -32,7 +32,7 @@ namespace BudgetBay.Services
             return await _bidRepo.GetAllAsync(); // call bid repo to get all bids
         } // get all bids
 
-        public async Task<Bid> CreateBid(Bid newBid)
+        public async Task<Bid?> CreateBid(Bid newBid)
         {
             var isValidBid = await _CheckValidBid(newBid, newBid.Amount); // check if the bid is valid
             if (isValidBid == false) // check if the product id is valid
@@ -53,7 +53,10 @@ namespace BudgetBay.Services
             var bidProducts = await GetBidsByProductId(productId); // get bid by id
             var bidUsers = await GetBidsByUserId(userId); // get bid by user id
 
-            List<Bid> bid = bidProducts.Intersect(bidUsers).ToList(); // get the bid that matches both product id and user id
+            List<Bid>? bid = null;
+            if (bidProducts is not null && bidUsers is not null)
+                bid = bidProducts.Intersect(bidUsers).ToList(); // get the bid that matches both product id and user id
+                
             if (bid == null || !bid.Any()) // check if the Id is valid, console will get a warning if not
             {
                 _logger.LogWarning($"no bids found for product ID {productId} and user ID {userId}");
@@ -73,7 +76,7 @@ namespace BudgetBay.Services
                 
             }
         } // cancel a bid
-        public async Task<List<Bid>> AuctionsWonByUserId(int userId)
+        public async Task<List<Bid>?> AuctionsWonByUserId(int userId)
         {
             var userBids = await GetBidsByUserId(userId); // get user by id
             List<Bid> wonBids = new List<Bid>();
@@ -109,7 +112,7 @@ namespace BudgetBay.Services
             return productBids.Max(b => b.Amount);
         } // get highest bid for a product
 
-        public async Task<List<Bid>> GetBidsByProductId(int ProductId)
+        public async Task<List<Bid>?> GetBidsByProductId(int ProductId)
         {
             var productBids = await _bidRepo.GetByProductIdAsync(ProductId); // get product by id
             if (productBids == null || !productBids.Any()) // check if Id is Valid or if there are any bids
@@ -119,7 +122,7 @@ namespace BudgetBay.Services
             }
             return productBids.ToList(); // return all bids for the product
         } // get bid by product id
-        public async Task<List<Bid>> GetBidsByUserId(int UserId)
+        public async Task<List<Bid>?> GetBidsByUserId(int UserId)
         {
             var userBids = await _bidRepo.GetByUserIdAsync(UserId); // get user by id
             if (userBids == null || !userBids.Any()) // check if Id is Valid or if there are any bids

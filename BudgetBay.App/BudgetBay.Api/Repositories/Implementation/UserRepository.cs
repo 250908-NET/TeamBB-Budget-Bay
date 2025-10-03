@@ -12,7 +12,7 @@ namespace BudgetBay.Repositories
         {
             _context = context;
         }
-        public async Task<User?> AddAsync(User user)
+        public async Task<User> AddAsync(User user)
         {
             var entityEntry = await _context.Users.AddAsync(user);
             await SaveChangesAsync();
@@ -65,5 +65,9 @@ namespace BudgetBay.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task<bool> UserExistsAsync(int id)
+        {
+            return await _context.Users.AnyAsync(u => u.Id == id);
+        }
     }
 }

@@ -67,13 +67,13 @@ namespace BudgetBay.Services
             return _productRepository.GetProductsByWinnerId(winnerId);
         }
 
-        public Task<Product> UpdateProductAsync(int productId, double price)
+        public Task<Product?> UpdateProductAsync(int productId, double price)
         {
             _logger.LogInformation($"Updating product with ID: {productId} to new price: {price}");
             return _productRepository.UpdateProductAsync(productId, price);
         }
 
-        public async Task<Product> UpdateProductAsync(int productId, UpdateProductDto productDto)
+        public async Task<Product?> UpdateProductAsync(int productId, UpdateProductDto productDto)
         {
             _logger.LogInformation($"Updating product with ID: {productId}");
             var currentProduct = await _productRepository.GetByIdAsync(productId);
