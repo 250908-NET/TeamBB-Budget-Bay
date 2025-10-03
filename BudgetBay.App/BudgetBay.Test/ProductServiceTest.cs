@@ -3,6 +3,7 @@ using Moq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using BudgetBay.Services;
+using BudgetBay.DTOs;
 using BudgetBay.Models;
 
 namespace BudgetBay.Test
