@@ -177,7 +177,7 @@ namespace BudgetBay.Test
             Assert.Single(result);
             Assert.Equal(100, result[0].SellerId);
         }
-
+        
         [Fact]
         public async Task GetProductsByWinnerId_ReturnsWinnerProducts()
         {
