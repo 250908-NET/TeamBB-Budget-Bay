@@ -1,0 +1,108 @@
+/* Main Two-Column Layout */
+.registerContainer {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+}
+
+.leftPanel {
+    flex: 1;
+    background-color: #fde047; /* Yellow color from the image */
+}
+
+.rightPanel {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff;
+}
+
+/* Content inside the right panel */
+.registerContent {
+    width: 100%;
+    max-width: 360px;
+    text-align: center;
+}
+
+.registerContent h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2rem;
+    letter-spacing: 0.5rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+    color: #666;
+}
+
+/* Form Styling */
+.registerForm {
+    width: 100%;
+}
+
+.formGroup {
+    margin-bottom: 1rem;
+}
+
+.formGroup input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.registerButton {
+    width: 100%;
+    padding: 0.8rem;
+    background-color: #7c3aed; /* Purple color from the image */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.registerButton:hover {
+    background-color: #6d28d9;
+}
+
+.registerButton:disabled {
+    background-color: #a78bfa; /* Lighter purple when disabled */
+    cursor: not-allowed;
+}
+
+.errorMessage {
+    color: #ef4444; /* Red for errors */
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.successMessage {
+    color: #22c55e; /* Green for success */
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.loginLink {
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+}
+
+.loginLink a {
+    color: #7c3aed;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.loginLink a:hover {
+    text-decoration: underline;
+}
