@@ -104,6 +104,15 @@ public class Program
         });
 
         builder.Services.AddAuthorization();
+        // --- Add CORS Policy ---
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("AllowSpecificOrigin",
+                builder => builder.WithOrigins("http://localhost:5173") // Your frontend URL
+                                .AllowAnyHeader()
+                                .AllowAnyMethod());
+        });
+
         var app = builder.Build();
 
         if (app.Environment.IsDevelopment())
@@ -113,6 +122,7 @@ public class Program
             app.UseSwaggerUI();
         }
 
+        app.UseCors("AllowSpecificOrigin");
         app.UseHttpsRedirection();
         app.UseAuthentication();
         app.UseAuthorization();
