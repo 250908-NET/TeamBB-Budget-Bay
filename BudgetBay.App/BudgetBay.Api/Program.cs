@@ -78,6 +78,7 @@ public class Program
         // Services
         builder.Services.AddScoped<IAuthService, AuthService>();
         builder.Services.AddScoped<IUserService, UserService>();
+        builder.Services.AddScoped<IProductService, ProductService>();
 
         //Auto Mapper
         builder.Services.AddAutoMapper(typeof(Program));
@@ -102,6 +103,7 @@ public class Program
             };
         });
 
+        builder.Services.AddAuthorization();
         // --- Add CORS Policy ---
         builder.Services.AddCors(options =>
         {
@@ -122,6 +124,7 @@ public class Program
 
         app.UseCors("AllowSpecificOrigin");
         app.UseHttpsRedirection();
+        app.UseAuthentication();
         app.UseAuthorization();
         app.MapControllers();
 

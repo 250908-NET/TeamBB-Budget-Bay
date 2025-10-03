@@ -43,6 +43,12 @@ namespace BudgetBay.Data
                 .HasForeignKey(b => b.ProductId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<Product>()
+                .HasOne(p => p.Seller)
+                .WithMany(s => s.ProductsForSale)
+                .HasForeignKey(p => p.SellerId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             modelBuilder.Entity<User>()
                 .HasOne(u => u.Address)
                 .WithOne()
