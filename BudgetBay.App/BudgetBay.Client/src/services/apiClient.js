@@ -12,8 +12,8 @@ export const loginRequest = async (email, password) => {
         if (!response.ok) {
             throw new Error('Login failed: ' + response.statusText);
         }
-        const data = await response.json();
-        return data;
+        
+        return response;
 
     } catch (error) {
         throw error;

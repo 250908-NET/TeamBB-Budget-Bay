@@ -1,9 +1,31 @@
-
+import { useContext } from "react";
+import { Link } from "react-router-dom";
+import { AuthContext } from "../../contexts/AuthContext";
+import './HomePage.module.css';
 
 const HomePage = () => {
+    const { token, logout } = useContext(AuthContext);
+
     return (
-        <div>
-            <h1>Home Page</h1>
+        <div className="homepage-container">
+            {token ? (
+                <div>
+                    <h1>Welcome Back!</h1>
+                    <p>You are logged in.</p>
+                    <Link to="/dashboard" className="dashboard-link">
+                        <button>Go to Dashboard</button>
+                    </Link>
+                    <button onClick={logout}>Logout</button>
+                </div>
+            ) : (
+                <div>
+                    <h1>Welcome to BudgetBay</h1>
+                    <p>Please log in to manage your budget.</p>
+                    <Link to="/login">
+                        <button>Login</button>
+                    </Link>
+                </div>
+            )}
         </div>
     )
 }
