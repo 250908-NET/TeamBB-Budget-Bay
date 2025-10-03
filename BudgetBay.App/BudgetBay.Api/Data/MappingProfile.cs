@@ -13,7 +13,7 @@ namespace BudgetBay.Data
 
             CreateMap<AddressDto, Address>().ForAllMembers(opt => opt.Condition((src, dest, srcMember) => srcMember != null));
 
-            CreateMap<Bid, BidDto>();
+            CreateMap<Bid, BidDto>().ReverseMap();
             
             CreateMap<Address, AddressDto>();
             CreateMap<Product, CreateProductDto>().ReverseMap();

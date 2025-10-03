@@ -80,7 +80,6 @@ public class Program
         builder.Services.AddScoped<IUserService, UserService>();
         builder.Services.AddScoped<IProductService, ProductService>();
         builder.Services.AddScoped<IBidService, BidService>();
-
         //Auto Mapper
         builder.Services.AddAutoMapper(typeof(Program));
 
