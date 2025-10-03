@@ -16,16 +16,18 @@ namespace BudgetBay.Controllers
     {
 
         private readonly ILogger<UsersController> _logger;
+        private readonly IMapper _mapper;
         private readonly IUserService _userService;
         private readonly IProductService _productService;
-        private readonly IMapper _mapper;
+        private readonly IBidService _bidService;
 
-        public UsersController(ILogger<UsersController> logger, IMapper mapper, IUserService userService, IProductService productService)
+        public UsersController(ILogger<UsersController> logger, IMapper mapper, IUserService userService, IProductService productService, IBidService bidService)
         {
             _logger = logger;
             _mapper = mapper;
             _userService = userService;
             _productService = productService;
+            _bidService = bidService;
         }
 
         [HttpGet("{id}", Name = "GetUserById")]
@@ -39,15 +41,26 @@ namespace BudgetBay.Controllers
         [HttpGet("{id}/bids", Name = "GetAllUserBids")]
         public async Task<IActionResult> GetAllUserBids(int id)
         {
-            throw new NotImplementedException();
+            _logger.LogInformation($"Getting all bids for user {id}");
+            var user = await _userService.GetUserInfo(id);
+            if (user is null)
+                return NotFound();
+            var bids = await _bidService.GetBidsByUserId(user.Id);
+            var bidDtos = _mapper.Map<List<BidDto>>(bids);
+            return Ok(bidDtos);
         }
 
         //sellers products
         [HttpGet("{id}/products", Name = "GetAllSellerProducts")]
         public async Task<IActionResult> GetAllSellersProducts(int id)
         {
-            throw new NotImplementedException();
-
+            _logger.LogInformation($"Getting all products user {id} is selling");
+            var user = await _userService.GetUserInfo(id);
+            if (user is null)
+                return NotFound();
+            var products = _productService.GetProductsBySellerId(user.Id);
+            var productsDtos = _mapper.Map<List<UpdateProductDto>>(products);
+            return Ok(productsDtos);
         }
 
         [HttpGet("{id}/won-auctions", Name = "GetAllAuctionsWonByUser")]
@@ -59,6 +72,8 @@ namespace BudgetBay.Controllers
         [HttpPost("{userId}/address", Name = "CreateUserAddress")]
         public async Task<IActionResult> CreateUserAddress(int userId, [FromBody] AddressDto dto)
         {
+            _logger.LogInformation($"Creating address for user {userId}");
+
             var user = await _userService.GetUserInfo(userId);
             if (user is null)
             {
@@ -77,12 +92,12 @@ namespace BudgetBay.Controllers
             await _userService.UpdateUser(user);
 
             return Ok(_mapper.Map<AddressDto>(newAddress));
-            // return CreatedAtRoute("GetUserAddress", new { userId }, _mapper.Map<AddressDto>(newAddress));
         }
 
         [HttpPut("{userId}/address", Name = "UpdateUserAddress")]
         public async Task<IActionResult> UpdateUserAddress(int userId, [FromBody] AddressDto dto)
         {
+            _logger.LogInformation($"Updating address for user {userId}");
             var user = await _userService.GetUserInfo(userId);
             if (user is null || !user.AddressId.HasValue)
             {
