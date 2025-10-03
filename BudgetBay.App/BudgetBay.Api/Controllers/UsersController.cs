@@ -66,7 +66,13 @@ namespace BudgetBay.Controllers
         [HttpGet("{id}/won-auctions", Name = "GetAllAuctionsWonByUser")]
         public async Task<IActionResult> GetAllAuctionsWonByUser(int id)
         {
-            throw new NotImplementedException();
+            _logger.LogInformation($"Getting all auctions won by user {id}");
+            var user = await _userService.GetUserInfo(id);
+            if (user is null)
+                return NotFound();
+            var auctionsWon = _bidService.AuctionsWonByUserId(user.Id);
+            var auctionsWonDto = _mapper.Map<List<BidDto>>(auctionsWon);
+            return Ok(auctionsWonDto);
         }
 
         [HttpPost("{userId}/address", Name = "CreateUserAddress")]
