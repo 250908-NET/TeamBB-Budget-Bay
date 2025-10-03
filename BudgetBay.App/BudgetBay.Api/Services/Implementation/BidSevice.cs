@@ -89,7 +89,7 @@ namespace BudgetBay.Services
                 {
                     var product = await _productRepo.GetByIdAsync(bid.ProductId); // get product by id
                     var highestBid = await GetHighestBid(bid.ProductId); // get highest bid for the product
-                    if (product != null && highestBid != null && highestBid.Value == bid.Amount) // check if the user is the winner of the auction
+                    if (product != null && highestBid != null && highestBid == bid.Amount) // check if the user is the winner of the auction
                     {
                         wonBids.Add(bid); // add the bid to the list of won bids
                     }
