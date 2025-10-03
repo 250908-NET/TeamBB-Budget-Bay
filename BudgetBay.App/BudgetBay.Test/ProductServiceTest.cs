@@ -3,7 +3,6 @@ using Moq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using BudgetBay.Services;
-using BudgetBay.DTOs;
 using BudgetBay.Models;
 
 namespace BudgetBay.Test
@@ -178,8 +177,29 @@ namespace BudgetBay.Test
             Assert.Single(result);
             Assert.Equal(100, result[0].SellerId);
         }
-        
-        [Fact]
+
+        /*[Fact]
+        public async Task UpdateProduct_ReturnsUpdatedProduct()
+        {
+            // Arrange
+            var updatedProduct = new Product
+            {
+                Id = 9,
+                Name = "Apple Watch",
+                Price = 9.35
+            };
+
+            _mockService.Setup(s => s.UpdateProductAsync(9, 9.35)).ReturnsAsync(updatedProduct);
+
+            // Act
+            var result = await _mockService.Object.UpdateProductAsync(9, 9.35);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal(9.35, result.Price);
+        }*/
+
+         [Fact]
         public async Task GetProductsByWinnerId_ReturnsWinnerProducts()
         {
             // Arrange
