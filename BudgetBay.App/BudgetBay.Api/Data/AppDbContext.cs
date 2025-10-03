@@ -12,7 +12,7 @@ namespace BudgetBay.Data
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
-             
+            
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -42,6 +42,12 @@ namespace BudgetBay.Data
                 .WithOne(b => b.Product)
                 .HasForeignKey(b => b.ProductId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Product>()
+                .HasOne(p => p.Seller)
+                .WithMany(s => s.ProductsForSale)
+                .HasForeignKey(p => p.SellerId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<User>()
                 .HasOne(u => u.Address)

@@ -15,5 +15,6 @@ namespace BudgetBay.Repositories
         public Task<List<Product>> GetProductsBySellerId(int sellerId);
         public Task<List<Product>> GetProductsByWinnerId(int winnerId);
         public Task<Product> UpdateProductAsync(int productId, double price);
+        public Task<Product> UpdateProductAsync(Product product);
     }
 }
