@@ -1,0 +1,14 @@
+.resultsContainer {
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.resultsContainer h1 {
+    margin-bottom: 20px;
+}
+
+.resultsContainer p {
+    font-size: 1.2rem;
+}

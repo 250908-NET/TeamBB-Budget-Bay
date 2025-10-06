@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthContext";
 import styles from './HomePage.module.css';
+import SearchBar from "../../components/common/SearchBar";
 
 const HomePage = () => {
     const { token, logout } = useContext(AuthContext);
@@ -26,6 +27,7 @@ const HomePage = () => {
                     </Link>
                 </div>
             )}
+        <SearchBar />
         </div>
     )
 }
