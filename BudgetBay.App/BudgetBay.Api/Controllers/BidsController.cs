@@ -69,9 +69,11 @@ namespace BudgetBay.Controllers
         {
             var bids = await _bidService.GetBidsByProductId(productId);
 
+            var format = _mapper.Map<List<UserBidDto>>(bids);
 
 
-            return bids is not null ? Ok(_mapper.Map<List<BidDto>>(bids)) : NotFound($"No bids found for product ID {productId}");
+
+            return bids is not null ? Ok(format) : NotFound($"No bids found for product ID {productId}");
         }
 
         // Get the highest bid on a product
