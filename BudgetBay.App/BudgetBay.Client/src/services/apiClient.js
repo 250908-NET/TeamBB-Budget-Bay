@@ -15,6 +15,28 @@ const getWithAuth = async (endpoint, token) => {
     return response.json();
 };
 
+// Helper for authenticated POST/PUT requests
+const postOrPutWithAuth = async (endpoint, method, body, token) => {
+    const response = await fetch(`${BASE}${endpoint}`, {
+        method: method,
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify(body),
+    });
+    if (!response.ok) {
+        if (response.status === 409) {
+             throw new Error("User already has an address. Use update instead.");
+        }
+        const errorText = await response.text();
+        throw new Error(errorText || 'Request failed');
+    }
+    if (response.status === 204 || response.status === 201) return true;
+    return response.json();
+};
+
+
 export const loginRequest = async (email, password) => {
     try {
         const response = await fetch(BASE + '/Auth/login', {
@@ -46,8 +68,8 @@ export const registerRequest = async (username, email, password) => {
         });
 
         if (!response.ok) {
-            const errorData = await response.json().catch(() => ({ message: response.statusText }));
-            throw new Error(errorData.message || 'Registration failed');
+            const errorText = await response.text();
+            throw new Error(errorText || 'Registration failed');
         }
 
         return true;
@@ -57,8 +79,11 @@ export const registerRequest = async (username, email, password) => {
     }
 };
 
-// --- New Functions for Dashboard ---
+// --- Dashboard Functions ---
 export const getUserById = (userId, token) => getWithAuth(`/Users/${userId}`, token);
+export const getUserAddress = (userId, token) => getWithAuth(`/Users/${userId}/address`, token);
 export const getUserProducts = (userId, token) => getWithAuth(`/Users/${userId}/products`, token);
 export const getUserBids = (userId, token) => getWithAuth(`/Users/${userId}/bids`, token);
 export const getWonAuctions = (userId, token) => getWithAuth(`/Users/${userId}/won-auctions`, token);
+export const updateUserAddress = (userId, addressData, token) => postOrPutWithAuth(`/Users/${userId}/address`, 'PUT', addressData, token);
+export const createUserAddress = (userId, addressData, token) => postOrPutWithAuth(`/Users/${userId}/address`, 'POST', addressData, token);

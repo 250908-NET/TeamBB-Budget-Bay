@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from 'react';
+import { createContext, useState, useEffect, useMemo, useCallback } from 'react';
 import useLocalStorage from '../hooks/useLocalStorage';
 import { loginRequest } from '../services/apiClient';
 import { jwtDecode } from 'jwt-decode';
@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
                 setUser(decodedUser);
             } catch (error) {
                 console.error("Failed to decode token:", error);
-                setToken(null);
+                setToken(null); 
                 setUser(null);
             }
         } else {
@@ -25,11 +25,12 @@ export const AuthProvider = ({ children }) => {
         }
     }, [token, setToken]);
 
-    const login = async (email, password) => {
+
+    const login = useCallback(async (email, password) => {
         setLoading(true);
         try {
             const receivedToken = await loginRequest(email, password);
-            setToken(receivedToken);
+            setToken(receivedToken); 
             setLoading(false);
             return true;
         }
@@ -38,13 +39,19 @@ export const AuthProvider = ({ children }) => {
             setLoading(false);
             return false;
         }
-    }
-    
-    const logout = () => {
-        setToken(null);
-    }
+    }, [setToken]);
 
-    const value = { token, user, loading, login, logout };
+    const logout = useCallback(() => {
+        setToken(null); // This will also trigger the useEffect
+    }, [setToken]); // Dependency: setToken
+
+    const value = useMemo(() => ({
+        token,
+        user,
+        loading,
+        login,
+        logout
+    }), [token, user, loading, login, logout]);
 
     return (
         <AuthContext.Provider value={value}>

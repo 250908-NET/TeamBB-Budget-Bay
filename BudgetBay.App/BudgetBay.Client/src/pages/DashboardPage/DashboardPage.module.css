@@ -1,8 +1,233 @@
-.dashboard-container {
-    padding: 40px 20px;
+.dashboardContainer {
+    padding: 40px;
+    max-width: 1400px;
+    margin: 20px auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.dashboard-container h1 {
-    border-bottom: 2px solid #007bff;
-    padding-bottom: 10px;
+.dashboardHeader {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.welcomeMessage {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: #111827; /* Darker Gray */
+    margin-bottom: 8px;
+}
+
+.dashboardHeader p {
+    font-size: 1.1rem;
+    color: #4b5563; /* Medium Gray */
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+
+.topGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.dashboardSection {
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb; /* Light Gray Border */
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+}
+
+.sectionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 15px;
+}
+
+.sectionTitle {
+    font-size: 1.75rem;
+    color: #374151; /* Dark Gray */
+    margin: 0;
+}
+
+.actionButton {
+    background-color: #6d28d9; /* Purple */
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.actionButton:hover {
+    background-color: #5b21b6; /* Darker Purple */
+    transform: translateY(-1px);
+}
+
+/* Grid for Products, Bids, and Won Auctions */
+.contentGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 25px;
+}
+
+.card {
+    background-color: #f9fafb; /* Off-white */
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 20px;
+    transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.card:hover {
+    border-color: #a78bfa; /* Light Purple */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.07);
+}
+
+.card h3 {
+    margin-top: 0;
+    color: #1f2937;
+    font-size: 1.2rem;
+}
+
+.card p {
+    margin: 8px 0 0;
+    color: #4b5563;
+}
+
+.emptyCard {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 150px;
+}
+
+.emptyText {
+    margin: 0 0 20px 0;
+    font-size: 1rem;
+    color: #6b7280;
+}
+
+.loading, .error, .empty {
+    text-align: center;
+    font-size: 1.1rem;
+    color: #6b7280;
+    padding: 50px 20px;
+    background-color: #fff;
+    border-radius: 12px;
+}
+
+/* Address Form Styles */
+.addressDisplay p {
+    margin: 4px 0;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.addressForm {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.addressForm input:nth-child(2), /* Street Name */
+.addressForm input:nth-child(3) { /* Apt Number */
+    grid-column: span 2;
+}
+
+.addressForm input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+.formActions {
+    grid-column: span 2;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+
+.cancelButton {
+    background-color: #e5e7eb;
+    color: #374151;
+}
+
+.cancelButton:hover {
+    background-color: #d1d5db;
+    transform: translateY(-1px);
+}
+
+.errorMessage {
+    color: #ef4444;
+    font-size: 0.9rem;
+    grid-column: span 2;
+}
+
+/* --- TABLET STYLES --- */
+@media (max-width: 1024px) {
+    .dashboardContainer {
+        padding: 30px;
+    }
+
+    /* Stack Info and Address sections */
+    .topGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .welcomeMessage {
+        font-size: 2.5rem;
+    }
+}
+
+/* --- MOBILE STYLES --- */
+@media (max-width: 768px) {
+    .dashboardContainer {
+        padding: 20px;
+        margin-top: 10px;
+    }
+
+    .welcomeMessage {
+        font-size: 2.1rem;
+    }
+
+    .sectionHeader {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .dashboardSection {
+        padding: 25px;
+    }
+
+    /* Make address form single-column on mobile */
+    .addressForm {
+        grid-template-columns: 1fr;
+    }
+    .addressForm input {
+        grid-column: span 1 !important;
+    }
+    .formActions {
+        grid-column: span 1;
+    }
+    .errorMessage {
+        grid-column: span 1;
+    }
 }
