@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 
 const useLocalStorage = (key, initialValue) => {
     const [storedValue, setStoredValue] = useState(() => {
@@ -14,17 +14,30 @@ const useLocalStorage = (key, initialValue) => {
         }
     });
 
-    const setValue = (value) => {
+    const setValue = useCallback((value) => {
         try {
-            const valueToStore = value instanceof Function ? value(storedValue) : value;
-            setStoredValue(valueToStore);
-            if (typeof window !== 'undefined') {
-                window.localStorage.setItem(key, JSON.stringify(valueToStore));
-            }
+            // By using the functional update form of useState's setter,
+            // we can ensure `setValue` itself doesn't need `storedValue` in its
+            // dependency array, making the setter function stable across renders.
+            setStoredValue(prevValue => {
+                const valueToStore = value instanceof Function ? value(prevValue) : value;
+                
+                if (typeof window !== 'undefined') {
+                    // A small improvement: remove the item if the value is null/undefined
+                    // instead of storing the string "null".
+                    if (valueToStore === null || valueToStore === undefined) {
+                        window.localStorage.removeItem(key);
+                    } else {
+                        window.localStorage.setItem(key, JSON.stringify(valueToStore));
+                    }
+                }
+                
+                return valueToStore;
+            });
         } catch (error) {
             console.error(error);
         }
-    };
+    }, [key]);
 
     return [storedValue, setValue];
 };

@@ -115,13 +115,9 @@ namespace BudgetBay.Controllers
             
             _logger.LogInformation($"Getting address for user {userId}");
             var user = await _userService.GetUserInfo(userId);
-            if (user is null)
+            if (user is null || !user.AddressId.HasValue)
             {
                 return NotFound("User not found.");
-            }
-            if (!user.AddressId.HasValue)
-            {
-                return Ok(new AddressDto());
             }
 
             var address = await _userService.GetUserAddressAsync(user.AddressId.Value);
