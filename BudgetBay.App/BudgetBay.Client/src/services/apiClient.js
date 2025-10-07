@@ -1,5 +1,20 @@
 const BASE = 'http://localhost:5192/api';
 
+// Helper for authenticated GET requests
+const getWithAuth = async (endpoint, token) => {
+    const response = await fetch(`${BASE}${endpoint}`, {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        },
+    });
+    if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ message: response.statusText }));
+        throw new Error(errorData.message || 'Failed to fetch data');
+    }
+    return response.json();
+};
+
 export const loginRequest = async (email, password) => {
     try {
         const response = await fetch(BASE + '/Auth/login', {
@@ -13,8 +28,7 @@ export const loginRequest = async (email, password) => {
             const errorData = await response.json().catch(() => ({ message: response.statusText }));
             throw new Error(errorData.message || 'Login failed');
         }
-        
-        return response;
+        return await response.text();
 
     } catch (error) {
         throw error;
@@ -42,3 +56,9 @@ export const registerRequest = async (username, email, password) => {
         throw error;
     }
 };
+
+// --- New Functions for Dashboard ---
+export const getUserById = (userId, token) => getWithAuth(`/Users/${userId}`, token);
+export const getUserProducts = (userId, token) => getWithAuth(`/Users/${userId}/products`, token);
+export const getUserBids = (userId, token) => getWithAuth(`/Users/${userId}/bids`, token);
+export const getWonAuctions = (userId, token) => getWithAuth(`/Users/${userId}/won-auctions`, token);
