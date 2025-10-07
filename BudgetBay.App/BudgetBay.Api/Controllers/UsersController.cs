@@ -104,6 +104,26 @@ namespace BudgetBay.Controllers
             return Ok(auctionsWonDto);
         }
 
+        [HttpGet("{userId}/address", Name = "GetUserAddress")]
+        public async Task<IActionResult> GetUserAddress(int userId)
+        {
+            var authenticatedUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (authenticatedUserId == null || userId != int.Parse(authenticatedUserId))
+            {
+                return Forbid();
+            }
+            
+            _logger.LogInformation($"Getting address for user {userId}");
+            var user = await _userService.GetUserInfo(userId);
+            if (user is null || !user.AddressId.HasValue)
+            {
+                return NotFound("User or address not found.");
+            }
+
+            var address = await _userService.GetUserAddressAsync(user.AddressId.Value);
+            return Ok(_mapper.Map<AddressDto>(address));
+        }
+
         [HttpPost("{userId}/address", Name = "CreateUserAddress")]
         public async Task<IActionResult> CreateUserAddress(int userId, [FromBody] AddressDto dto)
         {
