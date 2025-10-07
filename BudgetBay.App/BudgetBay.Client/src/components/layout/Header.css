@@ -1,0 +1,16 @@
+.header {
+    padding: 4px; /* Equivalent to p-4 in Tailwind */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    height: 4rem; /* Equivalent to h-8 in Tailwind */
+}
+
+.nav-links {
+    display: flex;
+    gap: 1rem; /* Equivalent to space-x-4 in Tailwind */
+    list-style: none;
+}

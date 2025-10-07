@@ -1,43 +1,59 @@
-import { Link, useLocation } from 'react-router-dom';
-import logo from '../../assets/full-logo.png';
+import React, { useContext } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { AuthContext } from "../../contexts/AuthContext";
+import logo from "../../assets/full-logo.png";
+import "./Header.css";
 
 const Header = () => {
-    const location = useLocation();
-    const currentPath = location.pathname;
+  const location = useLocation();
+  const currentPath = location.pathname;
+  const { user, logout } = useContext(AuthContext);
 
-    return (
-        <header className='p-4 flex justify-between items-center'>
-            <div>
-                <Link to="/">
-                    <img src={logo} alt="BudgetBay Logo" className="h-8" />
-                </Link>
-            </div>
-            <nav>
-                <ul className='flex space-x-4'>
-                    {currentPath === '/login' && (
-                        <li>
-                            <Link to="/signup">Sign Up</Link>
-                        </li>
-                    )}
-                    {currentPath === '/signup' && (
-                        <li>
-                            <Link to="/login">Login</Link>
-                        </li>
-                    )}
-                    {currentPath !== '/login' && currentPath !== '/signup' && (
-                        <>
-                            <li>
-                                <Link to="/login">Login</Link>
-                            </li>
-                            <li>
-                                <Link to="/signup">Sign Up</Link>
-                            </li>
-                        </>
-                    )}
-                </ul>
-            </nav>
-        </header>
-    );
+  const handleSignOut = () => {
+    logout();
+  };
+
+  return (
+    <header className="header">
+      <div>
+        <Link to="/">
+          <img src={logo} alt="BudgetBay Logo" className="logo" />
+        </Link>
+      </div>
+      <nav>
+        <ul className="nav-links">
+          {user ? (
+            <li>
+              <a onClick={handleSignOut}>Sign Out</a>
+            </li>
+          ) : (
+            <>
+              {currentPath === "/login" && (
+                <li>
+                  <Link to="/signup">Sign Up</Link>
+                </li>
+              )}
+              {currentPath === "/signup" && (
+                <li>
+                  <Link to="/login">Login</Link>
+                </li>
+              )}
+              {currentPath !== "/login" && currentPath !== "/signup" && (
+                <>
+                  <li>
+                    <Link to="/login">Login</Link>
+                  </li>
+                  <li>
+                    <Link to="/signup">Sign Up</Link>
+                  </li>
+                </>
+              )}
+            </>
+          )}
+        </ul>
+      </nav>
+    </header>
+  );
 };
 
 export default Header;
