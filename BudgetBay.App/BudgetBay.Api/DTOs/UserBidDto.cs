@@ -5,10 +5,9 @@ using System.Text.Json.Serialization;
 namespace BudgetBay.DTOs
 {
 
-    public class BidDto
+    public class UserBidDto
     {
+        public string Username { get; set; }
         public decimal Amount { get; set; }
-        public int? ProductId { get; set; } = null;
-        public int BidderId { get; set; }
     }
 }
