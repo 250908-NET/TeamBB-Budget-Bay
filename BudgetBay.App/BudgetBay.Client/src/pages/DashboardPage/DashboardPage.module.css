@@ -1,7 +1,3 @@
-/*C:\Users\Husan\Projects\Revature\TeamBB-Budget-Bay\BudgetBay.App\BudgetBay.Client\src\pages\DashboardPage\DashboardPage.module.css*/
-
-/* --- BASE & DESKTOP STYLES (Desktop-First Approach) --- */
-
 .dashboardContainer {
     padding: 40px;
     max-width: 1400px;
@@ -28,7 +24,7 @@
     margin: 0 auto;
 }
 
-/* Two-column layout for Info and Address sections */
+
 .topGrid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -108,18 +104,17 @@
     color: #4b5563;
 }
 
-/* NEW STYLES for the empty address card */
 .emptyCard {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
-    min-height: 150px; /* Ensures it has a decent height */
+    min-height: 150px;
 }
 
 .emptyText {
-    margin: 0 0 20px 0; /* Space between text and button */
+    margin: 0 0 20px 0;
     font-size: 1rem;
     color: #6b7280;
 }

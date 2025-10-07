@@ -16,15 +16,10 @@ const useLocalStorage = (key, initialValue) => {
 
     const setValue = useCallback((value) => {
         try {
-            // By using the functional update form of useState's setter,
-            // we can ensure `setValue` itself doesn't need `storedValue` in its
-            // dependency array, making the setter function stable across renders.
             setStoredValue(prevValue => {
                 const valueToStore = value instanceof Function ? value(prevValue) : value;
                 
                 if (typeof window !== 'undefined') {
-                    // A small improvement: remove the item if the value is null/undefined
-                    // instead of storing the string "null".
                     if (valueToStore === null || valueToStore === undefined) {
                         window.localStorage.removeItem(key);
                     } else {
