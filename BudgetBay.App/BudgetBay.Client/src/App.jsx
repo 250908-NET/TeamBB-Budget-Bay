@@ -6,9 +6,12 @@ import RegisterPage from './pages/RegisterPage/RegisterPage';
 import DashboardPage from './pages/DashboardPage/DashboardPage';
 import SearchResultsPage from './pages/SearchResultsPage/SearchResultsPage';
 import ProtectedRoute from './components/auth/ProtectedRoute';
+import { Header } from './components/layout';
 
 function App() {
   return (
+    <>
+    <Header />
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/login" element={<LoginPage />} />
@@ -23,6 +26,7 @@ function App() {
         } 
       />
     </Routes>
+    </>
   )
 }
 
