@@ -24,11 +24,19 @@ const Header = () => {
             <nav>
                 <ul className='nav-links'>
                     {user ? (
-                        <li>
-                           <button onClick={handleSignOut} className="nav-btn">
-                                Sign Out
-                            </button>
-                        </li>
+                        <>
+                            <li>
+                                <button onClick={() => navigate('/dashboard')} className="nav-btn">
+                                        My Dashboard
+                                </button>
+                            </li>
+                            <li>
+                                <button onClick={handleSignOut} className="nav-btn">
+                                        Sign Out
+                                </button>
+                            </li>
+                        </>
+
                     ) : (
                         <>
                             {currentPath === '/login' && (
