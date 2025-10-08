@@ -7,6 +7,7 @@ import styles from './CatalogItem.module.css';
 
 const CatalogItem = ({Product}) => {
 
+    const navigate = useNavigate();
     
     
 
@@ -16,7 +17,7 @@ const CatalogItem = ({Product}) => {
                 <img className={styles.elementImage} src={Product.imageUrl} alt={Product.name} />
             </div>
             <div className={styles.elementData}>
-                <h2>{Product.name}</h2>
+                <a onClick={() => navigate(`/products/${Product.id}`)}>{Product.name}</a>
                 <h4>Current Bid: ${Product.currentPrice}</h4>
                 <div className={styles.DataDescription}>
                     <p className={styles.DataTitle}>Description:</p>

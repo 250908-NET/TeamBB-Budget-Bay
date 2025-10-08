@@ -39,11 +39,11 @@ const SearchResultsPage = () => {
                 <p>No query, will return all products by default.</p>
             )}
             {/* ✅ Wait until Products is populated */}
-            {Products.length > 0 ? (
+            {/*{Products.length > 0 ? (
                 <CatalogItem Product={Products[1]} />
             ) : (
                 <p>Loading products...</p>
-            )}
+            )}*/}
         </div>
     );
 };
