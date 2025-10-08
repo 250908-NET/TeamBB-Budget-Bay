@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Link, useLocation , useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthContext';
-import logo from '../../assets/full-logo.png';
+import logo from '../../assets/logo-row.png';
 import './Header.css';
 
 const Header = () => {

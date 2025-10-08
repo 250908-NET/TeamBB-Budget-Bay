@@ -3,10 +3,11 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background-color: white;
 }
 
 .logo {
-    height: 4rem; /* Equivalent to h-8 in Tailwind */
+    height: 2.5rem; /* Equivalent to h-8 in Tailwind */
 }
 
 .nav-links {
