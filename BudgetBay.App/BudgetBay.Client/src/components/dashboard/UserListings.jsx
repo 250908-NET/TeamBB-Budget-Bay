@@ -6,7 +6,7 @@ const UserListings = ({ listings }) => {
         <section className={styles.dashboardSection}>
             <div className={styles.sectionHeader}>
                 <h2 className={styles.sectionTitle}>My Products For Sale</h2>
-                <Link to="/add-product" className={styles.actionButton}>Add New Product</Link>
+                <Link to="/products/create" className={styles.actionButton}>Add New Product</Link>
             </div>
             {listings.length > 0 ? (
                 <div className={styles.contentGrid}>
