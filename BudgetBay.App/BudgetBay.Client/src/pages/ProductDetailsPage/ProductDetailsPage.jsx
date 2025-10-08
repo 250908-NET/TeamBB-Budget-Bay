@@ -1,6 +1,8 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { useParams } from 'react-router-dom';
-import { getProductById } from '../../services/apiClient';
+/*C:\Users\Husan\Projects\Revature\TeamBB-Budget-Bay\BudgetBay.App\BudgetBay.Client\src\pages\ProductDetailsPage\ProductDetailsPage.jsx*/
+import React, { useState, useEffect, useCallback, useContext } from 'react';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { getProductById, placeBid } from '../../services/apiClient';
+import { AuthContext } from '../../contexts/AuthContext';
 import ProductDetails from '../../components/product/ProductDetails';
 import BidForm from '../../components/product/BidForm';
 import AuctionInfo from '../../components/product/AuctionInfo';
@@ -13,13 +15,18 @@ const ProductDetailsPage = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState('');
     const [bidError, setBidError] = useState('');
+    const [bidAmount, setBidAmount] = useState('');
+    const [isBidding, setIsBidding] = useState(false);
+
+    const { user, token } = useContext(AuthContext);
+    const navigate = useNavigate();
+    const location = useLocation();
 
     const fetchProduct = useCallback(async () => {
         try {
             setError('');
             setIsLoading(true);
             const data = await getProductById(productId);
-            // Sort bids from highest to lowest before setting state
             if (data.bids) {
                 data.bids.sort((a, b) => b.amount - a.amount);
             }
@@ -36,11 +43,37 @@ const ProductDetailsPage = () => {
         fetchProduct();
     }, [fetchProduct]);
 
-    const handleBidSubmit = (bidAmount) => {
-        console.log(`Bid placed for ${bidAmount} on product ${productId}`);
-        setBidError(''); // clear previous errors
-        // Add actual bid submission logic here
-        // After successful bid, call fetchProduct() to refresh data
+    const handleBidSubmit = async (e) => {
+        e.preventDefault();
+        setBidError('');
+
+        if (!user || !token) {
+            navigate('/login', { state: { from: location } });
+            return;
+        }
+
+        const bidValue = parseFloat(bidAmount);
+        if (isNaN(bidValue) || bidValue <= product.currentPrice) {
+            setBidError(`Your bid must be higher than $${product.currentPrice.toFixed(2)}.`);
+            return;
+        }
+
+        setIsBidding(true);
+        try {
+            const bidData = {
+                amount: bidValue,
+                bidderId: user.sub,
+            };
+            
+            await placeBid(productId, bidData, token);
+
+            setBidAmount(''); // Clear input on success
+            await fetchProduct(); // Refresh product data to show new bid
+        } catch (err) {
+            setBidError(err.message || 'Failed to place bid. Please try again.');
+        } finally {
+            setIsBidding(false);
+        }
     };
 
     if (isLoading) {
@@ -61,7 +94,6 @@ const ProductDetailsPage = () => {
         <main className={styles.productDetailsContainer}>
             <div className={styles.layoutGrid}>
                 <div className={styles.mainContent}>
-                    {/* Removed unused props onBidSubmit and error */}
                     <ProductDetails product={product} />
                 </div>
                 <div className={styles.sidebarContent}>
@@ -71,19 +103,12 @@ const ProductDetailsPage = () => {
                         isAuctionActive={isAuctionActive} 
                         onSubmit={handleBidSubmit} 
                         error={bidError}
+                        bidAmount={bidAmount}
+                        onBidChange={(e) => setBidAmount(e.target.value)}
+                        isBidding={isBidding}
+                        isLoggedIn={!!user}
                     />
-                    {/* Pass the actual bids from the product object */}
-                    <BidHistory bidsList={product.bids || [
-                        {username: "bobby", amount: 1.20},
-                        {username: "bobby", amount: 1.20},
-                        {username: "bobby", amount: 1.20},
-                        {username: "bobby", amount: 1.20},
-                        {username: "bobby", amount: 1.20},
-                        {username: "bobby", amount: 1.20},
-                        {username: "bobby", amount: 1.20},
-                        {username: "bobby", amount: 1.20},
-                        {username: "bobby", amount: 1.20},
-                    ]} />
+                    <BidHistory bidsList={product.bids || []} />
                 </div>
             </div>
         </main>

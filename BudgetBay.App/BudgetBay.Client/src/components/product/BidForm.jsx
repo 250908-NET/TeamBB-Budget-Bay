@@ -1,40 +1,45 @@
-import { useState } from 'react';
+/*C:\Users\Husan\Projects\Revature\TeamBB-Budget-Bay\BudgetBay.App\BudgetBay.Client\src\components\product\BidForm.jsx*/
 import styles from '../../pages/ProductDetailsPage/ProductDetailsPage.module.css';
 
-const BidForm = ({ product, isAuctionActive, error, onSubmit }) => {
-    const [bidAmount, setBidAmount] = useState('');
-
-    const handleBidChange = (e) => {
-        setBidAmount(e.target.value);
-    }
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Call the submission handler from the parent component
-        if (bidAmount) {
-            onSubmit(bidAmount);
-            setBidAmount(''); // Clear the input after submission
-        }
-    };
+const BidForm = ({ 
+    product, 
+    isAuctionActive, 
+    error, 
+    onSubmit,
+    bidAmount,
+    onBidChange,
+    isBidding,
+    isLoggedIn
+}) => {
 
     return (
         <section className={styles.widget}>
             {isAuctionActive ? (
-                <form className={styles.bidForm} onSubmit={handleSubmit}>
+                <form className={styles.bidForm} onSubmit={onSubmit}>
                     <div className={styles.bidInputGroup}>
                         <span className={styles.currencySymbol}>$</span>
                         <input
                             type="number"
                             className={styles.bidInput}
                             value={bidAmount}
-                            onChange={handleBidChange}
+                            onChange={onBidChange}
                             placeholder={`Min bid $${(product.currentPrice + 0.01).toFixed(2)}`}
                             step="0.01"
                             min={product.currentPrice + 0.01}
                             required
+                            disabled={!isLoggedIn || isBidding}
                         />
                     </div>
-                    <button type="submit" className={styles.bidButton}>Place Bid</button>
+                    <button 
+                        type="submit" 
+                        className={styles.bidButton} 
+                        disabled={isBidding || !isLoggedIn || !bidAmount}
+                    >
+                        {isBidding 
+                            ? 'Placing Bid...' 
+                            : isLoggedIn ? 'Place Bid' : 'Login to Bid'
+                        }
+                    </button>
                 </form>
             ) : (
                 <div className={styles.auctionEndedMessage}>
