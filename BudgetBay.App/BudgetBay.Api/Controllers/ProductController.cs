@@ -17,7 +17,6 @@ namespace BudgetBay.Controllers
 
         //Get all products
         [HttpGet]
-        [Authorize]
         public async Task<IActionResult> GetAllAsync()
         {
             try
@@ -34,7 +33,6 @@ namespace BudgetBay.Controllers
 
         //Get specified product by id
         [HttpGet("{id}")]
-        [Authorize]
         public async Task<IActionResult> GetByIdAsync(int id)
         {
             try
