@@ -14,6 +14,16 @@ const getWithAuth = async (endpoint, token) => {
     }
     return response.json();
 };
+const getWithoutAuth = async (endpoint) => {
+    const response = await fetch(`${BASE}${endpoint}`, {
+        method: 'GET',
+    });
+    if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ message: response.statusText }));
+        throw new Error(errorData.message || 'Failed to fetch data');
+    }
+    return response.json();
+};
 
 // Helper for authenticated POST/PUT requests
 const postOrPutWithAuth = async (endpoint, method, body, token) => {
@@ -87,3 +97,7 @@ export const getUserBids = (userId, token) => getWithAuth(`/Users/${userId}/bids
 export const getWonAuctions = (userId, token) => getWithAuth(`/Users/${userId}/won-auctions`, token);
 export const updateUserAddress = (userId, addressData, token) => postOrPutWithAuth(`/Users/${userId}/address`, 'PUT', addressData, token);
 export const createUserAddress = (userId, addressData, token) => postOrPutWithAuth(`/Users/${userId}/address`, 'POST', addressData, token);
+
+// --- Catalog Functions ---
+export const getAllProducts = () => getWithoutAuth(`/Product`);
+export const GetHighestBidByProductId = (productId) => getWithAuth(`/Products/${productId}/bids/highest`);

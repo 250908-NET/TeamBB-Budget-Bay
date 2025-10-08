@@ -1,0 +1,38 @@
+.catalogContainer {
+    display: flex;
+    /* Rectangle container*/
+    width: 190%;
+    height: 120px;
+    border: 1px solid black;
+}
+.elementImage {
+    /* Image */
+    width: 140px;
+    height: 100%;
+    border: 1px solid black;
+}
+.elementData {
+    /* Element data */
+    width: 100%;
+    display: flex;
+    position: relative;
+    flex-direction: column;
+}
+.elementData * {
+    margin-top: 0;
+    margin-left: 50px;
+    margin-bottom: 0;
+    text-align: left;
+    
+}
+.DataDescription p {
+
+    font-size: 10px !important;
+    margin-left: 10px !important;
+}
+.DataTitle {
+    font-weight: bolder;
+}
+.DataDetial {
+    color: grey;
+}
