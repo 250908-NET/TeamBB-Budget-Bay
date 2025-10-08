@@ -31,10 +31,6 @@ const ProductDetails = ({ product, isAuctionActive, onBidSubmit, error }) => {
 
                     <div className={styles.infoGrid}>
                         <div>
-                            <span className={styles.infoLabel}>Category</span>
-                            <p className={styles.infoValue}>{product.category}</p>
-                        </div>
-                        <div>
                             <span className={styles.infoLabel}>Starting Price</span>
                             <p className={styles.infoValue}>${product.startingPrice.toFixed(2)}</p>
                         </div>
