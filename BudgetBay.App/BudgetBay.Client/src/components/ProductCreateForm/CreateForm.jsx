@@ -15,6 +15,8 @@ const CreateForm = () => {
     sellerId: "",
     startingPrice: "0.01",
   });
+  const [message, setMessage] = useState("");
+  const [messageType, setMessageType] = useState(""); 
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -25,8 +27,23 @@ const CreateForm = () => {
     });
   };
 
+  const handleDateTimeChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      sellerId: user ? user.sub : "",
+      [name]: value,
+    });
+    // Close the datetime picker after selection
+    e.target.blur();
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Clear any existing messages
+    setMessage("");
+    setMessageType("");
 
     try {
       const response = await fetch(`${BASE}/product`, {
@@ -39,18 +56,45 @@ const CreateForm = () => {
       });
 
       if (response.ok) {
-        alert("✅ Product created successfully!");
+        setMessage("✅ Product created successfully!");
+        setMessageType("success");
+        // Reset form after successful submission
+        setFormData({
+          name: "",
+          description: "",
+          imageUrl: "",
+          condition: "",
+          startTime: "",
+          endTime: "",
+          sellerId: user ? user.sub : "",
+          startingPrice: "0.01",
+        });
+        
+        // Clear success message after 5 seconds
+        setTimeout(() => {
+          setMessage("");
+          setMessageType("");
+        }, 5000);
       } else {
-        alert("❌ Failed to create product");
+        setMessage("❌ Failed to create product");
+        setMessageType("error");
       }
     } catch (error) {
       console.error("Error:", error);
+      setMessage("❌ An error occurred while creating the product");
+      setMessageType("error");
     }
   };
 
   return (
     <form className="create-form" onSubmit={handleSubmit}>
-      <h2>Create Product</h2>
+      
+
+      {message && (
+        <div className={`message ${messageType}`}>
+          {message}
+        </div>
+      )}
 
       <label>Name</label>
       <input
@@ -69,8 +113,13 @@ const CreateForm = () => {
         required
       />
 
-      <label>imageUrl</label>
-      <input type="text" name="imageUrl" onChange={handleChange} />
+      <label>ImageUrl</label>
+      <input 
+        type="text" 
+        name="imageUrl" 
+        value={formData.imageUrl}
+        onChange={handleChange} 
+      />
 
       <label>Condition</label>
       <select
@@ -89,7 +138,7 @@ const CreateForm = () => {
         type="datetime-local"
         name="startTime"
         value={formData.startTime}
-        onChange={handleChange}
+        onChange={handleDateTimeChange}
         required
       />
 
@@ -98,7 +147,7 @@ const CreateForm = () => {
         type="datetime-local"
         name="endTime"
         value={formData.endTime}
-        onChange={handleChange}
+        onChange={handleDateTimeChange}
         required
       />
 
