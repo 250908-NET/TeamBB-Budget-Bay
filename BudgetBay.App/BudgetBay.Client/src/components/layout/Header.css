@@ -1,0 +1,33 @@
+.header {
+    padding: 4px; /* Equivalent to p-4 in Tailwind */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    height: 4rem; /* Equivalent to h-8 in Tailwind */
+}
+
+.nav-links {
+    display: flex;
+    gap: 1rem; /* Equivalent to space-x-4 in Tailwind */
+    list-style: none;
+}
+
+.nav-btn {
+    background-color: #6d28d9; /* Purple */
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.nav-btn:hover {
+    background-color: #5b21b6; /* Darker Purple */
+}
