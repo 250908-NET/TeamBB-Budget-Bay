@@ -16,10 +16,9 @@ const SearchResultsPage = () => {
         }
         async function fetchProducts() {
             try {
-                await getAllProducts().then(data => {
-                    setProducts(data);
-                    console.log("Fetched products:", data);
-                });
+                const allProducts = await getAllProducts();
+                console.log("Fetched products:", allProducts);
+                setProducts(allProducts);
 
          }
             catch (error) {
@@ -39,7 +38,12 @@ const SearchResultsPage = () => {
             ) : (
                 <p>No query, will return all products by default.</p>
             )}
-            <CatalogItem Product={Products[1]} />
+            {/* ✅ Wait until Products is populated */}
+            {Products.length > 0 ? (
+                <CatalogItem Product={Products[1]} />
+            ) : (
+                <p>Loading products...</p>
+            )}
         </div>
     );
 };

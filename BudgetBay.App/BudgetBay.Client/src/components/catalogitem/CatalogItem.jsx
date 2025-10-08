@@ -13,14 +13,14 @@ const CatalogItem = ({Product}) => {
     return(
         <section className={styles.catalogContainer}>
             <div className={styles.elementImage}>
-                Catalog Component Placeholder
+                <img className={styles.elementImage} src={Product.imageUrl} alt={Product.name} />
             </div>
             <div className={styles.elementData}>
-                <h2>{Product.Name}</h2>
-                <h4>Current Bid: {Product.CurrentBid}</h4>
+                <h2>{Product.name}</h2>
+                <h4>Current Bid: ${Product.currentPrice}</h4>
                 <div className={styles.DataDescription}>
                     <p className={styles.DataTitle}>Description:</p>
-                    <p className={styles.DataDetial}>{Product.Description}</p>
+                    <p className={styles.DataDetail}>{Product.description}</p>
                 </div>
             </div>
         </section>
