@@ -30,6 +30,10 @@ const ProductDetails = ({ product }) => {
                             <span className={styles.infoLabel}>Starting Price</span>
                             <p className={styles.infoValue}>${product.startingPrice.toFixed(2)}</p>
                         </div>
+                        <div>
+                            <span className={styles.infoLabel}>Seller</span>
+                            <p className={styles.infoValue}>{product.seller?.username || 'N/A'}</p>
+                        </div>
                     </div>
                 </div>
             </div>

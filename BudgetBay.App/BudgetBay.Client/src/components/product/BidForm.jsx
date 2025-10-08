@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styles from '../../pages/ProductDetailsPage/ProductDetailsPage.module.css';
 
-const BidForm = ({ product, isAuctionActive, error }) => {
+const BidForm = ({ product, isAuctionActive, error, onSubmit }) => {
     const [bidAmount, setBidAmount] = useState('');
 
     const handleBidChange = (e) => {
@@ -10,7 +10,11 @@ const BidForm = ({ product, isAuctionActive, error }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Handle submission logic here
+        // Call the submission handler from the parent component
+        if (bidAmount) {
+            onSubmit(bidAmount);
+            setBidAmount(''); // Clear the input after submission
+        }
     };
 
     return (

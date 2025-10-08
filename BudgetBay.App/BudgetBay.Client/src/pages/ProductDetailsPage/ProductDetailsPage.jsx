@@ -23,6 +23,7 @@ const ProductDetailsPage = () => {
             if (data.bids) {
                 data.bids.sort((a, b) => b.amount - a.amount);
             }
+            console.log(data);
             setProduct(data);
         } catch (err) {
             setError(err.message || 'Failed to fetch product details.');
@@ -72,7 +73,7 @@ const ProductDetailsPage = () => {
                         error={bidError}
                     />
                     {/* Pass the actual bids from the product object */}
-                    <BidHistory bidsList={!product.bids || [
+                    <BidHistory bidsList={product.bids || [
                         {username: "bobby", amount: 1.20},
                         {username: "bobby", amount: 1.20},
                         {username: "bobby", amount: 1.20},
