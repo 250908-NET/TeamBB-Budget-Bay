@@ -1,5 +1,18 @@
 export const BASE = 'http://localhost:5192/api';
 
+// Helper for GET requests
+const get = async (endpoint) => {
+    const response = await fetch(`${BASE}${endpoint}`, {
+        method: 'GET'
+    });
+    if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ message: response.statusText }));
+        throw new Error(errorData.message || 'Failed to fetch data');
+    }
+    return response.json();
+};
+
+
 // Helper for authenticated GET requests
 const getWithAuth = async (endpoint, token) => {
     const response = await fetch(`${BASE}${endpoint}`, {
@@ -7,6 +20,16 @@ const getWithAuth = async (endpoint, token) => {
         headers: {
             'Authorization': `Bearer ${token}`,
         },
+    });
+    if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ message: response.statusText }));
+        throw new Error(errorData.message || 'Failed to fetch data');
+    }
+    return response.json();
+};
+const getWithoutAuth = async (endpoint) => {
+    const response = await fetch(`${BASE}${endpoint}`, {
+        method: 'GET',
     });
     if (!response.ok) {
         const errorData = await response.json().catch(() => ({ message: response.statusText }));
@@ -78,6 +101,11 @@ export const registerRequest = async (username, email, password) => {
         throw error;
     }
 };
+
+
+
+// --- Product Details Functions ---
+export const getProductById =  (productId) => get(`/Product/${productId}`);
 
 // --- Dashboard Functions ---
 export const getUserById = (userId, token) => getWithAuth(`/Users/${userId}`, token);
