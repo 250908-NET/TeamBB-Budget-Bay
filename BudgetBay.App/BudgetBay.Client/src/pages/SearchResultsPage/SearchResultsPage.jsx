@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import styles from './SearchResultsPage.module.css';
+import Catalog from '../../components/catalog/Catalog';
 
 const SearchResultsPage = () => {
     const [searchParams] = useSearchParams();
@@ -20,6 +21,7 @@ const SearchResultsPage = () => {
             ) : (
                 <p>No query, will return all products by default.</p>
             )}
+            <Catalog />
         </div>
     );
 };
