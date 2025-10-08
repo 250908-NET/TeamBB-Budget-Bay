@@ -82,7 +82,6 @@ const DashboardPage = () => {
     
     useEffect(() => {
         fetchDashboardData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user, token]);
 
     const handleAddressChange = (e) => {
