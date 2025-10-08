@@ -4,21 +4,23 @@ import { AuthContext } from "../../contexts/AuthContext";
 import { BASE } from "../../services/apiClient";
 
 const CreateForm = () => {
-  const { token } = useContext(AuthContext);
+  const { token, user } = useContext(AuthContext);
   const [formData, setFormData] = useState({
     name: "",
     description: "",
-    image: "",
+    imageUrl: "",
     condition: "",
     startTime: "",
     endTime: "",
-    startingPrice: "",
+    sellerId: "",
+    startingPrice: "0.01",
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
+      sellerId: user ? user.sub : "",
       [name]: value,
     });
   };
@@ -38,16 +40,6 @@ const CreateForm = () => {
 
       if (response.ok) {
         alert("✅ Product created successfully!");
-        setFormData({
-          id: "",
-          name: "",
-          description: "",
-          image: "",
-          condition: "",
-          startTime: "",
-          endTime: "",
-          startingPrice: "",
-        });
       } else {
         alert("❌ Failed to create product");
       }
@@ -77,8 +69,8 @@ const CreateForm = () => {
         required
       />
 
-      <label>Image</label>
-      <input type="text" name="image" onChange={handleChange} />
+      <label>imageUrl</label>
+      <input type="text" name="imageUrl" onChange={handleChange} />
 
       <label>Condition</label>
       <select
