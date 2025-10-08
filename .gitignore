@@ -484,3 +484,5 @@ $RECYCLE.BIN/
 *.swp
 
 !BudgetBay.App/
+
+coverage/
