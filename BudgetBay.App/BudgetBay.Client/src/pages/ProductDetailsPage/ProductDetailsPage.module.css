@@ -1,18 +1,30 @@
+/* General Layout */
 .productDetailsContainer {
     padding: 40px;
-    width: 80vw;
+    width: 90vw; /* Slightly wider for better space utilization */
     max-width: 1400px;
     margin: 20px auto;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.productDetailsSection {
-    background-color: #ffffff;
-    border: 1px solid #e5e7eb; /* Light Gray Border */
-    border-radius: 12px;
-    padding: 30px;
-    margin-bottom: 30px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+.layoutGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px; /* Changed from 10vw to a fixed, more predictable gap */
+    width: 100%;
+}
+
+.mainContent, .sidebarContent {
+    display: flex;
+    flex-direction: column;
+    gap: 30px; /* Adds consistent spacing between widgets in the sidebar */
+}
+
+/* Responsive layout for smaller screens */
+@media (max-width: 1024px) {
+    .layoutGrid {
+        grid-template-columns: 1fr; /* Stack columns vertically */
+    }
 }
 
 .centeredMessage {
@@ -22,9 +34,20 @@
     margin-top: 50px;
 }
 
+/* --- Reusable Widget Component Style --- */
+/* This replaces both .productDetailsSection and .bid-card */
+.widget {
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* --- ProductDetails Component Styles --- */
 .detailsLayout {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    flex-direction: column;
     gap: 40px;
 }
 
@@ -36,6 +59,7 @@
     border-radius: 8px;
     overflow: hidden;
     border: 1px solid #e5e7eb;
+    aspect-ratio: 5 / 4;
 }
 
 .imageContainer img {
@@ -44,17 +68,11 @@
     object-fit: cover;
 }
 
-.infoContainer {
-    display: flex;
-    flex-direction: column;
-}
-
 .productName {
     font-size: 2.5rem;
     font-weight: 700;
     color: #111827;
-    margin-top: 0;
-    margin-bottom: 16px;
+    margin: 0 0 16px;
 }
 
 .productDescription {
@@ -68,10 +86,8 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
-    margin-bottom: 24px;
     border-top: 1px solid #e5e7eb;
-    border-bottom: 1px solid #e5e7eb;
-    padding: 20px 0;
+    padding-top: 20px;
 }
 
 .infoLabel {
@@ -88,6 +104,7 @@
     margin: 0;
 }
 
+/* --- AuctionInfo Component Styles --- */
 .auctionInfo {
     display: flex;
     align-items: center;
@@ -95,22 +112,13 @@
     background-color: #f9fafb;
     border-radius: 8px;
     padding: 20px;
-    margin-bottom: 24px;
-}
-
-.priceContainer {
-    flex-grow: 1;
 }
 
 .currentPrice {
     font-size: 2rem;
     font-weight: 700;
-    color: #6d28d9; /* Purple */
+    color: #6d28d9;
     margin: 0;
-}
-
-.timerContainer {
-    text-align: right;
 }
 
 .timer {
@@ -118,18 +126,19 @@
     font-weight: 600;
     color: #374151;
     margin: 0;
-    font-variant-numeric: tabular-nums; /* Keeps numbers from jumping around */
+    font-variant-numeric: tabular-nums;
 }
 
+/* --- BidForm Component Styles (Improved Layout) --- */
 .bidForm {
-    display: flex;
+    display: flex; /* Changed to horizontal layout */
     gap: 15px;
-    align-items: center;
+    align-items: stretch; /* Make items same height */
 }
 
 .bidInputGroup {
     position: relative;
-    flex-grow: 1;
+    flex-grow: 1; /* Input group takes available space */
 }
 
 .currencySymbol {
@@ -143,7 +152,8 @@
 
 .bidInput {
     width: 100%;
-    padding: 15px 15px 15px 35px; /* Left padding for currency symbol */
+    height: 100%; /* Fill parent height */
+    padding: 15px 15px 15px 35px;
     border: 1px solid #d1d5db;
     border-radius: 8px;
     font-size: 1.2rem;
@@ -160,7 +170,7 @@
 .bidButton {
     background-color: #6d28d9;
     color: white;
-    padding: 16px 32px;
+    padding: 0 32px; /* Adjusted padding for flex layout */
     border: none;
     border-radius: 8px;
     font-size: 1.1rem;
@@ -183,36 +193,55 @@
     font-size: 1.1rem;
 }
 
-/* Responsive styles */
-@media (max-width: 900px) {
-    .detailsLayout {
-        grid-template-columns: 1fr;
-    }
-    .imageContainer img {
-        max-height: 400px;
-    }
-    .productName {
-        font-size: 2rem;
-    }
+.errorMessage {
+    color: #b91c1c;
+    margin-top: 10px;
+    text-align: center;
+    width: 100%;
 }
 
-@media (max-width: 500px) {
-    .productDetailsContainer {
-        padding: 20px;
-    }
-    .productDetailsSection {
-        padding: 20px;
-    }
-    .auctionInfo {
-        flex-direction: column;
-        align-items: stretch;
-        text-align: center;
-    }
-    .timerContainer {
-        text-align: center;
-    }
-    .bidForm {
-        flex-direction: column;
-        align-items: stretch;
-    }
+
+/* --- BidHistory Component Styles (Moved from BidHistory.css) --- */
+.bidTitle {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #333;
+}
+
+.bidListContainer {
+  max-height: 240px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 8px;
+}
+
+.bidListContainer::-webkit-scrollbar { width: 6px; }
+.bidListContainer::-webkit-scrollbar-thumb { background-color: #bbb; border-radius: 3px; }
+.bidListContainer::-webkit-scrollbar-thumb:hover { background-color: #888; }
+
+.bidList {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.bidItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 4px;
+  border-bottom: 1px solid #eee;
+}
+
+.bidItem:last-child { border-bottom: none; }
+
+.bidUsername { font-weight: 500; color: #444; }
+.bidAmount { color: #555; }
+  
+.noBids {
+  text-align: center;
+  color: #888;
+  padding: 16px 0;
 }
