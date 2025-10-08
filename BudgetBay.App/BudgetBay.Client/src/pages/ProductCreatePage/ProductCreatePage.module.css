@@ -1,0 +1,16 @@
+.productCreatePage {
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.productCreatePage h1 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.productCreatePage h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #666;
+}

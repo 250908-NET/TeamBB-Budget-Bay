@@ -1,0 +1,28 @@
+.create-form {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  margin: 0 auto;
+  gap: 10px;
+}
+
+.create-form input,
+.create-form textarea,
+.create-form select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.create-form button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.create-form button:hover {
+  background-color: #45a049;
+}

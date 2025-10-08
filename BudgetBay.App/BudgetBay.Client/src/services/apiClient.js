@@ -1,4 +1,4 @@
-const BASE = 'http://localhost:5192/api';
+export const BASE = 'http://localhost:5192/api';
 
 // Helper for authenticated GET requests
 const getWithAuth = async (endpoint, token) => {
