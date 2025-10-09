@@ -12,6 +12,21 @@ const get = async (endpoint) => {
     return response.json();
 };
 
+// Helper for multipart/form-data POST requests (for file uploads)
+const postMultipartWithAuth = async (endpoint, formData, token) => {
+    const response = await fetch(`${BASE}${endpoint}`, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        },
+        body: formData,
+    });
+    if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(errorText || 'Upload failed');
+    }
+    return true; // Endpoint returns 200 OK on success
+};
 
 // Helper for authenticated GET requests
 const getWithAuth = async (endpoint, token) => {
@@ -116,6 +131,14 @@ export const getUserBids = (userId, token) => getWithAuth(`/Users/${userId}/bids
 export const getWonAuctions = (userId, token) => getWithAuth(`/Users/${userId}/won-auctions`, token);
 export const updateUserAddress = (userId, addressData, token) => postOrPutWithAuth(`/Users/${userId}/address`, 'PUT', addressData, token);
 export const createUserAddress = (userId, addressData, token) => postOrPutWithAuth(`/Users/${userId}/address`, 'POST', addressData, token);
+
+// --- Profile Functions ---
+export const uploadProfilePicture = (userId, file, token) => {
+    const formData = new FormData();
+    formData.append('File', file);
+    formData.append('UserId', userId);
+    return postMultipartWithAuth('/Profile/upload', formData, token);
+};
 
 // --- Catalog Functions ---
 export const getAllProducts = () => getWithoutAuth(`/Product`);
