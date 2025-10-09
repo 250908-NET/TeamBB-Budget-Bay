@@ -52,7 +52,6 @@ const DashboardPage = () => {
                 if (!userInfo) setLoading(true); 
                 
                 const userData = await getUserById(userId, token);
-                console.log(userData);
                 let addressData = null;
                 try {
                     addressData = await getUserAddress(userId, token);
@@ -72,6 +71,7 @@ const DashboardPage = () => {
 
                 setUserInfo({ ...userData, address: addressData });
                 setProducts(productsData);
+                console.log(productsData);
                 setBids(bidsData);
                 setWonAuctions(wonAuctionsData);
 
@@ -139,11 +139,17 @@ const DashboardPage = () => {
         }
     };
 
-    if (loading) return <div className={styles.loading}>Loading Dashboard...</div>;
-    if (error) return <div className={styles.error}>Error: {error}</div>;
+    if (loading) { 
+        return <main><div className={styles.messageContainer}>Loading Dashboard...</div></main>
+    } 
+
+    if (error) {
+        return <main><div className={styles.messageContainer}>Error: {error}</div></main>;
+    }
 
     return (
-        <main className={styles.dashboardContainer}>
+        <main>
+        <div className={styles.dashboardContainer}>
             <header className={styles.dashboardHeader}>
                 <h1 className={styles.welcomeMessage}>Welcome, {userInfo?.username || 'User'}!</h1>
                 <p>Manage your account, listings, and bids all in one place.</p>
@@ -171,6 +177,7 @@ const DashboardPage = () => {
             <UserListings listings={products} />
             <UserBids bids={bids} />
             <WonAuctions auctions={wonAuctions} />
+        </div>
         </main>
     );
 }

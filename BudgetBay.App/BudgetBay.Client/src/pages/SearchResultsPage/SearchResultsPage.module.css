@@ -6,8 +6,8 @@
 .resultsContainer {
     padding: 40px;
     width: 80vw;
-    max-width: 800px;
-    margin: 10vh auto;
+    max-width: 1080px;
+    margin: auto;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 
     text-align: center;

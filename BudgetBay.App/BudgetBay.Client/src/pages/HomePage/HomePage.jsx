@@ -8,6 +8,7 @@ const HomePage = () => {
     const { token, logout } = useContext(AuthContext);
 
     return (
+        <main>
         <div className={styles.homepageContainer}>
             {token ? (
                 <div>
@@ -29,6 +30,7 @@ const HomePage = () => {
             )}
         <SearchBar />
         </div>
+        </main>
     )
 }
 

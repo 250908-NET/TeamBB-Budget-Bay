@@ -1,21 +1,18 @@
 .footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  position: relative;
   z-index: 1000;
   padding: 10px;
   display: flex;
   justify-content: center; 
   align-items: center;
-  background-color: white;
-  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+  background-color: whitesmoke;
 }
 
 .footer-content {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 1rem;
 }
 
 .footer-logo-section {
@@ -26,7 +23,7 @@
 }
 
 .logo {
-  height: 2.5rem; 
+  height: 2rem; 
 }
 
 .copyright {

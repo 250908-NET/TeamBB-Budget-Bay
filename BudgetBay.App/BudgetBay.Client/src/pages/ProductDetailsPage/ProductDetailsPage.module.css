@@ -1,8 +1,7 @@
 /* General Layout */
 .productDetailsContainer {
-    padding: 40px;
     width: 90vw; /* Slightly wider for better space utilization */
-    max-width: 1400px;
+    max-width: 1080px;
     margin: 20px auto;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }

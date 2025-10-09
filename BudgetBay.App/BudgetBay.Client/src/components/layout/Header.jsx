@@ -16,61 +16,63 @@ const Header = () => {
 
     return (
         <header className='header'>
-            <div>
-                <Link to="/">
-                    <img src={logo} alt="BudgetBay Logo" className="logo" />
-                </Link>
-            </div>
-            <nav>
-                <ul className='nav-links'>
-                    {user ? (
-                        <>
-                            <li>
-                                <button onClick={() => navigate('/dashboard')} className="nav-btn">
-                                        My Dashboard
-                                </button>
-                            </li>
-                            <li>
-                                <button onClick={handleSignOut} className="nav-btn">
-                                        Sign Out
-                                </button>
-                            </li>
-                        </>
-
-                    ) : (
-                        <>
-                            {currentPath === '/login' && (
+            <div className='header-content'>
+                <div>
+                    <Link to="/">
+                        <img src={logo} alt="BudgetBay Logo" className="logo" />
+                    </Link>
+                </div>
+                <nav>
+                    <ul className='nav-links'>
+                        {user ? (
+                            <>
                                 <li>
-                                      <button onClick={() => navigate('/signup')} className="nav-btn">
-                                        Sign Up
+                                    <button onClick={() => navigate('/dashboard')} className="nav-btn">
+                                            My Dashboard
                                     </button>
                                 </li>
-                            )}
-                            {currentPath === '/signup' && (
                                 <li>
-                                    <button onClick={() => navigate('/login')} className="nav-btn">
-                                            Login
-                                        </button>
+                                    <button onClick={handleSignOut} className="nav-btn">
+                                            Sign Out
+                                    </button>
                                 </li>
-                            )}
-                            {currentPath !== '/login' && currentPath !== '/signup' && (
-                                <>
-                                    <li>
-                                        <button onClick={() => navigate('/login')} className="nav-btn">
-                                            Login
-                                        </button>
-                                    </li>
+                            </>
+
+                        ) : (
+                            <>
+                                {currentPath === '/login' && (
                                     <li>
                                         <button onClick={() => navigate('/signup')} className="nav-btn">
                                             Sign Up
                                         </button>
                                     </li>
-                                </>
-                            )}
-                        </>
-                    )}
-                </ul>
-            </nav>
+                                )}
+                                {currentPath === '/signup' && (
+                                    <li>
+                                        <button onClick={() => navigate('/login')} className="nav-btn">
+                                                Login
+                                            </button>
+                                    </li>
+                                )}
+                                {currentPath !== '/login' && currentPath !== '/signup' && (
+                                    <>
+                                        <li>
+                                            <button onClick={() => navigate('/login')} className="nav-btn">
+                                                Login
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button onClick={() => navigate('/signup')} className="nav-btn">
+                                                Sign Up
+                                            </button>
+                                        </li>
+                                    </>
+                                )}
+                            </>
+                        )}
+                    </ul>
+                </nav>
+            </div>
         </header>
     );
 };

@@ -2,7 +2,7 @@
     display: flex;
     align-items: center;
     margin: 20px 0;
-    max-width: 800px;
+    max-width: 1080px;
     border: 1px solid #d1d5db;
     border-radius: 8px;
     background-color: white;
@@ -19,8 +19,8 @@
 .searchInput {
     margin: 0;
     flex-grow: 1;
-    padding: 12px 16px;
-    font-size: 16px;
+    padding: 16px 20px;
+    font-size: 18px;
     color: #374151;
     background-color: transparent;
     border: none;
@@ -35,7 +35,7 @@
 
 .searchButton {
     padding: 12px 24px;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 500;
     color: white;
     cursor: pointer;
