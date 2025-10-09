@@ -5,7 +5,7 @@ const ProductCreatePage = () => {
     return (
         <main>
             <div className={styles.productCreatePage}>
-                <h1>Product Create Page</h1>
+                <h1>Product Create </h1>
                 <CreateForm />
             </div>
         </main>

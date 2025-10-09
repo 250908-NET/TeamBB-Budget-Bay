@@ -4,7 +4,7 @@ import { AuthContext } from "../../contexts/AuthContext";
 import { BASE } from "../../services/apiClient";
 
 const CreateForm = () => {
-  const { token, user } = useContext(AuthContext);
+  const { token, user, logout } = useContext(AuthContext);
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -14,17 +14,25 @@ const CreateForm = () => {
     endTime: "",
     sellerId: "",
     startingPrice: "0.01",
+    currentPrice: "0.01",
   });
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState(""); 
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
+    const updatedFormData = {
       ...formData,
       sellerId: user ? user.sub : "",
       [name]: value,
-    });
+    };
+    
+    // If starting price changes, update current price to match
+    if (name === "startingPrice") {
+      updatedFormData.currentPrice = value;
+    }
+    
+    setFormData(updatedFormData);
   };
 
   const handleDateTimeChange = (e) => {
@@ -68,6 +76,7 @@ const CreateForm = () => {
           endTime: "",
           sellerId: user ? user.sub : "",
           startingPrice: "0.01",
+          currentPrice: "0.01",
         });
         
         // Clear success message after 5 seconds
@@ -81,8 +90,14 @@ const CreateForm = () => {
       }
     } catch (error) {
       console.error("Error:", error);
-      setMessage("❌ An error occurred while creating the product");
-      setMessageType("error");
+      if (error.message === 'AUTHENTICATION_EXPIRED') {
+        setMessage("❌ Your session has expired. Please log in again.");
+        setMessageType("error");
+        logout(); // Clear the expired token
+      } else {
+        setMessage("❌ An error occurred while creating the product");
+        setMessageType("error");
+      }
     }
   };
 
