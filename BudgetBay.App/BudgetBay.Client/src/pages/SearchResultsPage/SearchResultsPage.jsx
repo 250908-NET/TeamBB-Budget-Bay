@@ -31,20 +31,17 @@ const SearchResultsPage = () => {
     }, [query]);
 
     return (
-        <div className={styles.resultsContainer}>
-            <SearchBar/>
-            {query ? (
-                <p>Showing results for: <strong>{query}</strong></p>
-            ) : (
-                <p>No query, will return all products by default.</p>
-            )}
-            {/* ✅ Wait until Products is populated */}
-            {Products.length > 0 ? (
-                <CatalogProduct Products={Products} name={query} />
-            ) : (
-                <p>Loading products...</p>
-            )}
-        </div>
+        <main className={styles.mainbackground}>
+            <div className={styles.resultsContainer}>
+                <SearchBar/>
+                {/* ✅ Wait until Products is populated */}
+                {Products.length > 0 ? (
+                    <CatalogProduct Products={Products} name={query} />
+                ) : (
+                    <p>Loading products...</p>
+                )}
+            </div>
+        </main>
     );
 };
 
