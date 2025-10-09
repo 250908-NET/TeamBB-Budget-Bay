@@ -20,3 +20,9 @@ Budget Bay is an e-commerce web application designed for online auctions, enabli
 ## Wireframe Diagram
 
 ![alt text](Images/image.png)
+
+## SeedDataAsync Command
+
+Dotnet Add Package Microsoft.EntityFrameworkCore.InMemory
+
+```csharp

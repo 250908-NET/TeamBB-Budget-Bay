@@ -1,0 +1,59 @@
+.catalogContainer {
+    display: flex;
+    /* Rectangle container*/
+    width: 100%;
+    height: 120px;
+}
+.elementImage {
+    /* Image */
+    width: 140px;
+    height: 100%;
+
+    border: 1px solid black;
+}
+.elementImage img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+.elementData {
+    /* Element data */
+    width: 100%;
+    display: flex;
+    position: relative;
+    flex-direction: column;
+}
+.elementData * {
+    margin-top: 0;
+    margin-left: 50px;
+    margin-bottom: 0;
+    text-align: left;
+    
+}
+.elementData a {
+    font-size: 20px;
+    font-weight: bolder;
+    text-decoration: none;
+}
+.elementData a:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+.DataDescription p {
+
+    font-size: 10px !important;
+    margin-left: 10px !important;
+}
+.DataTitle {
+    font-weight: bolder;
+}
+.DataDetail {
+    color: grey;
+    display: -webkit-box;          
+    -webkit-line-clamp: 2;         
+    -webkit-box-orient: vertical;  
+    overflow: hidden;               
+    text-overflow: ellipsis;       
+    white-space: normal;           
+    max-width: 300px;              
+}
