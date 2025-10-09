@@ -134,7 +134,7 @@ namespace BudgetBay.Test.Repositories
                 await context.SaveChangesAsync();
             }
             // Act
-            Product updatedProduct;
+            Product? updatedProduct;
             using (var context = new AppDbContext(options))
             {
                 var repo = new ProductRepository(context);
@@ -229,7 +229,7 @@ namespace BudgetBay.Test.Repositories
                 await context.SaveChangesAsync();
             }
             // Act
-            Product updatedProduct;
+            Product? updatedProduct;
             using (var context = new AppDbContext(options))
             {
                 var repo = new ProductRepository(context);

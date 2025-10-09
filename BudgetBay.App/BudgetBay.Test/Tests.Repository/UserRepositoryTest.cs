@@ -48,7 +48,7 @@ namespace BudgetBay.Test.Repositories
             Assert.NotNull(result);
             Assert.Equal("testuser", result.Username);
             var updatedUser = await context.Users.FindAsync(1);
-            Assert.Equal("test@example.com", updatedUser.Email);
+            Assert.Equal("test@example.com", updatedUser!.Email);
         }
         [Fact]
         public async Task DeleteAsync_Should_Remove_User()
