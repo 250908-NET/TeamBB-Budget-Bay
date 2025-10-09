@@ -1,0 +1,15 @@
+.editContainer {
+    padding: 30px 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    background: #f9f9f9 !important;
+    margin: 0 auto;
+    text-align: left;
+}
+.resultCount {
+    font-size: 1.2rem;
+    margin-left: 1px;
+    margin-top: 0;
+    margin-bottom: 50px;
+}

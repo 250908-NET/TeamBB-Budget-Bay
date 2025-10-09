@@ -18,7 +18,7 @@ const CatalogItem = ({Product}) => {
             </div>
             <div className={styles.elementData}>
                 <a onClick={() => navigate(`/products/${Product.id}`)}>{Product.name}</a>
-                <h4>Current Bid: ${Product.currentPrice}</h4>
+                <h4>Current Bid: ${Product.currentPrice.toFixed(2)}</h4>
                 <div className={styles.DataDescription}>
                     <p className={styles.DataTitle}>Description:</p>
                     <p className={styles.DataDetail}>{Product.description}</p>
