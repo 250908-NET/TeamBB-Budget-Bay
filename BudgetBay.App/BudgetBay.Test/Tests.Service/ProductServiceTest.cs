@@ -77,14 +77,11 @@ namespace BudgetBay.Test
         public async Task GetById_ReturnsProduct_WhenExists()
         {
             // Arrange
-            // CORRECTED: The service method returns a ProductDetailDto, so we must set it up to return that type.
-            var productDto = new ProductDetailDto
-            {
-                Id = 3,
-                Name = "Tablet"
-            };
+            var product = new Product { Id = 3, Name = "Tablet" };
+            var dto = new ProductDetailDto { Id = 3, Name = "Tablet" };
 
-            _mockProductRepo.Setup(s => s.GetByIdAsync(3)).ReturnsAsync(product);
+            _mockProductRepo.Setup(r => r.GetByIdAsync(3)).ReturnsAsync(product);
+            _mapper.Setup(m => m.Map<ProductDetailDto>(product)).Returns(dto);
 
             // Act
             var result = await _service.GetByIdAsync(3);
@@ -148,10 +145,10 @@ namespace BudgetBay.Test
             };
             // The method returns a Product.
             var createdProduct = new Product { Id = 5, Name = "Airpods" };
-            _mockService.Setup(s => s.CreateProductAsync(It.IsAny<CreateProductDto>())).ReturnsAsync(createdProduct);
+            _mockProductRepo.Setup(s => s.CreateProductAsync(It.IsAny<Product>())).ReturnsAsync(createdProduct);
 
             // Act
-            var result = await _mockService.Object.CreateProductAsync(newProductDto);
+            var result = await _service.CreateProductAsync(newProductDto);
 
             // Assert
             Assert.NotNull(result);
@@ -221,10 +218,10 @@ namespace BudgetBay.Test
                 CurrentPrice = 9.35m // Use 'm' for decimal literal
             };
 
-            _mockService.Setup(s => s.UpdateProductAsync(9, 9.35)).ReturnsAsync(updatedProduct);
+            _mockProductRepo.Setup(s => s.UpdateProductAsync(9, 9.35)).ReturnsAsync(updatedProduct);
 
             // Act
-            var result = await _mockService.Object.UpdateProductAsync(9, 9.35);
+            var result = await _service.UpdateProductAsync(9, 9.35);
 
             // Assert
             Assert.NotNull(result);
@@ -232,7 +229,7 @@ namespace BudgetBay.Test
             Assert.Equal(9.35m, result.CurrentPrice);
         }
 
-         [Fact]
+        [Fact]
         public async Task GetProductsByWinnerId_ReturnsWinnerProducts()
         {
             // Arrange
@@ -256,5 +253,85 @@ namespace BudgetBay.Test
             Assert.Single(result);
             Assert.Equal(200, result[0].WinnerId);
         }
+
+        [Fact]
+        public async Task UpdateProductAsync_ReturnsUpdatedProduct_WhenSuccessful()
+        {
+            // Arrange
+            var productId = 1;
+            var existingProduct = new Product { Id = productId, Name = "Old Name" };
+            var updatedProduct = new Product { Id = productId, Name = "New Name" };
+            var updateDto = new UpdateProductDto
+            {
+                Name = "New Name",
+                EndTime = DateTime.UtcNow.AddHours(1)
+            };
+
+            _mockProductRepo.Setup(r => r.GetByIdAsync(productId))
+                .ReturnsAsync(existingProduct);
+
+            // _mapper.Setup(m => m.Map(updateDto, existingProduct))
+            //     .Callback<UpdateProductDto, Product>((src, dest) =>
+            //     {
+            //         dest.Name = src.Name;
+            //         dest.EndTime = src.EndTime;
+            //     });
+
+            _mockProductRepo.Setup(r => r.UpdateProductAsync(existingProduct))
+                .ReturnsAsync(updatedProduct);
+
+            // Act
+            var result = await _service.UpdateProductAsync(productId, updateDto);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal("New Name", result.Name);
+            _mockProductRepo.Verify(r => r.GetByIdAsync(productId), Times.Once);
+            _mockProductRepo.Verify(r => r.UpdateProductAsync(existingProduct), Times.Once);
+        }
+        
+        [Fact]
+        public async Task UpdateProductAsync_ThrowsKeyNotFound_WhenProductNotFound()
+        {
+            // Arrange
+            var productId = 99;
+            var updateDto = new UpdateProductDto { EndTime = DateTime.UtcNow.AddHours(1) };
+
+            _mockProductRepo.Setup(r => r.GetByIdAsync(productId))
+                .ReturnsAsync((Product?)null);
+
+            // Act & Assert
+            var ex = await Assert.ThrowsAsync<KeyNotFoundException>(() =>
+                _service.UpdateProductAsync(productId, updateDto));
+
+            Assert.Contains("Product with ID 99 not found", ex.Message);
+            _mockProductRepo.Verify(r => r.GetByIdAsync(productId), Times.Once);
+            _mockProductRepo.Verify(r => r.UpdateProductAsync(It.IsAny<Product>()), Times.Never);
+        }
+
+        [Fact]
+        public async Task UpdateProductAsync_ThrowsArgumentException_WhenEndTimeInPast()
+        {
+            // Arrange
+            var productId = 2;
+            var existingProduct = new Product { Id = productId, Name = "Old Name" };
+            var updateDto = new UpdateProductDto
+            {
+                Name = "Invalid Update",
+                EndTime = DateTime.UtcNow.AddMinutes(-5)
+            };
+
+            _mockProductRepo.Setup(r => r.GetByIdAsync(productId))
+                .ReturnsAsync(existingProduct);
+
+            // Act & Assert
+            var ex = await Assert.ThrowsAsync<ArgumentException>(() =>
+                _service.UpdateProductAsync(productId, updateDto));
+
+            Assert.Contains("End time must be in future", ex.Message);
+            _mockProductRepo.Verify(r => r.GetByIdAsync(productId), Times.Once);
+            _mockProductRepo.Verify(r => r.UpdateProductAsync(It.IsAny<Product>()), Times.Never);
+        }
+
     }
 }
