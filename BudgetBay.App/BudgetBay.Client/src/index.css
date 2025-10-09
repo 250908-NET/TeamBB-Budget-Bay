@@ -5,8 +5,16 @@ body {
         sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: #f4f7f6;
+    background-color: #F5E536;
     color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    margin-top: 5.2rem;
+    flex-grow: 1;
 }
 
 #root {
@@ -16,7 +24,7 @@ body {
 }
 
 button {
-    background-color: #007bff;
+    background-color: #6936f5;
     color: white;
     border: none;
     padding: 10px 15px;
@@ -36,7 +44,7 @@ button:disabled {
 }
 
 a {
-    color: #007bff;
+    color: #6936f5;
     text-decoration: none;
 }
 
