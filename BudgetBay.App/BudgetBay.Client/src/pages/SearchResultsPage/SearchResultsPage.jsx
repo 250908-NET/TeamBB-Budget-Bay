@@ -40,7 +40,7 @@ const SearchResultsPage = () => {
             )}
             {/* ✅ Wait until Products is populated */}
             {Products.length > 0 ? (
-                <CatalogProduct Products={Products} name={query} />
+                <CatalogProduct Products={Products} name={query} onHome={false}/>
             ) : (
                 <p>Loading products...</p>
             )}
