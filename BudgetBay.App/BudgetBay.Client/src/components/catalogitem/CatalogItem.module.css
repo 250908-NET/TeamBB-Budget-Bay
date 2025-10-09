@@ -1,5 +1,6 @@
 .catalogContainer {
     display: flex;
+    padding: 40px 10px;
     /* Rectangle container*/
     width: 100%;
     height: 120px;
