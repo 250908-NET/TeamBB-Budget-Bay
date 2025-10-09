@@ -22,7 +22,9 @@ const SearchBar = () => {
                 placeholder="Search for items..."
                 className={styles.searchInput}
             />
-            <button type="submit" className={styles.searchButton}>Search</button>
+            <button type="submit" className={styles.searchButton}>
+                Search
+            </button>
         </form>
     );
 };

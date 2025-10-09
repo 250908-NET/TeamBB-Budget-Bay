@@ -9,15 +9,18 @@ const UserListings = ({ listings }) => {
                 <Link to="/products/create" className={styles.actionButton}>Add New Product</Link>
             </div>
             {listings.length > 0 ? (
-                <div className={styles.contentGrid}>
-                    {listings.map(product => (
-                        <div key={product.id} className={styles.card}>
-                            <h3>{product.name}</h3>
-                            <p><strong>Current Price:</strong> ${product.currentPrice?.toFixed(2) ?? 'N/A'}</p>
-                            <p><strong>End Time:</strong> {new Date(product.endTime).toLocaleString()}</p>
-                        </div>
-                    ))}
-                </div>
+                    <div className={styles.contentGrid}>
+                        {listings.map(product => (
+                            <Link to={`/products/${product.id}`}>
+                                <div key={product.id} className={styles.card}>
+                                    <h3>{product.name}</h3>
+                                    <p><strong>Current Price:</strong> ${product.currentPrice?.toFixed(2) ?? 'N/A'}</p>
+                                    <p><strong>End Time:</strong> {new Date(product.endTime).toLocaleString()}</p>
+                                </div>
+                            </Link>
+
+                        ))}
+                    </div>
             ) : (
                 <p className={styles.empty}>You have not listed any products yet.</p>
             )}

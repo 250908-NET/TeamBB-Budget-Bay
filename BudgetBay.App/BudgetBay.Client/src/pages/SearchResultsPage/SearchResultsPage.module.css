@@ -1,9 +1,15 @@
-.resultsContainer {
-    padding: 40px 20px;
+.mainbackground {
+    height: auto;
     width: 100%;
-    height: 100%;
-    background-color: #fde047;
-    margin: 0 auto;
+}
+
+.resultsContainer {
+    padding: 40px;
+    width: 80vw;
+    max-width: 1080px;
+    margin: auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
     text-align: center;
 }
 

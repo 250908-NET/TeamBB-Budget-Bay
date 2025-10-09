@@ -7,7 +7,8 @@ import {
     getUserBids, 
     getWonAuctions,
     createUserAddress,
-    updateUserAddress
+    updateUserAddress,
+    uploadProfilePicture
 } from '../../services/apiClient';
 import styles from './DashboardPage.module.css';
 
@@ -40,6 +41,10 @@ const DashboardPage = () => {
     const [addressForm, setAddressForm] = useState(initialAddressState);
     const [addressError, setAddressError] = useState('');
 
+    const [isUploading, setIsUploading] = useState(false);
+    const [uploadError, setUploadError] = useState('');
+
+
     const fetchDashboardData = useCallback(async () => {
         if (user && token) {
             const userId = user.sub;
@@ -47,7 +52,6 @@ const DashboardPage = () => {
                 if (!userInfo) setLoading(true); 
                 
                 const userData = await getUserById(userId, token);
-                
                 let addressData = null;
                 try {
                     addressData = await getUserAddress(userId, token);
@@ -67,6 +71,7 @@ const DashboardPage = () => {
 
                 setUserInfo({ ...userData, address: addressData });
                 setProducts(productsData);
+                console.log(productsData);
                 setBids(bidsData);
                 setWonAuctions(wonAuctionsData);
 
@@ -117,18 +122,46 @@ const DashboardPage = () => {
         setAddressError('');
     };
 
-    if (loading) return <div className={styles.loading}>Loading Dashboard...</div>;
-    if (error) return <div className={styles.error}>Error: {error}</div>;
+    const handleProfilePictureChange = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+    
+        setIsUploading(true);
+        setUploadError('');
+    
+        try {
+            await uploadProfilePicture(user.sub, file, token);
+            await fetchDashboardData(); // Re-fetch all data to get the new URL
+        } catch (err) {
+            setUploadError(err.message || 'Failed to upload profile picture.');
+        } finally {
+            setIsUploading(false);
+        }
+    };
+
+    if (loading) { 
+        return <main><div className={styles.messageContainer}>Loading Dashboard...</div></main>
+    } 
+
+    if (error) {
+        return <main><div className={styles.messageContainer}>Error: {error}</div></main>;
+    }
 
     return (
-        <main className={styles.dashboardContainer}>
+        <main>
+        <div className={styles.dashboardContainer}>
             <header className={styles.dashboardHeader}>
                 <h1 className={styles.welcomeMessage}>Welcome, {userInfo?.username || 'User'}!</h1>
                 <p>Manage your account, listings, and bids all in one place.</p>
             </header>
 
             <div className={styles.topGrid}>
-                <UserProfile userInfo={userInfo} />
+                <UserProfile 
+                    userInfo={userInfo}
+                    onFileChange={handleProfilePictureChange}
+                    isUploading={isUploading}
+                    uploadError={uploadError}
+                />
                 <UserAddress 
                     userInfo={userInfo}
                     isEditing={isEditingAddress}
@@ -144,6 +177,7 @@ const DashboardPage = () => {
             <UserListings listings={products} />
             <UserBids bids={bids} />
             <WonAuctions auctions={wonAuctions} />
+        </div>
         </main>
     );
 }

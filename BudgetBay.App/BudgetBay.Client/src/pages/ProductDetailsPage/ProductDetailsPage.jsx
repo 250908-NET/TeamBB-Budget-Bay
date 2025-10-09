@@ -91,7 +91,8 @@ const ProductDetailsPage = () => {
     const isAuctionActive = new Date(product.endTime) > new Date();
 
     return (
-        <main className={styles.productDetailsContainer}>
+        <main>
+        <div className={styles.productDetailsContainer}>
             <div className={styles.layoutGrid}>
                 <div className={styles.mainContent}>
                     <ProductDetails product={product} />
@@ -111,6 +112,7 @@ const ProductDetailsPage = () => {
                     <BidHistory bidsList={product.bids || []} />
                 </div>
             </div>
+        </div>
         </main>
     );
 };

@@ -10,6 +10,7 @@ const HomePage = () => {
   const { token, logout } = useContext(AuthContext);
   const [ products, setProducts] = useState([]);
 
+
 useEffect(() => {
   const fetchProducts = async () => {
     const data = await getAllProducts();
@@ -43,5 +44,6 @@ useEffect(() => {
     </div>
   );
 };
+
 
 export default HomePage;

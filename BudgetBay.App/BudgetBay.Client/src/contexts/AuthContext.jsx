@@ -14,6 +14,16 @@ export const AuthProvider = ({ children }) => {
         if (token) {
             try {
                 const decodedUser = jwtDecode(token);
+                
+                // Check if token is expired
+                const currentTime = Date.now() / 1000; // Convert to seconds
+                if (decodedUser.exp && decodedUser.exp < currentTime) {
+                    console.warn("Token is expired, clearing authentication");
+                    setToken(null);
+                    setUser(null);
+                    return;
+                }
+                
                 setUser(decodedUser);
             } catch (error) {
                 console.error("Failed to decode token:", error);
@@ -45,13 +55,26 @@ export const AuthProvider = ({ children }) => {
         setToken(null); // This will also trigger the useEffect
     }, [setToken]); // Dependency: setToken
 
+    // Utility function to check if token is expired
+    const isTokenExpired = useCallback((token) => {
+        if (!token) return true;
+        try {
+            const decodedToken = jwtDecode(token);
+            const currentTime = Date.now() / 1000;
+            return decodedToken.exp && decodedToken.exp < currentTime;
+        } catch (error) {
+            return true;
+        }
+    }, []);
+
     const value = useMemo(() => ({
         token,
         user,
         loading,
         login,
-        logout
-    }), [token, user, loading, login, logout]);
+        logout,
+        isTokenExpired
+    }), [token, user, loading, login, logout, isTokenExpired]);
 
     return (
         <AuthContext.Provider value={value}>

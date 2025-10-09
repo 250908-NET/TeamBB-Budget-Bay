@@ -1,4 +1,4 @@
-.create-form {
+.edit-form {
   display: flex;
   flex-direction: column;
   max-width: 500px;
@@ -6,15 +6,15 @@
   gap: 10px;
 }
 
-.create-form input,
-.create-form textarea,
-.create-form select {
+.edit-form input,
+.edit-form textarea,
+.edit-form select {
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
 }
 
-.create-form button {
+.edit-form button {
     width: 100%;
     padding: 0.8rem;
     background-color: #7c3aed; 
@@ -27,7 +27,7 @@
     transition: background-color 0.2s ease-in-out;
 }
 
-.create-form button:hover {
+.edit-form button:hover {
   background-color: #6d28d9;
 }
 
