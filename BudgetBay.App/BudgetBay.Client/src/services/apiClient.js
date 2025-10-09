@@ -106,6 +106,7 @@ export const registerRequest = async (username, email, password) => {
 
 // --- Product Details Functions ---
 export const getProductById =  (productId) => get(`/Product/${productId}`);
+export const placeBid = (productId, bidData, token) => postOrPutWithAuth(`/Products/${productId}/bids`, 'POST', bidData, token);
 
 // --- Dashboard Functions ---
 export const getUserById = (userId, token) => getWithAuth(`/Users/${userId}`, token);

@@ -22,7 +22,11 @@ namespace BudgetBay.Repositories
 
         public Task<Product?> GetByIdAsync(int id)
         {
-            return _context.Products.FirstOrDefaultAsync(product => product.Id == id);
+            return _context.Products
+                .Include(p => p.Seller)
+                .Include(p => p.Bids)
+                    .ThenInclude(b => b.Bidder) // Also include the bidder for each bid
+                .FirstOrDefaultAsync(product => product.Id == id);
         }
 
         public async Task<Product?> UpdateProductAsync(int productId, double price)

@@ -82,7 +82,11 @@ namespace BudgetBay.Test.Repositories
             var options = GetInMemoryOptions();
             using (var context = new AppDbContext(options))
             {
-                context.Products.Add(new Product { Id = 1, Name = "Product A" });
+                // When testing methods with .Include(), related entities must also be added
+                // to the in-memory database for the query to work correctly.
+                var seller = new User { Id = 1, Username = "testseller", Email = "seller@test.com", PasswordHash = "hash" };
+                context.Users.Add(seller);
+                context.Products.Add(new Product { Id = 1, Name = "Product A", SellerId = 1 });
                 await context.SaveChangesAsync();
             }
             // Act
