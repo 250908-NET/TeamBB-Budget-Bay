@@ -106,7 +106,7 @@ const EditForm = () => {
   }
 
   return (
-    <form className="Edit-form" onSubmit={handleSubmit}>
+    <form className="edit-form" onSubmit={handleSubmit}>
       {message && (
         <div className={`message ${messageType}`}>
           {message}

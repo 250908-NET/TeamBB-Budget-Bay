@@ -1,20 +1,20 @@
-.Edit-form {
+.edit-form {
   display: flex;
   flex-direction: column;
-  width: 400px;
+  max-width: 500px;
   margin: 0 auto;
   gap: 10px;
 }
 
-.Edit-form input,
-.Edit-form textarea,
-.Edit-form select {
+.edit-form input,
+.edit-form textarea,
+.edit-form select {
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
 }
 
-.Edit-form button {
+.edit-form button {
     width: 100%;
     padding: 0.8rem;
     background-color: #7c3aed; 
@@ -27,7 +27,7 @@
     transition: background-color 0.2s ease-in-out;
 }
 
-.Edit-form button:hover {
+.edit-form button:hover {
   background-color: #6d28d9;
 }
 
@@ -49,11 +49,4 @@
   background-color: #fee2e2;
   color: #991b1b;
   border: 1px solid #fca5a5;
-}
-
-.loading {
-  text-align: center;
-  padding: 20px;
-  font-size: 1.1rem;
-  color: #666;
 }
