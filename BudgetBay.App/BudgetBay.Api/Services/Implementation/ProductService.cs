@@ -24,10 +24,11 @@ namespace BudgetBay.Services
             return _productRepository.GetActiveProductsAsync();
         }
 
-        public Task<Product?> GetByIdAsync(int productId)
+        public async Task<ProductDetailDto?> GetByIdAsync(int productId)
         {
             _logger.LogInformation($"Fetching product with ID: {productId}");
-            return _productRepository.GetByIdAsync(productId);
+            var product = await _productRepository.GetByIdAsync(productId);
+            return _mapper.Map<ProductDetailDto>(product);
         }
 
         public Task<List<Product>> SearchProductsAsync(string query)

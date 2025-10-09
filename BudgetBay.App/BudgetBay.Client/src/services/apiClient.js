@@ -1,5 +1,18 @@
 const BASE = 'http://localhost:5192/api';
 
+// Helper for GET requests
+const get = async (endpoint) => {
+    const response = await fetch(`${BASE}${endpoint}`, {
+        method: 'GET'
+    });
+    if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ message: response.statusText }));
+        throw new Error(errorData.message || 'Failed to fetch data');
+    }
+    return response.json();
+};
+
+
 // Helper for authenticated GET requests
 const getWithAuth = async (endpoint, token) => {
     const response = await fetch(`${BASE}${endpoint}`, {
@@ -7,6 +20,16 @@ const getWithAuth = async (endpoint, token) => {
         headers: {
             'Authorization': `Bearer ${token}`,
         },
+    });
+    if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ message: response.statusText }));
+        throw new Error(errorData.message || 'Failed to fetch data');
+    }
+    return response.json();
+};
+const getWithoutAuth = async (endpoint) => {
+    const response = await fetch(`${BASE}${endpoint}`, {
+        method: 'GET',
     });
     if (!response.ok) {
         const errorData = await response.json().catch(() => ({ message: response.statusText }));
@@ -79,6 +102,12 @@ export const registerRequest = async (username, email, password) => {
     }
 };
 
+
+
+// --- Product Details Functions ---
+export const getProductById =  (productId) => get(`/Product/${productId}`);
+export const placeBid = (productId, bidData, token) => postOrPutWithAuth(`/Products/${productId}/bids`, 'POST', bidData, token);
+
 // --- Dashboard Functions ---
 export const getUserById = (userId, token) => getWithAuth(`/Users/${userId}`, token);
 export const getUserAddress = (userId, token) => getWithAuth(`/Users/${userId}/address`, token);
@@ -87,3 +116,7 @@ export const getUserBids = (userId, token) => getWithAuth(`/Users/${userId}/bids
 export const getWonAuctions = (userId, token) => getWithAuth(`/Users/${userId}/won-auctions`, token);
 export const updateUserAddress = (userId, addressData, token) => postOrPutWithAuth(`/Users/${userId}/address`, 'PUT', addressData, token);
 export const createUserAddress = (userId, addressData, token) => postOrPutWithAuth(`/Users/${userId}/address`, 'POST', addressData, token);
+
+// --- Catalog Functions ---
+export const getAllProducts = () => getWithoutAuth(`/Product`);
+export const GetHighestBidByProductId = (productId) => getWithAuth(`/Products/${productId}/bids/highest`);

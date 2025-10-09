@@ -1,5 +1,6 @@
 ﻿﻿using Xunit;
 using Moq;
+using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using BudgetBay.Services;
@@ -7,6 +8,7 @@ using BudgetBay.Models;
 using BudgetBay.Repositories;
 using Microsoft.Extensions.Logging;
 using AutoMapper;
+using BudgetBay.DTOs;
 
 namespace BudgetBay.Test
 {
@@ -75,7 +77,8 @@ namespace BudgetBay.Test
         public async Task GetById_ReturnsProduct_WhenExists()
         {
             // Arrange
-            var product = new Product
+            // CORRECTED: The service method returns a ProductDetailDto, so we must set it up to return that type.
+            var productDto = new ProductDetailDto
             {
                 Id = 3,
                 Name = "Tablet"
@@ -100,7 +103,7 @@ namespace BudgetBay.Test
             // Act
             var result = await _service.GetByIdAsync(89);
 
-            // Arrange
+            // Assert
             Assert.Null(result);
         }
 
@@ -128,20 +131,32 @@ namespace BudgetBay.Test
             Assert.Equal("Camera", result[0].Name);
         }
 
-        /*[Fact]
+        [Fact]
         public async Task CreateProductsAsync_ReturnsCreatedProduct()
         {
             // Arrange
-            var newProduct = new Product { Id = 5, Name = "Airpods" };
-            _mockService.Setup(s => s.CreateProductAsync(It.IsAny<Product>())).ReturnsAsync(newProduct);
+            // CORRECTED: The method expects a CreateProductDto as input.
+            var newProductDto = new CreateProductDto
+            {
+                Name = "Airpods",
+                Description = "Wireless earbuds",
+                ImageUrl = "http://example.com/airpods.jpg",
+                Condition = ProductCondition.New,
+                EndTime = DateTime.UtcNow.AddDays(7),
+                SellerId = 1,
+                StartingPrice = 150.00m
+            };
+            // The method returns a Product.
+            var createdProduct = new Product { Id = 5, Name = "Airpods" };
+            _mockService.Setup(s => s.CreateProductAsync(It.IsAny<CreateProductDto>())).ReturnsAsync(createdProduct);
 
             // Act
-            var result = await _mockService.Object.CreateProductAsync(newProduct);
+            var result = await _mockService.Object.CreateProductAsync(newProductDto);
 
             // Assert
             Assert.NotNull(result);
             Assert.Equal("Airpods", result.Name);
-        }*/
+        }
 
         [Fact]
         public async Task DeleteProductById_ReturnsTrue_WhenDeleted()
@@ -157,7 +172,7 @@ namespace BudgetBay.Test
         }
 
         [Fact]
-        public async Task DeleteProductById_ReturnsFalse_WhenDeleted()
+        public async Task DeleteProductById_ReturnsFalse_WhenProductNotFound()
         {
             // Arrange
             _mockProductRepo.Setup(s => s.DeleteProductByIdAsync(99)).ReturnsAsync(false);
@@ -165,7 +180,7 @@ namespace BudgetBay.Test
             // Act
             var result = await _service.DeleteProductByIdAsync(99);
 
-            // Arrange
+            // Assert
             Assert.False(result);
         }
 
@@ -194,15 +209,16 @@ namespace BudgetBay.Test
             Assert.Equal(100, result[0].SellerId);
         }
 
-        /*[Fact]
+        [Fact]
         public async Task UpdateProduct_ReturnsUpdatedProduct()
         {
             // Arrange
+            // CORRECTED: The Product model has CurrentPrice (decimal?), not Price.
             var updatedProduct = new Product
             {
                 Id = 9,
                 Name = "Apple Watch",
-                Price = 9.35
+                CurrentPrice = 9.35m // Use 'm' for decimal literal
             };
 
             _mockService.Setup(s => s.UpdateProductAsync(9, 9.35)).ReturnsAsync(updatedProduct);
@@ -212,8 +228,9 @@ namespace BudgetBay.Test
 
             // Assert
             Assert.NotNull(result);
-            Assert.Equal(9.35, result.Price);
-        }*/
+            // Assert against the correct property and type
+            Assert.Equal(9.35m, result.CurrentPrice);
+        }
 
          [Fact]
         public async Task GetProductsByWinnerId_ReturnsWinnerProducts()
