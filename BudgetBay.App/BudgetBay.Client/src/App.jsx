@@ -10,6 +10,7 @@ import ProductDetailsPage from './pages/ProductDetailsPage/ProductDetailsPage';
 import ProductEditPage from './pages/ProductEditPage/ProductEditPage';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import Header from './components/layout/Header';
+import Footer from './components/layout/Footer';
 
 function App() {
   return (
@@ -20,7 +21,8 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<RegisterPage />} />
         <Route path="/search" element={<SearchResultsPage />} />
-        <Route path="/products/:productId" element={<ProductDetailsPage />} />
+       
+        
         <Route 
           path="/dashboard" 
           element={
@@ -46,6 +48,7 @@ function App() {
           } 
         />
       </Routes>
+      <Footer />
     </>
 
   )

@@ -1,23 +1,29 @@
 .header {
-    padding: 4px; /* Equivalent to p-4 in Tailwind */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    padding: 4px; 
     display: flex;
     justify-content: space-between;
     align-items: center;
     background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .logo {
-    height: 2.5rem; /* Equivalent to h-8 in Tailwind */
+    height: 2.5rem; 
 }
 
 .nav-links {
     display: flex;
-    gap: 1rem; /* Equivalent to space-x-4 in Tailwind */
+    gap: 1rem; 
     list-style: none;
 }
 
 .nav-btn {
-    background-color: #6d28d9; /* Purple */
+    background-color: #6d28d9; 
     color: white;
     padding: 12px 24px;
     border: none;
@@ -30,5 +36,5 @@
 }
 
 .nav-btn:hover {
-    background-color: #5b21b6; /* Darker Purple */
+    background-color: #5b21b6; 
 }

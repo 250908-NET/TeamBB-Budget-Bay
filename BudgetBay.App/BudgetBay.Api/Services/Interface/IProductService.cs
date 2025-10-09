@@ -9,7 +9,7 @@ namespace BudgetBay.Services
 
         public Task<List<Product>> GetAllAsync();
         public Task<List<Product>> GetActiveProductsAsync();
-        public Task<Product?> GetByIdAsync(int productId);
+        public Task<ProductDetailDto?> GetByIdAsync(int productId);
         public Task<List<Product>> SearchProductsAsync(string query);
         public Task<Product> CreateProductAsync(CreateProductDto product);
         public Task<bool> DeleteProductByIdAsync(int producttId);
