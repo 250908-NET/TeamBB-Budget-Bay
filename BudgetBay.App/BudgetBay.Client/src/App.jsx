@@ -10,6 +10,7 @@ import ProductDetailsPage from './pages/ProductDetailsPage/ProductDetailsPage';
 import ProductEditPage from './pages/ProductEditPage/ProductEditPage';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import Header from './components/layout/Header';
+import Footer from './components/layout/Footer';
 
 function App() {
   return (
@@ -47,6 +48,7 @@ function App() {
           } 
         />
       </Routes>
+      <Footer />
     </>
 
   )
