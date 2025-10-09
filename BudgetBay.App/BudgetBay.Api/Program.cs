@@ -8,7 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
 using AutoMapper;
-
+using CloudinaryDotNet;
 
 namespace BudgetBay;
 
@@ -66,7 +66,15 @@ public class Program
             options => options.UseSqlServer(connectionString)
         );
 
+        // --- Cloudinary Configuration ---
+        var cloudName = builder.Configuration["Cloudinary:CloudName"];
+        var apiKey = builder.Configuration["Cloudinary:ApiKey"];
+        var apiSecret = builder.Configuration["Cloudinary:ApiSecret"];
 
+        // Create Cloudinary instance
+        var cloudinary = new Cloudinary(new Account(cloudName, apiKey, apiSecret));
+        builder.Services.AddSingleton(cloudinary); // Register in DI
+        
         // --- Dependency Injection Registration ---
         // Repositories
         builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -80,6 +88,8 @@ public class Program
         builder.Services.AddScoped<IUserService, UserService>();
         builder.Services.AddScoped<IProductService, ProductService>();
         builder.Services.AddScoped<IBidService, BidService>();
+        builder.Services.AddScoped<IProfileService, ProfileService>();
+
         //Auto Mapper
         builder.Services.AddAutoMapper(typeof(Program));
 
