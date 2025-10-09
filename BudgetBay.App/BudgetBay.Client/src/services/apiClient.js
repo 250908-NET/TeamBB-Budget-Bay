@@ -37,6 +37,9 @@ const getWithAuth = async (endpoint, token) => {
         },
     });
     if (!response.ok) {
+        if (response.status === 401) {
+            throw new Error('AUTHENTICATION_EXPIRED');
+        }
         const errorData = await response.json().catch(() => ({ message: response.statusText }));
         throw new Error(errorData.message || 'Failed to fetch data');
     }
@@ -64,6 +67,9 @@ const postOrPutWithAuth = async (endpoint, method, body, token) => {
         body: JSON.stringify(body),
     });
     if (!response.ok) {
+        if (response.status === 401) {
+            throw new Error('AUTHENTICATION_EXPIRED');
+        }
         if (response.status === 409) {
              throw new Error("User already has an address. Use update instead.");
         }
@@ -121,6 +127,7 @@ export const registerRequest = async (username, email, password) => {
 
 // --- Product Details Functions ---
 export const getProductById =  (productId) => get(`/Product/${productId}`);
+export const updateProduct = (productId, productData, token) => postOrPutWithAuth(`/Product/${productId}`, 'PUT', productData, token);
 export const placeBid = (productId, bidData, token) => postOrPutWithAuth(`/Products/${productId}/bids`, 'POST', bidData, token);
 
 // --- Dashboard Functions ---
