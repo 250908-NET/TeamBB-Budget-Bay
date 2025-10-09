@@ -21,7 +21,6 @@ namespace BudgetBay.Models
         public int? AddressId { get; set; } = null!;
         public Address? Address { get; set; } = null!;
 
-
         [InverseProperty("Seller")]
         public ICollection<Product> ProductsForSale { get; set; } = new List<Product>();
 
@@ -30,7 +29,8 @@ namespace BudgetBay.Models
 
         [InverseProperty("Bidder")] 
         public ICollection<Bid> Bids { get; set; } = new List<Bid>();
-
+        public string? ProfilePictureUrl { get; set; }
+        
         public User() { }
 
         public User(string username, string email, string passwordHash)
