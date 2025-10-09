@@ -1,4 +1,4 @@
-const BASE = 'http://localhost:5192/api';
+export const BASE = 'http://localhost:5192/api';
 
 // Helper for GET requests
 const get = async (endpoint) => {
