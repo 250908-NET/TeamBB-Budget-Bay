@@ -178,6 +178,8 @@ namespace BudgetBay.Test.BidTests
             var bids = await _repository.GetAllAsync();
             bids.Should().HaveCount(3);
         }
+
+        
         public async Task DeleteAsync_ShouldHandleNonExistent()
         {
             //Arrange

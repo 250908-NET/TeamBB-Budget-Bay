@@ -4,33 +4,48 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using BudgetBay.Services;
 using BudgetBay.Models;
+using BudgetBay.Repositories;
+using Microsoft.Extensions.Logging;
+using AutoMapper;
 
 namespace BudgetBay.Test
 {
     public class ProductServiceTests
     {
-        private readonly Mock<IProductService> _mockService;
+        private readonly ProductService _service;
+        private readonly Mock<IProductRepository> _mockProductRepo;
+        private readonly Mock<IMapper> _mapper;
+        private readonly Mock<ILogger<ProductService>> _mockLogger;
 
         public ProductServiceTests()
         {
-            _mockService = new Mock<IProductService>();
+            _mockProductRepo = new Mock<IProductRepository>();
+            _mockLogger = new Mock<ILogger<ProductService>>();
+            _mapper = new Mock<IMapper>();
+
+            _service = new ProductService(
+                _mockLogger.Object,
+                _mockProductRepo.Object,
+                _mapper.Object
+            );
         }
 
         [Fact]
-        public async Task GetAllAsync_ReturnsProducts_WhenProductExist()
+        public async Task GetAllAsync_ReturnsProducts_WhenProductsExist()
         {
             // Arrange
             var products = new List<Product> { new Product { Id = 1, Name = "Laptop" } };
-            _mockService.Setup(s => s.GetAllAsync()).ReturnsAsync(products);
+            _mockProductRepo.Setup(r => r.GetAllAsync()).ReturnsAsync(products);
 
             // Act
-            var result = await _mockService.Object.GetAllAsync();
+            var result = await _service.GetAllAsync(); // call the real service
 
             // Assert
             Assert.NotNull(result);
             Assert.Single(result);
             Assert.Equal("Laptop", result[0].Name);
         }
+
 
         [Fact]
         public async Task GetActiveProductsAsync_ReturnsActiveProducts()
@@ -45,14 +60,15 @@ namespace BudgetBay.Test
                 }
             };
 
-            _mockService.Setup(s => s.GetActiveProductsAsync()).ReturnsAsync(products);
+            _mockProductRepo.Setup(s => s.GetActiveProductsAsync()).ReturnsAsync(products);
 
             // Act
-            var result = await _mockService.Object.GetActiveProductsAsync();
+            var result = await _service.GetActiveProductsAsync();
 
             // Assert
             Assert.NotNull(result);
             Assert.Single(result);
+            Assert.Equal("IPhone", result[0].Name);
         }
 
         [Fact]
@@ -65,10 +81,10 @@ namespace BudgetBay.Test
                 Name = "Tablet"
             };
 
-            _mockService.Setup(s => s.GetByIdAsync(3)).ReturnsAsync(product);
+            _mockProductRepo.Setup(s => s.GetByIdAsync(3)).ReturnsAsync(product);
 
             // Act
-            var result = await _mockService.Object.GetByIdAsync(3);
+            var result = await _service.GetByIdAsync(3);
 
             // Assert
             Assert.NotNull(result);
@@ -79,10 +95,10 @@ namespace BudgetBay.Test
         public async Task GetById_ReturnsNull_WhenNotExists()
         {
             // Arrange
-            _mockService.Setup(s => s.GetByIdAsync(89)).ReturnsAsync((Product?)null);
+            _mockProductRepo.Setup(s => s.GetByIdAsync(89)).ReturnsAsync((Product?)null);
 
             // Act
-            var result = await _mockService.Object.GetByIdAsync(89);
+            var result = await _service.GetByIdAsync(89);
 
             // Arrange
             Assert.Null(result);
@@ -101,10 +117,10 @@ namespace BudgetBay.Test
                 }
             };
 
-            _mockService.Setup(s => s.SearchProductsAsync("Camera")).ReturnsAsync(products);
+            _mockProductRepo.Setup(s => s.SearchProductsAsync("Camera")).ReturnsAsync(products);
 
             // Act
-            var result = await _mockService.Object.SearchProductsAsync("Camera");
+            var result = await _service.SearchProductsAsync("Camera");
 
             // Assert
             Assert.NotNull(result);
@@ -131,10 +147,10 @@ namespace BudgetBay.Test
         public async Task DeleteProductById_ReturnsTrue_WhenDeleted()
         {
             // Arrange
-            _mockService.Setup(s => s.DeleteProductByIdAsync(6)).ReturnsAsync(true);
+            _mockProductRepo.Setup(s => s.DeleteProductByIdAsync(6)).ReturnsAsync(true);
 
             // Act
-            var result = await _mockService.Object.DeleteProductByIdAsync(6);
+            var result = await _service.DeleteProductByIdAsync(6);
 
             // Assert
             Assert.True(result);
@@ -144,10 +160,10 @@ namespace BudgetBay.Test
         public async Task DeleteProductById_ReturnsFalse_WhenDeleted()
         {
             // Arrange
-            _mockService.Setup(s => s.DeleteProductByIdAsync(99)).ReturnsAsync(false);
+            _mockProductRepo.Setup(s => s.DeleteProductByIdAsync(99)).ReturnsAsync(false);
 
             // Act
-            var result = await _mockService.Object.DeleteProductByIdAsync(99);
+            var result = await _service.DeleteProductByIdAsync(99);
 
             // Arrange
             Assert.False(result);
@@ -167,10 +183,10 @@ namespace BudgetBay.Test
                 }
             };
 
-            _mockService.Setup(s => s.GetProductsBySellerId(100)).ReturnsAsync(products);
+            _mockProductRepo.Setup(s => s.GetProductsBySellerId(100)).ReturnsAsync(products);
 
             // Act
-            var result = await _mockService.Object.GetProductsBySellerId(100);
+            var result = await _service.GetProductsBySellerId(100);
 
             // Assert
             Assert.NotNull(result);
@@ -213,10 +229,10 @@ namespace BudgetBay.Test
                 }
             };
 
-            _mockService.Setup(s => s.GetProductsByWinnerId(200)).ReturnsAsync(products);
+            _mockProductRepo.Setup(s => s.GetProductsByWinnerId(200)).ReturnsAsync(products);
 
             // Act
-            var result = await _mockService.Object.GetProductsByWinnerId(200);
+            var result = await _service.GetProductsByWinnerId(200);
 
             // Assert
             Assert.NotNull(result);
