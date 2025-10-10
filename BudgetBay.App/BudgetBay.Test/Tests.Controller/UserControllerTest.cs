@@ -190,5 +190,36 @@ namespace BudgetBay.Test
             Assert.Equal(dto.StreetName, returnDto.StreetName);
             Assert.Equal(dto.StreetNumber, returnDto.StreetNumber);
         }
+
+        [Fact]
+        public async Task GetAllUserBids_ShouldReturnForbid_WhenUserIdMismatch()
+        {
+            // Arrange
+            SetAuthenticatedUser("3");
+            int requestedId = 10;
+
+            // Act
+            var result = await _controller.GetAllUserBids(requestedId);
+
+            // Assert
+            Assert.IsType<ForbidResult>(result);
+        }
+
+
+        [Fact]
+        public async Task GetAllUserBids_ShouldReturnNotFound_WhenUserDoesNotExist()
+        {
+            // Arrange
+            int userId = 5;
+            SetAuthenticatedUser(userId.ToString());
+
+            _mockUserService.Setup(s => s.GetUserInfo(userId)).ReturnsAsync((User?)null);
+
+            // Act
+            var result = await _controller.GetAllUserBids(userId);
+
+            // Assert
+            Assert.IsType<NotFoundResult>(result);
+        }
     }
 }
