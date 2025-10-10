@@ -221,5 +221,21 @@ namespace BudgetBay.Test
             // Assert
             Assert.IsType<NotFoundResult>(result);
         }
+
+        [Fact]
+        public async Task GetAllSellersProducts_ShouldReturnNotFound_WhenUserDoesNotExist()
+        {
+            // Arrange
+            int userId = 8;
+            SetAuthenticatedUser(userId.ToString());
+            _mockUserService.Setup(s => s.GetUserInfo(userId)).ReturnsAsync((User?)null);
+
+            // Act
+            var result = await _controller.GetAllSellersProducts(userId);
+
+            // Assert
+            Assert.IsType<NotFoundResult>(result);
+        }
+        
     }
 }
