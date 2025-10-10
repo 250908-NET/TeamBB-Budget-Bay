@@ -11,14 +11,20 @@ const UserListings = ({ listings }) => {
             {listings.length > 0 ? (
                     <div className={styles.contentGrid}>
                         {listings.map(product => (
-                            <Link to={`/products/${product.id}`}>
-                                <div key={product.id} className={styles.card}>
-                                    <h3>{product.name}</h3>
+                            <div key={product.id} className={styles.card}>
+                                <div>
+                                    <Link to={`/products/${product.id}`}>
+                                        <h3>{product.name}</h3>
+                                    </Link>
                                     <p><strong>Current Price:</strong> ${product.currentPrice?.toFixed(2) ?? 'N/A'}</p>
                                     <p><strong>End Time:</strong> {new Date(product.endTime).toLocaleString()}</p>
                                 </div>
-                            </Link>
-
+                                <div className={styles.cardActions}>
+                                    <Link to={`/products/edit/${product.id}`} className={styles.editButton}>
+                                        Edit
+                                    </Link>
+                                </div>
+                            </div>
                         ))}
                     </div>
             ) : (

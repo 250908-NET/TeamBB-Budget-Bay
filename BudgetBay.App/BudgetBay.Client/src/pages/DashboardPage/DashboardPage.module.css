@@ -87,6 +87,9 @@
     border-radius: 8px;
     padding: 20px;
     transition: box-shadow 0.2s, border-color 0.2s;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .card:hover {
@@ -334,4 +337,43 @@
     .errorMessage {
         grid-column: span 1;
     }
+}
+
+/* --- ADDED FOR CARD ACTIONS --- */
+
+.card a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.card a:hover h3 {
+    text-decoration: underline;
+    color: #6d28d9; /* Purple */
+}
+
+.cardActions {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.editButton {
+    background-color: #f3f4f6; /* Light gray */
+    color: #374151;
+    padding: 8px 16px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.editButton:hover {
+    background-color: #e5e7eb;
+    border-color: #9ca3af;
+    color: #111827;
+    transform: translateY(-1px);
 }
