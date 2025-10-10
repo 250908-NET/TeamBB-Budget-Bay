@@ -1,18 +1,27 @@
-.homepage-container {
-    padding: 40px 20px;
-    text-align: center;
+.homepageContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 0px 0px;
+  text-align: center;
+  /* background-color: red; */
+  justify-content: center;
+  height: 100vh;
 }
 
-.homepage-container h1 {
-    font-size: 2.5rem;
-    margin-bottom: 20px;
+.headerBlock {
+  /* background-color: rgb(144, 209, 53); */
+  height: 80px; /* fixed height */
 }
 
-.homepage-container p {
-    font-size: 1.2rem;
-    margin-bottom: 30px;
+.searchBarContainer {
+  flex: 2; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* background-color: rgb(51, 51, 214); */
 }
 
-.dashboard-link {
-    margin-right: 15px;
+.productListContainer {
+  flex: 3; 
+  /* background-color: rgb(216, 119, 176); */
 }
