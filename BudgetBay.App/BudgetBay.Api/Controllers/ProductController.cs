@@ -89,7 +89,7 @@ namespace BudgetBay.Controllers
             try
             {
                 var updatedProduct = await _productService.UpdateProductAsync(productId, productDto);
-                return Ok(updatedProduct);
+                return Ok(productDto);
             }
             catch (KeyNotFoundException ex)
             {
