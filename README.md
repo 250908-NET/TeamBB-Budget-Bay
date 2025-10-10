@@ -23,6 +23,7 @@ Budget Bay is an e-commerce web application designed for online auctions, enabli
 
 ## Unit Test Coverage
 
+![alt text](Images/Coverage.png)
 
 ## Api Endpoints Documentation
 
