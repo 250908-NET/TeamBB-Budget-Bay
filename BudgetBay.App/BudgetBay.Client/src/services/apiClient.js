@@ -40,7 +40,7 @@ const getWithAuth = async (endpoint, token) => {
         if (response.status === 401) {
             throw new Error('AUTHENTICATION_EXPIRED');
         }
-        const errorData = await response.json().catch(() => ({ message: response.statusText }));
+        const errorData = await response.json().catch(() => ({ message: response.status }));
         throw new Error(errorData.message || 'Failed to fetch data');
     }
     return response.json();
