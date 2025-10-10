@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styles from '../../pages/DashboardPage/DashboardPage.module.css';
 
 const WonAuctions = ({ auctions }) => {
@@ -7,10 +8,12 @@ const WonAuctions = ({ auctions }) => {
             {auctions.length > 0 ? (
                 <div className={styles.contentGrid}>
                     {auctions.map((auction, index) => (
-                        <div key={`${auction.productId}-${index}`} className={styles.card}>
-                            <h3>Won Auction for Product ID: {auction.productId}</h3>
-                            <p><strong>Winning Bid:</strong> ${auction.amount.toFixed(2)}</p>
-                        </div>
+                        <Link to={`/products/${auction.productId}`}>
+                            <div key={`${auction.productId}-${index}`} className={styles.card}>
+                                <h3>Won Auction for Product ID: {auction.productId}</h3>
+                                <p><strong>Winning Bid:</strong> ${auction.amount.toFixed(2)}</p>
+                            </div>
+                        </Link>
                     ))}
                 </div>
             ) : (
