@@ -81,7 +81,7 @@ namespace BudgetBay.Controllers
                 return NotFound();
 
             var products = await _productService.GetProductsBySellerId(user.Id);
-            var productsDtos = _mapper.Map<List<UpdateProductDto>>(products);
+            var productsDtos = _mapper.Map<List<ProductDto>>(products);
             return Ok(productsDtos);
         }
 

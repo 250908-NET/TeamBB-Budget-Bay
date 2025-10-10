@@ -1,3 +1,4 @@
+using System.Net.Http.Headers;
 using AutoMapper;
 using BudgetBay.DTOs;
 using BudgetBay.Models;
@@ -23,6 +24,7 @@ namespace BudgetBay.Data
             CreateMap<Product, CreateProductDto>().ReverseMap();
             CreateMap<Product, UpdateProductDto>().ReverseMap().ForAllMembers(opt => opt.Condition((src, dest, srcValue) => srcValue != null));
             CreateMap<Product, ProductDetailDto>();
+            CreateMap<Product, ProductDto>();
         }
     }
 }
